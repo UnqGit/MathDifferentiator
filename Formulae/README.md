@@ -69,7 +69,7 @@ And the denominators subsequently are (2h)<sup>n</sup> instead of h<sup>n</sup>
 def function_derivative(function, point, derivative_number):
     result = 0.0
     for i in range(derivative_number + 1):
-         result += nCr(derivative, i) * ((-1)**derivative_number) * function(point + derivative_number*h - 2*i*h)
+         result += nCr(derivative, i) * ((-1)**i) * function(point + (derivative_number - 2*i)*h)
     return result / ((2*h) ** derivative_number)
 ```
 
