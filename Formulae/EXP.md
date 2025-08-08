@@ -70,13 +70,13 @@ Which can be used in a practical setting as:
 def exp_derivative(u_list, derivative_number):
     f_list = [0.0]*(derivative_number+1)
     f_list[0] = math.exp(u_list[0])
-    for n in range(derivative_number+1, 1):
+    for n in range(1, derivative_number+1):
         result = 0.0
-        for k in range(n+1, 1):
+        for k in range(1, n+1):
             result += nCr(n-1, k-1)*f_list[n-k]*u_list[k]
         f_list[n] = result
     return f_list
 ```
 If you look at it from afar, it might look like `O(n²)` but if you remember we were calculating only a single `nth` derivative in the other functions but here we are calculating all the derivatives from `0 to n` in `O(n²)` that means that it will be `O(n)` if we know the required previous derivatives of the functions `u` and `f`.
 
-_**`Isn't mathematics amazing?!`**_
+_**`Isn't mathematics amazing?! ✨`**_
