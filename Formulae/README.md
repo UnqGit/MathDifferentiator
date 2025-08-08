@@ -28,23 +28,23 @@ Now ofcourse we can find a iterative solution right?
 Yep, that's it, zeroth derivative is itself.
 
 - First:  
-*(f(a) - f(a - h))/h*  
+`(f(a) - f(a - h))/h`  
 now let's call them *f₀* and *f₁*  
-so, *f₁* is just *(f₀(a) - f₀(a - h))* over *h*  
-I mean, that is the definition right? doing *(f(a) - f(a - h))/h* over the base function?  
+so, *f₁* is just `(f₀(a) - f₀(a - h))` over *h*  
+I mean, that is the definition right? doing `(f(a) - f(a - h))/h` over the base function?  
 what if we take *f₁* as our base function?  
 well, we get:  
-*f₂(a) = (f₁(a) - f₁(a - h))/h*  
+f₂(a) = `(f₁(a) - f₁(a - h))/h`  
 and yes this is our 2nd derivative of the function *f₀*
 
 - If we write f₂ in terms of f₀ we get:  
-*f₂(a) = (((f₀(a) - f₀(a - h))/h) - ((f₀(a - h) - f₀(a - 2h))/h))/h*  
+f₂(a) = `(((f₀(a) - f₀(a - h))/h) - ((f₀(a - h) - f₀(a - 2h))/h))/h`  
 which on simplification, leads to:  
-*f₂(a) = (f₀(a) - 2⋅f₀(a - h) + f₀(a - 2h))/h<sup>2</sup>*
+f₂(a) = `(f₀(a) - 2⋅f₀(a - h) + f₀(a - 2h))/h<sup>2</sup>`
 
 - Now, let's skip ahead and get f₃ and f₄:  
-*f₃(a) = (f₀(a) - 3⋅f₀(a - h) + 3⋅f₀(a - 2h) - f₀(a - 3h))/h<sup>3</sup>*  
-*f₄(a) = (f₀(a) - 4⋅f₀(a - h) + 6⋅f₀(a - 2h) - 4⋅f₀(a - 3h) + f₀(a - 4h))/h<sup>4</sup>*  
+f₃(a) = `(f₀(a) - 3⋅f₀(a - h) + 3⋅f₀(a - 2h) - f₀(a - 3h))/h<sup>3</sup>`  
+f₄(a) = `(f₀(a) - 4⋅f₀(a - h) + 6⋅f₀(a - 2h) - 4⋅f₀(a - 3h) + f₀(a - 4h))/h<sup>4</sup>`  
 
 - [ ] Let's just focus on the numerator:  
 ```
@@ -70,7 +70,7 @@ And the denominators subsequently are (2h)<sup>n</sup> instead of h<sup>n</sup>
 
 > [!IMPORTANT]
 > **If you are familiar with binomial series or the pascal's triangle, the formula might look a little **appetizing** ....we can compress the formula into this:**  
-f<sub>n</sub>(a) = **<sub>k=0</sub>ⁿ∑** (<sup>n</sup><sub>k</sub>)⋅(-1)<sup>k</sup>⋅f₀(a + (n-2⋅k)⋅h)  
+f<sub>n</sub>(a) = (**<sub>k=0</sub>ⁿ∑** (<sup>n</sup><sub>k</sub>)⋅(-1)<sup>k</sup>⋅f₀(a + (n-2⋅k)⋅h)) / (2h)<sup>n</sup>  
 ```python
 def function_derivative(function, point, derivative_number):
     result = 0.0
@@ -80,7 +80,7 @@ def function_derivative(function, point, derivative_number):
 ```
 
 See? very simple!!  
-Now, this may seem really good as it is `O(n)` (**If** the function is O(1)) (nCr(s) can be cached, so let's just count them as O(1) as well)  
+Now, this may seem really good as it is `O(n)` (**If** the function is `O(1)`) (nCr(s) can be cached, so let's just count them as `O(1)` as well)  
 But ofcourse there are issues!!  
 > [!NOTE]
 > If we remember our derivative formulae correctly, it also, on a sidenote but a **very** important side note  
@@ -98,12 +98,12 @@ because the logarithm function is not defined below `x = 0` and that is not a go
 But where is the fun in that, we are going to derive our own formulae!
 
 ### Formulae we will derive
-- exp(f(x))
-- ln(f(x))
-- trig(f(x))
-- inverse trig(f(x))
-- hyperbolic(f(x))
-- u(x)<sup>v(x)</sup>  
+- exp(`f(x)`)
+- ln(`f(x)`)
+- trig(`f(x)`)
+- inverse trig(`f(x)`)
+- hyperbolic(`f(x)`)
+- `u(x)`<sup>`v(x)`</sup>  
 > Yes all are composite functions as it will give us more range.
 
 What will we get from doing it?  
@@ -114,9 +114,9 @@ Results which only require the point itself, no nearby points; really optimized 
 
 > Where f, v, and u are all functions.
 
-*f₀ = u₀⋅v₀*  
+f₀ = `u₀⋅v₀`  
 So if we apply the product rule, we get:  
-*f₁ = u₁⋅v₀ + u₀⋅v₁*  
+f₁ = `u₁⋅v₀ + u₀⋅v₁`  
 
 - [ ] Deriving the further derivatives we will get these:  
 ```
