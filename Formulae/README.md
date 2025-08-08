@@ -52,7 +52,7 @@ f<sub>2</sub>(a) = f<sub>0</sub>(a) - 2f<sub>0</sub>(a - h) + f<sub>0</sub>(a - 
 f<sub>3</sub>(a) = f<sub>0</sub>(a) - 3f<sub>0</sub>(a - h) + 3f<sub>0</sub>(a - 2h) - f<sub>0</sub>(a - 3h)  
 f<sub>4</sub>(a) = f<sub>0</sub>(a) - 4f<sub>0</sub>(a - h) + 6f<sub>0</sub>(a - 2h) - 4f<sub>0</sub>(a - 3h) + f<sub>0</sub>(a - 4h)*
 
-- Now, some of you may argue that f(a) - f(a - h) is not the actual used definition, it is f(a + h) - f(a - h)  
+- Now, some of you may argue that *f(a) - f(a - h)* is not the actual used definition, it is *f(a + h) - f(a - h)*  
 I agree with you, so let's rewrite it in ~rust~ I mean the actual used formula.  
 
 - Newmerators are:  
@@ -64,7 +64,8 @@ f<sub>4</sub>(a) = f<sub>0</sub>(a + 4h) - 4f<sub>0</sub>(a + 2h) + 6f<sub>0</su
 
 And the denominators subsequently are (2h)<sup>n</sup> instead of h<sup>n</sup>
 
-**If you are familiar with binomial series or the pascal's triangle, the formula might look a little **appetizing** ....we can compress the formula into this:**
+**If you are familiar with binomial series or the pascal's triangle, the formula might look a little **appetizing** ....we can compress the formula into this:**  
+f<sub>n</sub>(a) = **<sub>k=0</sub><sup>n</sup>∑** (<sup>n</sup><sub>k</sub>)⋅(-1)<sup>k</sup>⋅f<sub>0</sub>(a + (n-2⋅k)⋅h)  
 ```python
 def function_derivative(function, point, derivative_number):
     result = 0.0
@@ -77,15 +78,15 @@ See? very simple!!
 Now, this may seem really good as it is O(n) (**if** the function is O(1)) (nCr(s) can be cached, so let's just count them as O(1) as well)  
 But ofcourse there are issues!!  
 If we remember our derivative formulae correctly, it also, on a sidenote but a **very** important side note  
-It also says, lim<sub>h -> 0</sub>  
+It also says, lim<sub>h->0</sub>  
 But the thing is, this is theoretical, we are talking about practicality here and we can't have a variable with almost 0 size, we can have it really small  
 But that is just an illusion as the smaller the h gets the more lossy the result gets and worse yet you have to fine tune the h for every function + point + derivative_number  
-to get it to give us good results which also give us completely wrong results after derivative_number > 19  
+combination to get it to give us good results which also give us completely wrong results after derivative_number > 19  
 and most of the time it will get to the point where you would need to have larger stepsize as the derivative_number gets larger and that's another issue in on itself!  
 
 So, we have established that h can't be infinitely small and there is one more major issue with that constraint...
 say for example we are calculating the derivative of the **ln** function near x = 0  
-The higher the derivative_number gets for this issue, the more chances there are that **point - (derivative_number * h)** will get smaller than 0, which is an issue  
+The higher the derivative_number gets for this issue, the more chances there are that **point - derivative_number⋅h** will get smaller than 0, which is an issue  
 because the logarithm function is not defined below x = 0 and that is not a good and desirable behaviour to have...
 
 - Now, most of you who have done differentiation would say to just use *automatic differentiation* programs or that I should use optimized *Faà di Bruno’s formula*  
@@ -102,3 +103,41 @@ But where is the fun in that, we are going to derive our own formulae!
 
 What will we get from doing it?  
 Results which only require the point itself, no nearby points; really optimized solutions; and fun.
+
+Let's first for understanding look at the formula for nth derivative of *f = u⋅v*  
+> Where f, v, and u are all functions.
+
+*f<sub>0</sub> = u<sub>0</sub>⋅v<sub>0</sub>*  
+So if we apply the product rule, we get:  
+*f<sub>1</sub> = u<sub>1</sub>⋅v<sub>0</sub> + u<sub>0</sub>⋅v<sub>1</sub>*  
+
+Deriving the further derivatives we will get these:  
+*f<sub>0</sub> = u<sub>0</sub>⋅v<sub>0</sub>  
+f<sub>1</sub> = u<sub>1</sub>⋅v<sub>0</sub> + u<sub>0</sub>⋅v<sub>1</sub>  
+f<sub>2</sub> = u<sub>2</sub>⋅v<sub>0</sub> + 2⋅u<sub>1</sub>⋅v<sub>1</sub> + u<sub>0</sub>⋅v<sub>2</sub>  
+f<sub>3</sub> = u<sub>3</sub>⋅v<sub>0</sub> + 3⋅u<sub>2</sub>⋅v<sub>1</sub> + 3⋅u<sub>1</sub>⋅v<sub>2</sub> + u<sub>0</sub>⋅v<sub>3</sub>  
+f<sub>4</sub> = u<sub>4</sub>⋅v<sub>0</sub> + 4⋅u<sub>3</sub>⋅v<sub>1</sub> + 6⋅u<sub>2</sub>⋅v<sub>2</sub> + 4⋅u<sub>1</sub>⋅v<sub>3</sub> + u<sub>0</sub>⋅v<sub>4</sub>*
+
+If we separate all the coefficients again, we get:  
+C<sub>0</sub> = 1  
+C<sub>1</sub> = 1, 1  
+C<sub>2</sub> = 1, 2, 1  
+C<sub>3</sub> = 1, 3, 3, 1  
+C<sub>4</sub> = 1, 4, 6, 4, 1
+
+Or in another words, we get the pascal's triangle(binomial coefficients) again!  
+If we were to write it in a compact form, we would get:  
+f<sub>n</sub> = **<sub>k=0</sub><sup>n</sup>∑** (<sup>n</sup><sub>k</sub>)⋅u<sub>n-k</sub>⋅v<sub>k</sub>
+
+A really elegant and simple formula O(n) (given that we know all n+1 derivative values of u and v)  
+In practice, would look something like this:  
+```python
+def multiplicative_derivatives(u_list, v_list, derivative_number):
+    result = 0.0
+    for i in range(derivative_number):
+        result += nCr(derivative_number, i) * u_list[derivative_number-k] * v_list[k]
+    return result
+```
+
+This was just an example, as this result is pretty well known and is reffered to as leibniz's theorem  
+But now, we will formulate our own formulae!
