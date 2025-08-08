@@ -79,12 +79,12 @@ def function_derivative(function, point, derivative_number):
     return result / ((2*h) ** derivative_number)
 ```
 
-> [!WARNING]
-> See? very simple!!  
+See? very simple!!  
 Now, this may seem really good as it is `O(n)` (**If** the function is O(1)) (nCr(s) can be cached, so let's just count them as O(1) as well)  
 But ofcourse there are issues!!  
-If we remember our derivative formulae correctly, it also, on a sidenote but a **very** important side note  
-It also says, `lim`<sub>`h->0`</sub>  
+> [!NOTE]
+> If we remember our derivative formulae correctly, it also, on a sidenote but a **very** important side note  
+It also says, `lim`<sub>`h->0`<sup>`+`</sup></sub>  
 But the thing is, `this is theoretical`, we are talking about practicality here and we can't have a variable with almost 0 size, we can have it really small  
 But that is just an illusion as the smaller the h gets the more lossy the result gets and worse yet you have to fine tune the h for every `function + point + derivative_number`  
 combination to get it to give us good results which also give us completely wrong results after `derivative_number > 19`  
