@@ -9,8 +9,7 @@ For example the most basic one we were all probably taught is:
 And it would look like:
 ```python
 def function_derivative(function, point, derivative_number):
-    return (function(point) - function(point - h)) / h
-        if derivative_number == 0 else
+    return function(point) if derivative_number == 0 else
         ((function_derivative(function, point, derivative_number - 1)
         -function_derivative(function, point - h, derivative_number - 1)) / h)
 ```
