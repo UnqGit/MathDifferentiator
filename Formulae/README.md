@@ -142,7 +142,7 @@ f<sub>n</sub> = **<sub>k=0</sub><sup>n</sup>∑** (<sup>n</sup><sub>k</sub>)⋅u
 A really elegant and simple formula `O(n)` (given that we know all n+1 derivative values of u and v)  
 In practice, would look something like this:  
 ```python
-def multiplicative_derivatives(u_list, v_list, derivative_number):
+def multiplicative_derivative(u_list, v_list, derivative_number):
     result = 0.0
     for i in range(derivative_number + 1):
         result += nCr(derivative_number, i) * u_list[derivative_number - i] * v_list[i]
@@ -153,4 +153,7 @@ This was just an example, as this result is pretty well known and is reffered to
 But now, we will formulate our own formulae!  
 Keep in mind the pascal's triangle as most of if not all of our formulae will be using it; and we will have to do a lot of pattern matching!  
 
-Let's first start with the [`exp(f(x))`](EXP.md) function.
+Let's first start with the [`exp(f(x))`](EXP.md) function.  
+As you can see there was a significant role of `binomial coefficients` and `pattern matching` and the `leibniz's theorem`.
+
+Which can also be observed in the derivations for higher order derivatives of [`natural log`](LN.md).
