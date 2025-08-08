@@ -133,8 +133,8 @@ In practice, would look something like this:
 ```python
 def multiplicative_derivatives(u_list, v_list, derivative_number):
     result = 0.0
-    for i in range(derivative_number):
-        result += nCr(derivative_number, i) * u_list[derivative_number-k] * v_list[k]
+    for i in range(derivative_number + 1):
+        result += nCr(derivative_number, i) * u_list[derivative_number - i] * v_list[i]
     return result
 ```
 
