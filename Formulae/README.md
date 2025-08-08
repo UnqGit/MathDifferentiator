@@ -140,4 +140,7 @@ def multiplicative_derivatives(u_list, v_list, derivative_number):
 ```
 
 This was just an example, as this result is pretty well known and is reffered to as leibniz's theorem  
-But now, we will formulate our own formulae!
+But now, we will formulate our own formulae!  
+Keep in mind the pascal's triangle as most of if not all of our formulae will be using it; and we will have to do a lot of pattern matching!  
+
+Let's first start with the exp(f(x)) function in [EXP](EXP.md)
