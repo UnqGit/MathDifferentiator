@@ -38,27 +38,29 @@ So, all we have so far is:\
 If we differentiatie it, we will get:\
 <sup>df₀</sup>/<sub>dx</sub> => exp(u₀)⋅<sup>du₀</sup>/<sub>dx</sub>\
 using chain rule; and we will get:\
-`f₁ = exp(u₀)⋅u₁`\
+f₁ = `exp(u₀)⋅u₁`\
 similarly, if we go up the ladder, we will get:\
-`f₂ = exp(u₀)⋅(u₁)² + exp(u₀)⋅u₂`\
+f₂ = `exp(u₀)⋅(u₁)² + exp(u₀)⋅u₂`\
 using chain rule and product rule.\
-`f₃ = exp(u₀)⋅(u₁)³ + 3⋅u₁u₂exp(u₀) + exp(u₀)⋅u₃`
+f₃ = `exp(u₀)⋅(u₁)³ + 3⋅u₁u₂exp(u₀) + exp(u₀)⋅u₃`
 
 Now, you may be asking where exactly is a pattern??\
 let's write each function again but using the shorthand definition(eg: f₀, f₁) of previous functions, shall we?\
-`f₀ = exp(u₀)`\
-`f₁ = f₀u₁`\
+f₀ = `exp(u₀)`\
+f₁ = `f₀u₁`\
 Now, since after differentiating f₁ we will get f₂, we can just differentiate the shortand version(the line above) to get:\
-`f₂ = f₁u₁ + f₀u₂`\
+f₂ = `f₁u₁ + f₀u₂`\
 furthermore:\
-`f₃ = f₂u₁ + 2⋅f₁u₂ + f₀u₃`
+f₃ = `f₂u₁ + 2⋅f₁u₂ + f₀u₃`
 
 Or we could have used the leibniz's theorem on the shorthand definition of `f₁`, which we had just derived in the [README](README.md).
 
 > [!IMPORTANT]
 > What if we try to compact that formula?\
 we will get:\
-f<sub>n</sub> = <sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>
+f<sub>n</sub> = <sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>/
+Which can also be written as:\
+f<sub>n</sub> = <sub>k=1</sub><sup>n</sup>∑ (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
 
 > [!NOTE]
 > The formula above is only valid for when `n ≥ 1`.
