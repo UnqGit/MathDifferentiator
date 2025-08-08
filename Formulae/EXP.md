@@ -29,11 +29,11 @@ It'd be pretty hard coming up with formulae for those...right? Well, not so fast
 I will show you how!
 
 Let's that out function is:\
-`f = exp(u)`\
+f = `exp(u)`\
 Where `u` is a function in `x`
 
 So, all we have so far is:\
-`f₀ = exp(u₀)`
+f₀ = `exp(u₀)`
 
 If we differentiatie it, we will get:\
 <sup>df₀</sup>/<sub>dx</sub> => exp(u₀)⋅<sup>du₀</sup>/<sub>dx</sub>\
@@ -58,9 +58,25 @@ Or we could have used the leibniz's theorem on the shorthand definition of `f₁
 > [!IMPORTANT]
 > What if we try to compact that formula?\
 we will get:\
-f<sub>n</sub> = <sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>/
+f<sub>n</sub> = <sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>\
 Which can also be written as:\
 f<sub>n</sub> = <sub>k=1</sub><sup>n</sup>∑ (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
 
 > [!NOTE]
 > The formula above is only valid for when `n ≥ 1`.
+
+Which can be used in a practical setting as:
+```python
+def exp_derivative(u_list, derivative_number):
+    f_list = [0.0]*(derivative_number+1)
+    f_list[0] = math.exp(u_list[0])
+    for n in range(derivative_number+1, 1):
+        result = 0.0
+        for k in range(n+1, 1):
+            result += nCr(n-1, k-1)*f_list[n-k]*u_list[k]
+        f_list[n] = result
+    return f_list
+```
+If you look at it from afar, it might look like `O(n²)` but if you remember we were calculating only a single `nth` derivative in the other functions but here we are calculating all the derivatives from `0 to n` in `O(n²)` that means that it will be `O(n)` if we know the required previous derivatives of the functions `u` and `f`.
+
+_**`Isn't mathematics amazing?!`**_
