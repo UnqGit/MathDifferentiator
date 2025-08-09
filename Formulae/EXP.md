@@ -40,11 +40,21 @@ If we differentiatie it, we will get:\
 using chain rule; and we will get:\
 f₁ = `exp(u₀)⋅u₁`\
 similarly, if we go up the ladder, we will get:\
-f₂ = `exp(u₀)⋅(u₁)² + exp(u₀)⋅u₂`\
+f₂ = `exp(u₀)⋅u₁² + exp(u₀)⋅u₂`\
 using chain rule and product rule.\
-f₃ = `exp(u₀)⋅(u₁)³ + 3⋅u₁u₂exp(u₀) + exp(u₀)⋅u₃`
+f₃ = `exp(u₀)⋅u₁³ + 3⋅u₁u₂exp(u₀) + exp(u₀)⋅u₃`\
+f₄ = `exp(u₀)⋅u₁⁴ + 6⋅u₁²u₂exp(u₀) + 3⋅u₂²exp(u₀) + 4⋅u₃u₁exp(u₀) + exp(u₀)⋅u₄`
 
+- [ ] Let's do the obvious next thing and take the `exp(u₀)` common:
+```
+f₀ = exp(u₀)
+f₁ = exp(u₀)(u₁)
+f₂ = exp(u₀)(u₁² + u₂)
+f₃ = exp(u₀)(u₁³ + 3⋅u₁u₂ + u₃)
+f₄ = exp(u₀)(u₁⁴ + 6⋅u₁²u₂ + 3⋅u₂² + 4⋅u₃u₁ + u₄)
+```
 Now, you may be asking where exactly is a pattern??\
+I mean it surely does look like there is one but it's all over the place...so let's do it a differnet way!\
 let's write each function again but using the shorthand definition(eg: f₀, f₁) of previous functions, shall we?\
 f₀ = `exp(u₀)`\
 f₁ = `f₀u₁`\
@@ -53,7 +63,7 @@ f₂ = `f₁u₁ + f₀u₂`\
 furthermore:\
 f₃ = `f₂u₁ + 2⋅f₁u₂ + f₀u₃`
 
-Or we could have used the leibniz's theorem on the shorthand definition of `f₁`, which we had just derived in the [README](README.md).
+Or we could have used the leibniz's theorem on the shorthand definition of `f₁`, which we had just derived in the [`README`](README.md).
 
 > [!IMPORTANT]
 > What if we try to compact that formula?\
