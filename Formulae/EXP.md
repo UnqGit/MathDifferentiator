@@ -139,9 +139,9 @@ Now, the astute amongst you might be able to point out that it is the exact same
 
 > [!IMPORTANT]
 > Which would give us:
-> f<sub>n</sub> = <sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>\
+> f<sub>n</sub> = ln(a)<sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>\
 > Which can also be written as:\
-> f<sub>n</sub> = <sub>k=1</sub><sup>n</sup>∑ (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
+> f<sub>n</sub> = ln(a)<sub>k=1</sub><sup>n</sup>∑ (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
 
 > [!NOTE]
 > Where:
@@ -149,6 +149,7 @@ Now, the astute amongst you might be able to point out that it is the exact same
 > and ln(a) is the natural logarithm of the constant base `a`
 > in the argument `a`<sup>`u(x)`</sup>
 > and for it to work `ln(x)` should be defined at the point of base `a`
+> so n >= 1
 
 And that in practice, would look like:\
 ```python
