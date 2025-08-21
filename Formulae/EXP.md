@@ -4,9 +4,9 @@ In this file we'll be discussing the formula for nth derivative of the function 
 ## Linear inner function
 - [ ] Now, let's start by writing first few derivatives of `exp(x)`:
 ```
-0: exp(x)
-1: exp(x)
-2: exp(x)
+f₀: exp(x)
+f₁: exp(x)
+f₂: exp(x)
 ```
 Yeah, we won't get anywhere as all the derivatives of the exp(x) is just itself as:\
 <sup>`d(exp(x))`</sup>/<sub>`dx`</sub> = `exp(x)⋅`<sup>`dx`</sup>/<sub>`dx`</sub>\
@@ -14,10 +14,10 @@ by using the chain rule.
 
 - [ ] Okay, let's use `exp(a⋅x + b)` where a and b are constants:
 ```
-0: exp(a⋅x + b)
-1: a⋅exp(a⋅x + b)
-2: a⋅a⋅exp(a⋅x + b) => a²⋅exp(a⋅x + b)
-3: a³⋅exp(a⋅x + b)
+f₀: exp(a⋅x + b)
+f₁: a⋅exp(a⋅x + b)
+f₂: a⋅a⋅exp(a⋅x + b) => a²⋅exp(a⋅x + b)
+f₃: a³⋅exp(a⋅x + b)
 ```
 > [!IMPORTANT]
 > Okay, we have actual solution in this one:\
@@ -138,18 +138,18 @@ f₃: ln(a)⋅(f₂u₁ + 2⋅f₁u₂ + f₀u₃)
 Now, the astute amongst you might be able to point out that it is the exact same formula as the one with euler's number as base but with just a ln(a) factor.\
 
 > [!IMPORTANT]
-> Which would give us:
-> f<sub>n</sub> = ln(a)<sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>\
-> Which can also be written as:\
-> f<sub>n</sub> = ln(a)<sub>k=1</sub><sup>n</sup>∑ (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
+> Which would give us:\
+f<sub>n</sub> = ln(a)<sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>\
+Which can also be written as:\
+f<sub>n</sub> = ln(a)<sub>k=1</sub><sup>n</sup>∑ (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
 
 > [!NOTE]
-> Where:
-> f₀: exp(u₀⋅ln(a))
-> and ln(a) is the natural logarithm of the constant base `a`
-> in the argument `a`<sup>`u(x)`</sup>
-> and for it to work `ln(x)` should be defined at the point of base `a`
-> so n >= 1
+> Where:\
+f₀: exp(u₀⋅ln(a))
+and ln(a) is the natural logarithm of the constant base `a`
+in the argument `a`<sup>`u(x)`</sup>
+and for it to work `ln(x)` should be defined at the point of base `a`
+so n >= 1
 
 And that in practice, would look like:\
 ```python
