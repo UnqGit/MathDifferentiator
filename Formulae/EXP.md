@@ -90,3 +90,78 @@ def exp_derivative(u_list, derivative_number):
 If you look at it from afar, it might look like `O(n²)` but if you remember we were calculating only a single `nth` derivative in the other functions but here we are calculating all the derivatives from `0 to n` in `O(n²)` that means that it will be `O(n)` if we know the required previous derivatives of the functions `u` and `f`.
 
 _**`Isn't mathematics amazing?! ✨`**_
+
+# Different constant bases
+Now that was just `exp(f(x))` which as you know has the base `e` also known as `euler's number`, the value of which equates to `2.71.....`
+
+But what if the base was something else like 2 or pi anything for that matter??
+
+Let's see what are the changes we need to make to be able to find the n differentiation values!\
+If we go back to the highschool days, one of the most imortant thing we are taught is\
+that ln and exp are inverse of each other...
+
+what that means is that `exp(ln(x))` would be equal to x or `exp(ln(4))` would equal 4, WAIT, let's go back to the exp(ln(4)), you see something?\
+it's exp(ln(2<sup>2</sup>)) which equates to 2<sup>2</sup>!!(not factorial)
+
+Let's say instead of `2`<sup>`2`</sup> we had `2`<sup>`x`</sup>, let's do that again:\
+`exp(ln(2`<sup>`x`</sup>`))` but now instead of simplifying, let's use the log property of `ln(a`<sup>`b`</sup>`) = b⋅ln(a)`\
+we get:\
+`exp(x⋅ln(2))`
+> Now the new inner function is `x⋅ln(2)`
+
+- [] Let's write the first few derivatives of this function(`a` is the constant base and `u(x)` is the function which `a` is raised to):
+```
+f₀: exp(u₀⋅ln(a))
+f₁: u₁ln(a)⋅exp(u₀ln(a))
+f₂: (u₁ln(a))²⋅exp(u₀ln(a)) + u₂ln(a)⋅exp(u₀ln(a))
+f₃: (u₁ln(a))³⋅exp(u₀ln(a)) + 2u₂u₁ln(a)⋅exp(u₀ln(a)) + u₂u₁(ln(a))² + u₃ln(a)⋅exp(u₀ln(a))
+```
+
+Not much help is it? the powers are increasing, we have more multiples\
+- [] Let's write it while taking things common:
+```
+f₀: exp(u₀⋅ln(a))
+f₁: u₁ln(a)⋅exp(u₀ln(a))
+f₂: exp(u₀ln(a))⋅(ln(a)⋅(u₂ + u₁²ln(a)))
+f₃: exp(u₀ln(a))⋅(ln(a)⋅(u₃ + 2u₂u₁ + ln(a)⋅(u₂u₁ + u₁³ln(a))))
+```
+
+Not much help either, very random huh?\
+- [] Let's do it our way:
+```
+f₀: exp(u₀⋅ln(a))
+f₁: ln(a)⋅f₀u₁
+f₂: ln(a)⋅(f₁u₁ + f₀u₂)
+f₃: ln(a)⋅(f₂u₁ + 2⋅f₁u₂ + f₀u₃)
+```
+
+Now, the astute amongst you might be able to point out that it is the exact same formula as the one with euler's number as base but with just a ln(a) factor.\
+
+> [!IMPORTANT]
+> Which would give us:
+> f<sub>n</sub> = <sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>\
+> Which can also be written as:\
+> f<sub>n</sub> = <sub>k=1</sub><sup>n</sup>∑ (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
+
+> [!NOTE]
+> Where:
+> f₀: exp(u₀⋅ln(a))
+> and ln(a) is the natural logarithm of the constant base `a`
+> in the argument `a`<sup>`u(x)`</sup>
+> and for it to work `ln(x)` should be defined at the point of base `a`
+
+And that in practice, would look like:\
+```python
+def const_base_pow_derivative(base, u_list, derivative_number):
+    f_list = [0.0]*(derivative_number+1)
+    base_factor = math.log(base)
+    f_list[0] = math.exp(u_list[0] * base_factor)
+    for n in range(1, derivative_number+1):
+        result = 0.0
+        for k in range(1, n+1):
+            result += nCr(n-1, k-1)*f_list[n-k]*u_list[k]
+        f_list[n] = result * base_factor
+    return f_list
+```
+
+And now we are done with EXP....or you would think so but it will come in handy once more in future and you'd be amazed!
