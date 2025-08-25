@@ -40,11 +40,11 @@ and yes this is our 2nd derivative of the function *f₀*
 - If we write f₂ in terms of f₀ we get:  
 f₂(a) = `(((f₀(a) - f₀(a - h))/h) - ((f₀(a - h) - f₀(a - 2h))/h))/h`  
 which on simplification, leads to:  
-f₂(a) = `(f₀(a) - 2⋅f₀(a - h) + f₀(a - 2h))/h<sup>2</sup>`
+f₂(a) = `(f₀(a) - 2⋅f₀(a - h) + f₀(a - 2h))/h²`
 
 - Now, let's skip ahead and get f₃ and f₄:  
-f₃(a) = `(f₀(a) - 3⋅f₀(a - h) + 3⋅f₀(a - 2h) - f₀(a - 3h))/h<sup>3</sup>`  
-f₄(a) = `(f₀(a) - 4⋅f₀(a - h) + 6⋅f₀(a - 2h) - 4⋅f₀(a - 3h) + f₀(a - 4h))/h<sup>4</sup>`  
+f₃(a) = `(f₀(a) - 3⋅f₀(a - h) + 3⋅f₀(a - 2h) - f₀(a - 3h))/h³`  
+f₄(a) = `(f₀(a) - 4⋅f₀(a - h) + 6⋅f₀(a - 2h) - 4⋅f₀(a - 3h) + f₀(a - 4h))/h⁴`  
 
 - [ ] Let's just focus on the numerator:  
 ```
