@@ -28,7 +28,6 @@ Let's now do it for the function `f(x) = 1/u(x)`.
 f₀: 1/u₀
 f₁: -u₁/u₀²
 f₂: -u₂/u₀² + 2u₁²/u₀³
-f₃: 
--6/x⁴
-f₄: 24/x⁵
+f₃: -u₃/u₀² + 6u₂u₁/u₀³ - 6u₁³/u₀⁴
+f₄: -u₄/u₀² + 8u₃u₁/u₀³ + 6u₂²/u₀³ + 24
 ```
