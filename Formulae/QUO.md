@@ -29,5 +29,12 @@ f₀: 1/u₀
 f₁: -u₁/u₀²
 f₂: -u₂/u₀² + 2u₁²/u₀³
 f₃: -u₃/u₀² + 6u₂u₁/u₀³ - 6u₁³/u₀⁴
-f₄: -u₄/u₀² + 8u₃u₁/u₀³ + 6u₂²/u₀³ + 24
+f₄: -u₄/u₀² + 8u₃u₁/u₀³ + 6u₂²/u₀³ + 24u₁⁴/u₀⁵
+```
+
+Hmmm, doesn't seem like it makes a formula, does it?\
+- [] Let's do it our way!:
+```
+f₀: 1/u₀
+f₁: 
 ```
