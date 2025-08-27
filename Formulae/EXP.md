@@ -68,9 +68,9 @@ Or we could have used the leibniz's theorem on the shorthand definition of `f₁
 > [!IMPORTANT]
 > What if we try to compact that formula?\
 we will get:\
-f<sub>n</sub> = <sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>\
+f<sub>n</sub> = **<sub>k=0</sub><sup>n-1</sup>∑** (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>\
 Which can also be written as:\
-f<sub>n</sub> = <sub>k=1</sub><sup>n</sup>∑ (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
+f<sub>n</sub> = **<sub>k=1</sub><sup>n</sup>∑** (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
 
 > [!NOTE]
 > The formula above is only valid for when `n ≥ 1`.
@@ -139,9 +139,9 @@ Now, the astute amongst you might be able to point out that it is the exact same
 
 > [!IMPORTANT]
 > Which would give us:\
-f<sub>n</sub> = ln(a)<sub>k=0</sub><sup>n-1</sup>∑ (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>\
+f<sub>n</sub> = ln(a)**<sub>k=0</sub><sup>n-1</sup>∑** (<sup>n-1</sup><sub>k</sub>)⋅f<sub>n-1-k</sub>⋅u<sub>k+1</sub>\
 Which can also be written as:\
-f<sub>n</sub> = ln(a)<sub>k=1</sub><sup>n</sup>∑ (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
+f<sub>n</sub> = ln(a)**<sub>k=1</sub><sup>n</sup>∑** (<sup>n-1</sup><sub>k-1</sub>)⋅f<sub>n-k</sub>⋅u<sub>k</sub>
 
 > [!NOTE]
 > Where:\

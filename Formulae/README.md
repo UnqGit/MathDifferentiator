@@ -156,4 +156,4 @@ Keep in mind the pascal's triangle as most of if not all of our formulae will be
 Let's first start with the [`exp(f(x))`](EXP.md) function.  
 As you can see there was a significant role of `binomial coefficients` and `pattern matching` and the `leibniz's theorem`.
 
-Which can also be observed in the derivations for higher order derivatives of [`natural log`](LN.md).
+Which can also be observed in the derivations for higher order derivatives of [`logarithm`](LN.md).
