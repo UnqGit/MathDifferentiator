@@ -3,6 +3,8 @@ The function we all know and love, which is a `mirror image` of `exp` around the
 A.K.A they are inverse functions of each other!
 
 ## Pure ln function
+
+Just like all the other functions, let's start from the start and expand on it!
 - [] Now, let's start with the first few derivatives of `f(x) = ln(x)`:
 ```
 f₀: ln(x)
@@ -17,5 +19,7 @@ We will do it in [Quotient formula](QUO.md)
 
 > [!IMPORTANT]
 > Which would give us:  
-f<sub>n</sub> = -1<sup>n</sup>⋅n!/x<sup>n+1</sup> for n > 0\
-and for n = 1 it is ln(x)
+f<sub>n</sub> = -1<sup>n</sup>⋅n!/x<sup>n+1</sup> for n >= 1\
+and for n = 0 it is ln(x)
+
+## u(x) as the inner function
