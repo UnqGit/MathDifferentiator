@@ -49,7 +49,7 @@ $f_3(a) = \frac {f_0(a) - 3f_0(a - h) + 3f_0(a - 2h) - f_0(a - 3h)} {h^3}$
 $f_4(a) = \frac {f_0(a) - 4f_0(a - h) + 6f_0(a - 2h) - 4f_0(a - 3h) + f_0(a - 4h)} {h^4}$  
 
 - [ ] Let's just focus on the numerator:  
-$$
+```math
 \begin{align*}
 &f_0(a) = f_0(a)  \\
 &f_1(a) = f_0(a) - f_0(a - h)  \\
@@ -57,13 +57,13 @@ $$
 &f_3(a) = f_0(a) - 3f_0(a - h) + 3f_0(a - 2h) -  f_0(a - 3h)  \\
 &f_4(a) = f_0(a) - 4f_0(a - h) + 6f_0(a - 2h) - 4f_0(a - 3h) + f_0(a - 4h)  
 \end{align*}
-$$
+```
 > [!IMPORTANT]
 > Now, some of you may argue that *f(a) - f(a - h)* is not the actual used definition, it is `f(a + h) - f(a - h)`
 > I agree with you, so let's rewrite it in ~rust~ I mean the actual used formula.  
 
 - [ ] Newmerators are:  
-$$
+```math
 \begin{align*}
 &f_0(a) = f_0(a)  \\
 &f_1(a) = f_0(a + h) - f_0(a - h)  \\
@@ -71,7 +71,7 @@ $$
 &f_3(a) = f_0(a + 3h) - 3f_0(a + h) + 3f_0(a - h) -  f_0(a - 3h)  \\
 &f_4(a) = f_0(a + 4h) - 4f_0(a + 2h) + 6f_0(a) - 4f_0(a - 2h) + f_0(a - 4h)  
 \end{align*}
-$$
+```
 
 And the denominators subsequently are $(2h)^2$ instead of $h^2$
 
@@ -130,7 +130,7 @@ So if we apply the product rule, we get:
 $f_1 = u_1 \cdot v_0 + u_0 \cdot v_1$  
 
 - [ ] Deriving the further derivatives we will get these:  
-$$
+```math
 \begin{align*}
 &f_0 = u_0 \cdot v_0  \\
 &f_1 = u_1 \cdot v_0 + u_0 \cdot v_1  \\
@@ -138,26 +138,28 @@ $$
 &f_3 = u_3 \cdot v_0 + 3u_2 \cdot v_1 + 3u_1 \cdot v_2 + u_0 \cdot v_3  \\
 &f_4 = u_4 \cdot v_0 + 4 u_3 \cdot v_1 + 6 u_2 \cdot v_2 + 4 u_1 \cdot v_3 + u_0 \cdot v_4  \\
 \end{align*}
-$$
+```
 - [ ] If we separate all the coefficients again, we get:  
-$$
-\begin{align*}
-C_0 = &1  \\
-C_1 = 1&, 1  \\
-C_2 = 1, &2, 1  \\
-C_3 = 1, 3&, 3, 1  \\
-C_4 = 1, 4, &6, 4, 1  \\
-\end{align*}
-$$
+```math
+\begin{gather*}
+C_0 = 1  \\
+C_1 = 1, 1  \\
+C_2 = 1, 2, 1  \\
+C_3 = 1, 3, 3, 1  \\
+C_4 = 1, 4, 6, 4, 1  \\
+\end{gather*}
+```
 Or in another words, we get the pascal's triangle(binomial coefficients) again!  
 > [!IMPORTANT]
 > If we were to write it in a compact form, we would get:  
-$f_n = \sum_{k = 0}^n(_k^n)\cdot u_{n-k}\cdot v_k$
+$`f_n = \sum_{k = 0}^n(_k^n)\cdot u_{n-k}\cdot v_k`$
 
 A really elegant and simple formula `O(n)` (given that we know all n+1 derivative values of u and v)  
 In practice, would look something like this:  
 ```python
 def multiplicative_derivative(u_derivatives, v_derivatives, order):
+    # u_derivatives is the list of derivatives of u from 0 upto `order` like u0(a), u1(a), u2(a), etc.
+    # same with v_list
     result = 0.0
     for i in range(order + 1):
         result += nCr(order, i) * u_derivatives[order - i] * v_derivatives[i]
