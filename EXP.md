@@ -188,6 +188,6 @@ We know that derivative of a function gives us the instantaneous rate of change 
 *This function*, however, is not defined for *any* open interval $(x - \epsilon, x + \epsilon)$ of the real line which the standard differentiation rules require and so we cannot calculate the derivative of this function anyway.  
 Orrrr, if we have defined the space to be $\mathbb{C}$ instead of $\mathbb{R}$, then the function becomes continuous. Our formula works as it's supposed to. We all live happily ever after!
 
-> When I said we were *using leibniz's formula $n-1$ times*, we were effectively building [bell polynomials](https://en.wikipedia.org/wiki/Bell_polynomials), have a look at those and you'd be more amazed :D.
+> When I said we were *using leibniz's formula* $n-1$ *times*, we were effectively building [bell polynomials](https://en.wikipedia.org/wiki/Bell_polynomials), have a look at those and you'd be more amazed :D.
 
 And now we are done with EXP....or you would think so but it will come in handy once more in future and you'd be amazed!

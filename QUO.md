@@ -1,124 +1,200 @@
 # Fraction functions
-Let's have a look at the functions of the format:\
-f(x) = u(x)/v(x)
+Let's have a look at the functions of the format:  
+$f(x) = \frac {u(x)} {v(x)}$
 
-## 1/x
-Let's start by looking at just the function `f(x) = 1/x`.
-- [] Starting by derivating the first few derivatives of the function:
-```
-f₀: 1/x
-f₁: -1/x²
-f₂: 2/x³
-f₃: -6/x⁴
-f₄: 24/x⁵
+## $\frac {1} {x}$:
+Let's start by looking at just $f(x) = \frac {1} {x}$.  
+Starting by derivating the first few derivatives of the function:
+```math
+\begin{align*}
+&f = \frac {1} {x} \\
+&f_1 = -\frac {1} {x^2} \\
+&f_2 = \frac {2} {x^3} \\
+&f_3 = -\frac {6} {x^4} \\
+&f_4 = \frac {24} {x^5} \\
+\end{align*}
 ```
 
-Now, the astute amongst you might have spotted it already but what we are looking at here is\
-`The factorial numbers!`, which goes on as:\
-`1 1 2 6 24 120`, represented as `n!` where `n!` means `n⋅(n-1)⋅(n-2)⋅...1`, where at the `n=0` the value is `1` instead of `0`!
+Now, the astute amongst you might have spotted it already there are factorials in here!  
+Since $\frac {d} {dx} x^n = nx^{n-1}$ and here the function $\frac 1 x$ is just $x^{-1}$ so each consecutive differentiation step brings another negative number down and decrements the power to the next negative integer, we get:  
+$\prod_{k=1}^n-k$ as the coefficient of $x^{-(n+1)}$ in $f_n$ which is the same as $(-1)^n\cdot n!$.
+
 
 > [!IMPORTANT]
-> So this can be easily summed up as:\
-f<sub>n</sub> = -1<sup>n</sup>⋅n!/x<sup>n+1</sup>
+> So this can be easily summed up as:  
+$f_n = (-1)^n \frac {n!} {x^{n+1}}$
 
-Which in the actual practice would be just:
+Which in practice, would be just:
 ```python
-one_over_x_derivatives(point, derivative_number):
-    result = math.gamma(derivative_number + 1) / pow(x, n+1)
-    return result if derivative_number % 2 == 0 else -result
+one_over_x_derivatives(point, order):
+    # n!/x^(n+1)
+    result = math.gamma(order + 1) / pow(x, order + 1)
+    # since (-1)^n has only two possible states because n is a +ve integer.
+    #it will be 1 if n is even and -1 if n is odd
+    return result if order % 2 == 0 else -result
 ```
 
-## 1/u(x)
-Let's now do it for the function `f(x) = 1/u(x)`.
-- [] Starting by derivating the first few derivatives of the function:
-```
-f₀: 1/u₀
-f₁: -u₁/u₀²
-f₂: -u₂/u₀² + 2u₁²/u₀³
-f₃: -u₃/u₀² + 6u₂u₁/u₀³ - 6u₁³/u₀⁴
-f₄: -u₄/u₀² + 8u₃u₁/u₀³ + 6u₂²/u₀³ + 24u₁⁴/u₀⁵
-```
-
-Hmmm, doesn't seem like it makes a formula, does it?\
-- [] Let's do it our way!:
-```
-f₀: 1/u₀
-f₁: -u₁f₀/u₀
-f₂: -u₂f₀/u₀ - 2u₁f₁/u₀
-f₃: -u₃f₀/u₀ - 3u₂f₁/u₀ - 3u₁f₂/u₀
-f₄: -u₄f₀/u₀ - 4u₃f₁/u₀ - 6u₂f₂/u₀ - 4u₁f₃/u₀
+## $\frac 1 {u(x)}$:
+Let's now do it for the function $f(x) = \frac 1 {u(x)}$.  
+Starting by derivating the first few derivatives of the function:
+```math
+\begin{align*}
+&f = \frac {1} {u} \\
+&f_1 = - \frac {u_1} {u^2} \\
+&f_2 = - \frac {u_2} {u^2} + 2\frac {u_1^2} {u^3} \\
+&f_3 = - \frac {u_3} {u^2} + 6\frac {u_2u_1} {u^3} - 6\frac {u_1^3} {u^4} \\
+&f_4 = - \frac {u_4} {u^2} + 8\frac {u_3u_1} {u^3} + 6\frac {u_2^2} {u^3} + 24\frac {u_1^4} {u^5} \\
+\end{align*}
 ```
 
-There it is!\
-Now, the astute amongst you might be able to see the formula emerging from it.
+Hmmm, looks interesting but doesn't seem like it makes a formula, does it?  
+*[Bell polynomials](https://en.wikipedia.org/wiki/Bell_polynomials)  
+Let's do it our way, by replacing with previous definitions:
+```math
+\begin{align*}
+&f = \frac {1} {u} \\
+&f_1 = - \frac {u_1f} {u} \\
+&f_2 = - \frac {u_2f} {u} - 2\frac {u_1f_1} {u} \\
+&f_3 = - \frac {u_3f} {u} - 3\frac {u_2f_1} {u} - 3\frac {u_1f_2} {u} \\
+&f_4 = - \frac {u_4f} {u} - 4\frac {u_3f_1} {u} - 6\frac {u_2f_2} {u} - 4\frac {u_1f_3} {u} \\
+\end{align*}
+```
 
+There it is!  
+Now, the some of you might be able to see the formula emerging from it.  
+If you look at the coefficients, they are:
+```math
+\begin{gather*}
+C_1 = -1 \\
+C_2 = -1,-2 \\
+C_3 = -1,-3,-3 \\
+C_4 = -1,-4,-6,-4 \\
+\end{gather*}
+```
+For context, the pascal's triangle:
+```math
+\begin{gather*}
+1\\
+1,1\\
+1,2,1\\
+1,3,3,1\\
+1,4,6,4,1\\
+\end{gather*}
+```
+The coefficients match from row 1 and onwards excluding the final term!  
+If we look at the orders of $u$ in each of the $f_n$, we will see:
+```math
+\begin{gather*}
+f_1 : 1\\
+f_2 : 2,1\\
+f_3 : 3,2,1\\
+f_4 : 4,3,2,1\\
+\end{gather*}
+```
+Each decrease from $n$ till $1$ !  
+And if we look at the orders of the previous derivatives of $f$ used, we can see:
+```math
+\begin{gather*}
+f_1 : 0\\
+f_2 : 0,1\\
+f_3 : 0,1,2\\
+f_4 : 0,1,2,3\\
+\end{gather*}
+```
+Each increases from $0$ till $n-1$ !  
+So by seeing the pattern and trying to make a formula out of it
 > [!IMPORTANT]
-> Which would be:
-f<sub>n</sub> = -1/u₀⋅**<sub>i=0</sub><sup>n-1</sup>∑** (<sup>n</sup><sub>i</sub>)⋅f<sub>i</sub>⋅u<sub>n-i</sub>
+> We will get:  
+$f_n = -\frac {1} {u} \sum_{k=0}^{n-1}\binom{n}{i}f_{k}u_{n-k}$  
+where $n \ge 1$ and $u(a) \ne 0$
 
-> [!NOTE]
-> The important thing to note here is that f₀ will be 1/u₀ and not -1/u₀  
-and is only defined when `u₀ != 0`
 
-In practice, it would something like this:
+In practice, it would be something like this:
 ```python
-reciprocal_derivatives(u_list, derivative_number):
-    f_list = [0.0] * (derivative_number+1)
-    f_list[0] = 1/u_list[0]
-    for k in range(1, derivative_number):
+def reciprocal_derivatives(u_list, order):
+    # u_list holds all the derivatives of the function u (0 till n)
+    # at some point 'a'
+    f_list = [0.0] * (order+1) # making space for f0, f1, f2 ... f{n}
+    f_list[0] = 1/u_list[0] # f0 = 1/u
+
+    # outer loop to calculate all f{1...n}
+    for k in range(1, order):
+
+        #inner loop to calculate individual f{m}
         for i in range(k):
-            f_list[k] += nCr(k, i) * f_list[i] * u_list[k - i];
+            f_list[k] += nCr(k, i) * f_list[i] * u_list[k - i]
+
+        # applying the factor of -1/u0
         f_list[k] /= -u_list[0]
+
     return f_list
 ```
 
 Now, I recommend you derive the formula for f(x) = u(x) / v(x) before we get into the next section, as there is also a very neat process to do so too.
 
-## u(x)/v(x)
+## $\frac {u(x)} {v(x)}$:
 
-Let's just get straight into this one without really doing boiler plate work.\
-No, that would be for the reader but for the elegant solution, here it is:
+Let's just get straight into this one without really doing boiler plate work.  
+The above section might have seemed a little *'hand wavy'* for some of you, now let's actually derive it using known results so it may seem a little more concrete.
 
-As we derived the `leibniz's formula` in the [`README`](README.md)\
-We can use that as our base!\
-Leibniz's formula:\
-f<sub>n</sub> = **<sub>k=0</sub><sup>n</sup>∑** (<sup>n</sup><sub>k</sub>)⋅u<sub>n-k</sub>⋅v<sub>k</sub>\
-Let's change the name of u to f and f to u.
-
-So, we will have:\
-u<sub>n</sub> = **<sub>k=0</sub><sup>n</sup>∑** (<sup>n</sup><sub>k</sub>)⋅f<sub>n-k</sub>⋅v<sub>k</sub>\
-
-Now, let's take n = 3 for example:\
-`u₃ = f₃⋅v₀ + 3⋅f₂⋅v₁ + 3⋅f₁⋅v₂ + f₀⋅v₃`\
-Or:\
-`u₃ = f₀⋅v₃ + 3⋅f₁⋅v₂ + 3⋅f₂⋅v₁ + f₃⋅v₀`\
-Let's send `u₃` to the other side and `f₃⋅v₀` to the other side of the `=`.\
-We will get:\
-`-f₃⋅v₀ = -u₃ + 3⋅f₁⋅v₂ + 3⋅f₂⋅v₁`\
-And then divide both sides by `-v₀`\
-And then we would have:\
-`f₃ = (u₃ - (f₀⋅v₃ + 3⋅f₁⋅v₂ + 3⋅f₂⋅v₁))/v₀`
-
-Do you see it???\
-It's almost the same as the `1/u₀` that we derived!
-
-Here:\
+As we derived the *leibniz's formula* in the [README](README.md)  
+We can use that to our advantage.  
+Leibniz's formula:  
+$f_n = \sum_{k=0}^n\binom{n}{k}u_{n-k}v_k$  
+now here to our function $f(x) = \frac {u(x)} {v(x)}$ ($v(x) \ne 0$).
+Let's multiply both sides with $v(x)$, and so we get: $f\cdot v = u$, by applying the leibniz formula on it, we get:
+```math
+u_n = \sum_{k=0}^n\binom{n}{k}f_{n-k}v_k
+```
+Which we can rewrite as:  
+```math
+u_n = \binom{n}{0}f_nv_0 + \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}
+```
+And since $\binom{n}{r} = \frac {n!} {r!(n-r)!}$ and $0! = 1$.  
+If we calculate $\binom{n}{0}$, it would equal $\frac{n!}{0!n!}$ which is $1$. So we get:  
+```math
+u_n = f_nv + \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k} \\
+```
+Subtracting both sides by $\sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}$, we get:
+```math
+f_nv = u_n - \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}
+```
+Since we assumed $v(x) \ne 0$, divide both sides by $v$ and we get:
+```math
+f_n = \frac {u_n - \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}} {v}
+```
 > [!IMPORTANT]
-> The formula that would come out is:  
-f<sub>n</sub> = (u<sub>n</sub> - **<sub>i=0</sub><sup>n-1</sup>∑** ((<sup>n</sup><sub>i</sub>}·v<sub>n-i</sub>·f<sub>i</sub>))/v₀  
+> The final formula that comes out is:  
+$f_n = \frac {u_n - \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}} {v}$  
 or:  
-f<sub>n</sub> = (u<sub>n</sub> - **<sub>i=1</sub><sup>n</sup>∑** ((<sup>n</sup><sub>i</sub>}·v<sub>i</sub>·f<sub>n-i</sub>))/v₀  
+$f_n = \frac {u_n - \sum_{k=0}^{n-1}\binom{n}{k}v_{n-k}f_{k}} {v}$  
+Where $n \ge 1$ and $f_0 = \frac u v$.
 
-Which in practice would look like:\
+It's implementation looks like:  
 ```python
-div_derivatives(u_list, v_list, derivative_number):
-    f_list = [0] * (derivative_number + 1)
-    for k in range(derivative_number + 1):
+div_derivatives(u_list, v_list, order):
+    # u_list and v_list are all the derivattives of u and v respectively
+    # from order 0 till n at a particular point 'a'
+    f_list = [0] * (order + 1) # making space for the derivatives of f
+
+    # outer loop to calculate all f {0...n}
+    for k in range(order + 1):
+
+        # calculating individual f{m}
         for i in range(k):
+            # subtracting terms from the summation part
             f_list[k] -= nCr(k, i) * v_list[k-i] * f_list[i]
+        
+        # adding the single u{n} part and dividing everything by v
         f_list[k] += u_list[k]
         f_list[k] /= v_list[0]
+
     return f_list
 ```
+
+Getting back at the $f = \frac 1 u$, if in $f=\frac u v$ we consider $u\to1$ and $v\to u$ and $n\ge1$, then $\frac {d^n} {dx^n} 1 = 0$ $\forall$ $n \ge1$, we get:  
+> using $f_n = \frac {u_n - \sum_{k=0}^{n-1}\binom{n}{k}v_{n-k}f_{k}} {v}$  
+
+$f_n = -\frac{1}{u}\sum_{k=0}^{n-1}\binom{n}{k}u_{n-k}f_k$, this is the same we got by the *look and guess* process so we can confirm our earlier result was true!
 
 Now, you can continue back to the [`logarithm`](LN.md)!

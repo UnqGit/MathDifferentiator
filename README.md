@@ -22,13 +22,13 @@ def differentiate(function, order, point):
 
     return difference / h
 ```
-It uses the known recursive definition: $`f_{n}(a) = \lim_{h \to 0^+} \frac {f_{n - 1}(a) - f_{n - 1}(a - h)} {h}`$  
+It uses the known recursive definition: $`f_n(a) = \lim_{h \to 0^+} \frac {f_{n - 1}(a) - f_{n - 1}(a - h)} {h}`$  
 
-$($ Or in this case the approimation: $`f_{n}(a) \approx \frac {f_{n - 1}(a) - f_{n - 1}(a - h)} {h}`$ $)$  
+$($ Or in this case the approimation: $`f_n(a) \approx \frac {f_{n - 1}(a) - f_{n - 1}(a - h)} {h}`$ $)$  
 
 - Which gives us the result of nth derivative of a function at a specific point.  
 
-Here, $f_{n}(a)$ use $f_{n-1}(a)$ and $f_{n-1}(a-h)$, and they use $(f_{n-2}(a), f_{n-2}(a - h), f_{n-2}(a-h), f_{n-2}(a-2h))$ and each of those call another 2 functions, the number of evaluations double each layer, this explodes exponentially, which gives a time complexity of `O(2ⁿ)`.
+Here, $f_n(a)$ use $f_{n-1}(a)$ and $f_{n-1}(a-h)$, and they use $(f_{n-2}(a), f_{n-2}(a - h), f_{n-2}(a-h), f_{n-2}(a-2h))$ and each of those call another 2 functions, the number of evaluations double each layer, this explodes exponentially, which gives a time complexity of `O(2ⁿ)`.
 > [!NOTE]
 That is the case, if we are not optimizing this naive function with the help of [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming) or memoization.  
 
@@ -41,36 +41,36 @@ which raises the question, can we find a solution that doesn't have duplicates a
 Yep, that's it, zeroth derivative is itself.
 
 - First: $\frac {f(a) - f(a - h)} {h}$  
-now let's call them $f$ and $f_{1}$  
-so, $f_{1}$ is just $\frac {f(a) - f(a-h)} {h}$  
+now let's call them $f$ and $f_1$  
+so, $f_1$ is just $\frac {f(a) - f(a-h)} {h}$  
 I mean, that is the definition right? doing $`\frac {f(a) - f(a - h)} {h}`$ over the base function?  
-what if we take $f_{1}$ as our base function?  
+what if we take $f_1$ as our base function?  
 well, we get:  
-$f_{2}(a) = \frac {f_{1}(a) - f_{1}(a - h)} {h}$  
+$f_2(a) = \frac {f_1(a) - f_1(a - h)} {h}$  
 and yes this is our 2nd derivative of the function $f$
 
-- If we write $f_{2}$ in terms of $f$ instead of $f_{1}$, we get:  
+- If we write $f_2$ in terms of $f$ instead of $f_1$, we get:  
 
-    $f_{2}(a) = \frac { \frac {f(a) - f(a - h)} {h} - \frac {f(a - h) - f(a - 2h)} {h}} {h}$  
+    $f_2(a) = \frac { \frac {f(a) - f(a - h)} {h} - \frac {f(a - h) - f(a - 2h)} {h}} {h}$  
 
     which on simplification, leads to:  
 
-    $f_{2}(a) = \frac {f(a) - 2f(a - h) + f(a - 2h)} {h^2} $
+    $f_2(a) = \frac {f(a) - 2f(a - h) + f(a - 2h)} {h^2} $
 
-- Now, let's skip ahead and get $   f_{3}$ and $f_{4}$:  
+- Now, let's skip ahead and get $   f_3$ and $f_4$:  
 
-    $f_{3}(a) = \frac {f(a) - 3f(a - h) + 3f(a - 2h) - f(a - 3h)} {h^3}$  
+    $f_3(a) = \frac {f(a) - 3f(a - h) + 3f(a - 2h) - f(a - 3h)} {h^3}$  
 
-    $f_{4}(a) = \frac {f(a) - 4f(a - h) + 6f(a - 2h) - 4f(a - 3h) + f(a - 4h)} {h^4}$  
+    $f_4(a) = \frac {f(a) - 4f(a - h) + 6f(a - 2h) - 4f(a - 3h) + f(a - 4h)} {h^4}$  
 
 #### Let's just focus on the numerator:  
 ```math
 \begin{align*}
 &f(a) = f(a)  \\
-&f_{1}(a) = f(a) - f(a - h)  \\
-&f_{2}(a) = f(a) - 2f(a - h) +  f(a - 2h)  \\
-&f_{3}(a) = f(a) - 3f(a - h) + 3f(a - 2h) -  f(a - 3h)  \\
-&f_{4}(a) = f(a) - 4f(a - h) + 6f(a - 2h) - 4f(a - 3h) + f(a - 4h)  
+&f_1(a) = f(a) - f(a - h)  \\
+&f_2(a) = f(a) - 2f(a - h) +  f(a - 2h)  \\
+&f_3(a) = f(a) - 3f(a - h) + 3f(a - 2h) -  f(a - 3h)  \\
+&f_4(a) = f(a) - 4f(a - h) + 6f(a - 2h) - 4f(a - 3h) + f(a - 4h)  
 \end{align*}
 ```
 
@@ -81,11 +81,11 @@ I agree with you, so let's rewrite it using ~rust~ central difference method.
 #### Newmerators are:  
 ```math
 \begin{align*}
-&f^{(0)}(a) = f(a)  \\
-&f_{1}(a) = f(a + h) - f(a - h)  \\
-&f_{2}(a) = f(a + 2h) - 2f(a) +  f(a - 2h)  \\
-&f_{3}(a) = f(a + 3h) - 3f(a + h) + 3f(a - h) -  f(a - 3h)  \\
-&f_{4}(a) = f(a + 4h) - 4f(a + 2h) + 6f(a) - 4f(a - 2h) + f(a - 4h)  
+&f_0(a) = f(a)  \\
+&f_1(a) = f(a + h) - f(a - h)  \\
+&f_2(a) = f(a + 2h) - 2f(a) +  f(a - 2h)  \\
+&f_3(a) = f(a + 3h) - 3f(a + h) + 3f(a - h) -  f(a - 3h)  \\
+&f_4(a) = f(a + 4h) - 4f(a + 2h) + 6f(a) - 4f(a - 2h) + f(a - 4h)  
 \end{align*}
 ```
 
@@ -93,7 +93,7 @@ And the denominators subsequently are $(2h)^2$ instead of $h^2$
 
 > [!IMPORTANT]
 > **If you are familiar with binomial series or the pascal's triangle, the formula might look a little **appetizing** ....we can compress the formula into this:**  
-$f_{n}(a) \approx \frac {\sum_{k=0}^n \binom {n} {k} (-1)^k f(a + (n - 2k)h)} {(2h)^n}$  
+$f_n(a) \approx \frac {\sum_{k=0}^n \binom {n} {k} (-1)^k f(a + (n - 2k)h)} {(2h)^n}$  
 
 #### The reason why binomial coefficients appear
 Each differentiation computes (current - shifted), which is $(I - S)$.
@@ -107,13 +107,13 @@ The nth derivative applies $D^n$ which is $\frac {(I - S)^n} {h^n}$.
 The binomial theorem gives us $(I - S)^n = \sum_{k=0}^n\binom{n}{k}(-1)^kS^k$
 And since $S^kf(a) = f(a - kh)$, we get:  
 ```math
-f_{n}(a) \approx \frac {\sum_{k=0}^n \binom{n}{k} (-1)^k f(a - kh)} {(2h)^n}
+f_n(a) \approx \frac {\sum_{k=0}^n \binom{n}{k} (-1)^k f(a - kh)} {(2h)^n}
 ```
 which is for the backwards finite difference approximation.
 
 For the central difference method we have $f(a+h) - f(a-h)$ instead of $f(a) - f(a-h)$ which is $(S^{-1} - S)$ instead of $(I - S)$ whose repeated application yields $(S^{-1} - S)^n$ which takes us to our compact formula:  
 ```math
-f_{n}(a) \approx \frac {\sum_{k=0}^n \binom{n}{k} (-1)^k f(a + (n - 2k)h)} {(2h)^n}
+f_n(a) \approx \frac {\sum_{k=0}^n \binom{n}{k} (-1)^k f(a + (n - 2k)h)} {(2h)^n}
 ```
 <br>
 
@@ -191,16 +191,16 @@ Results which only require the point itself, no nearby points(and floating point
 
 $f = u \cdot v$  
 So if we apply the product rule, we get:  
-$f_{1} = u_{1} \cdot v + u \cdot v_{1}$  
+$f_1 = u_1 \cdot v + u \cdot v_1$  
 
 #### Deriving the further derivatives we will get these:  
 ```math
 \begin{align*}
 &f = u \cdot v  \\
-&f_{1} = u_{1} \cdot v + u \cdot v_{1}  \\
-&f_{2} = u_{2} \cdot v + 2u_{1} \cdot v_{1} + u \cdot v_{2}  \\
-&f_{3} = u_{3} \cdot v + 3u_{2} \cdot v_{1} + 3u_{1} \cdot v_{2} + u \cdot v_{3}  \\
-&f_{4} = u_{4} \cdot v + 4 u_{3} \cdot v_{1} + 6 u_{2} \cdot v_{2} + 4 u_{1} \cdot v_{3} + u \cdot v_{4}  \\
+&f_1 = u_1 \cdot v + u \cdot v_1  \\
+&f_2 = u_2 \cdot v + 2u_1 \cdot v_1 + u \cdot v_2  \\
+&f_3 = u_3 \cdot v + 3u_2 \cdot v_1 + 3u_1 \cdot v_2 + u \cdot v_3  \\
+&f_4 = u_4 \cdot v + 4 u_3 \cdot v_1 + 6 u_2 \cdot v_2 + 4 u_1 \cdot v_3 + u \cdot v_4  \\
 \end{align*}
 ```
 #### If we separate all the coefficients again, we get:  
@@ -216,7 +216,7 @@ C_4 = 1, 4, 6, 4, 1  \\
 Or in another words, we get the pascal's triangle(binomial coefficients) again!  
 > [!IMPORTANT]
 > If we were to write it in a compact form, we would get:  
-$`f_{n} = \sum_{k = 0}^n\binom{n}{k} u^{(n-k)}\cdot v^{(k)}`$
+$`f_n = \sum_{k = 0}^n\binom{n}{k} u^{(n-k)}\cdot v^{(k)}`$
 
 A really elegant and simple formula `O(n)` (given that we know all $n+1$ derivative values of $u$ and $v$)  
 In practice, will look something like this:  
