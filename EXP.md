@@ -86,12 +86,12 @@ Since it is symmetric, it gives us:
 f_{1+m} &= \sum_{k=0}^{m}\binom{m}{k}f_k\cdot v_{m-k} &\qquad f_{1+m} &= \sum_{k=0}^{m}\binom{m}{k}v_{k}\cdot f_{m-k} \\
 
 m \to n-1&: \\
-
-f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}f_k\cdot v_{n-1-k} &     f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}v_k\cdot f_{n-1-k} \\
+\\
+f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}f_k\cdot v_{n-1-k} &\qquad f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}v_k\cdot f_{n-1-k} \\
 
 v_j \to u_{j+1}&: \\
-
-f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}f_k\cdot u_{n-k} &     f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}u_{k+1}\cdot f_{n-1-k} \\
+\\
+f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}f_k\cdot u_{n-k} &\qquad f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}u_{k+1}\cdot f_{n-1-k} \\
 
 \end{alignat*}
 ```

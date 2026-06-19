@@ -30,7 +30,7 @@ def one_over_x_derivatives(point, order):
     # n!/x^(n+1)
     result = math.gamma(order + 1) / pow(x, order + 1)
     # since (-1)^n has only two possible states because n is a +ve integer.
-    #it will be 1 if n is even and -1 if n is odd
+    # it will be 1 if n is even and -1 if n is odd
     return result if order % 2 == 0 else -result
 ```
 
@@ -105,7 +105,9 @@ Each increases from $0$ till $n-1$ !
 So by seeing the pattern and trying to make a formula out of it
 > [!IMPORTANT]
 > We will get:  
-$f_n = -\frac {1} {u} \sum_{k=0}^{n-1}\binom{n}{i}f_{k}u_{n-k}$  
+$f_n = -\frac {1} {u} \sum_{k=0}^{n-1}\binom{n}{k}f_{k}u_{n-k}$  
+Or by index manipulation:  
+$f_n = -\frac {1} {u} \sum_{k=1}^{n}\binom{n}{k}f_{n-k}u_{k}$  
 where $n \ge 1$ and $u(a) \ne 0$
 
 
@@ -175,7 +177,7 @@ It's implementation looks like:
 def div_derivatives(u_list, v_list, order):
     # u_list and v_list are all the derivattives of u and v respectively
     # from order 0 till n at a particular point 'a'
-    f_list = [0] * (order + 1) # making space for the derivatives of f
+    f_list = [0.0] * (order + 1) # making space for the derivatives of f
 
     # outer loop to calculate all f {0...n}
     for k in range(order + 1):

@@ -57,7 +57,7 @@ and yes this is our 2nd derivative of the function $f$
 
     $f_2(a) = \frac {f(a) - 2f(a - h) + f(a - 2h)} {h^2} $
 
-- Now, let's skip ahead and get $   f_3$ and $f_4$:  
+- Now, let's skip ahead and get $f_3$ and $f_4$:  
 
     $f_3(a) = \frac {f(a) - 3f(a - h) + 3f(a - 2h) - f(a - 3h)} {h^3}$  
 
@@ -240,7 +240,8 @@ But now, we will formulate our own formulae!
 Most of (if not all) of our formulae will be using the Pascal's triangle as a hint anchor, so keep it in mind.  
 And get ready to do a lot of pattern matching!  
 
-Let's first start with the [`exp(f(x))`](EXP.md) function.  
+Let's first start with the [$e^{f(x)}$](EXP.md) function.  
 As you can see there was a significant role of `binomial coefficients` and `pattern matching` and the `leibniz's theorem`.
 
-Which can also be observed in the derivations for higher order derivatives of [`logarithm`](LN.md).
+Which can also be observed in the derivations for higher order derivatives of [$\ln(f(x))$](LN.md).
+Now, that we are on the topic of power related functions let's take a look at [$u(x)^c$](CONST_POW.md)
