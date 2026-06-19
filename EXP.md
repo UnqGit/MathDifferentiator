@@ -135,9 +135,9 @@ f_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}f_{n-k}u_k
 ```
 > [!IMPORTANT]
 > Now we have our compact formulae:  
-$f_n = \sum_{k = 0}^{n - 1}\binom{n-1}{k}f_{k}\cdot u_{n-k}$  
+$f_n = \sum_{k = 0}^{n - 1}\binom{n-1}{k}f_{k} u_{n-k}$  
 And:  
-$f_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}f_{n-k}\cdot u_k$     
+$f_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}f_{n-k} u_k$     
 $\forall$ $n \ge 1$  
 $f=e^u$
 

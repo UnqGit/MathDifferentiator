@@ -26,7 +26,7 @@ $f_n = (-1)^n \frac {n!} {x^{n+1}}$
 
 Which in practice, would be just:
 ```python
-one_over_x_derivatives(point, order):
+def one_over_x_derivatives(point, order):
     # n!/x^(n+1)
     result = math.gamma(order + 1) / pow(x, order + 1)
     # since (-1)^n has only two possible states because n is a +ve integer.
@@ -172,7 +172,7 @@ Where $n \ge 1$ and $f_0 = \frac u v$.
 
 It's implementation looks like:  
 ```python
-div_derivatives(u_list, v_list, order):
+def div_derivatives(u_list, v_list, order):
     # u_list and v_list are all the derivattives of u and v respectively
     # from order 0 till n at a particular point 'a'
     f_list = [0] * (order + 1) # making space for the derivatives of f

@@ -1,25 +1,141 @@
 # Logarithm
-The function we all know and love, which is a `mirror image` of `exp` around the line `y = x`\
+The function we all know and love, which is a `mirror image` of $\exp$ around the line $y = x$  
 A.K.A they are inverse functions of each other!
 
-## Pure ln function
+## ln(x):
 
-Just like all the other functions, let's start from the start and expand on it!
-- [] Now, let's start with the first few derivatives of `f(x) = ln(x)`:
-```
-f₀: ln(x)
-f₁: 1/x
-f₂: -1/x²
-f₃: 2/x³
+Just like all the other functions, let's start from the start and expand on it!  
+Now, let's start with the first few derivatives of $f(x) = \ln(x)$:
+```math
+\begin{align*}
+&f₀ = \ln(x) \\
+&f₁ = \frac 1 x \\
+&f₂ = -\frac 1 {x^2} \\
+&f₃ = \frac 2 {x^3} \\
+\end{align*}
 ```
 
-As you can see it is just the derivatives of 1/x after the first derivative\
-So, why not just derivate that first, the n derivatives of f(x) = 1/x.\
-We will do it in [Quotient formula](QUO.md)
+As you can see it is just the derivatives of $\frac 1 x$ after the first derivative.  
+So, let's derivate that first, we will calculate $n^{th}$ derivatives of $f(x) = \frac 1 x$ in [QUO.md](QUO.md).
 
 > [!IMPORTANT]
-> Which would give us:  
-f<sub>n</sub> = -1<sup>n</sup>⋅n!/x<sup>n+1</sup> for n >= 1\
-and for n = 0 it is ln(x)
+> That gives us:  
+$f_n = (-1)^{n-1}\frac {(n-1)!} {x^{n}} : n \ge 1$  
+$f_0 = \ln(x)$
 
-## u(x) as the inner function
+## $u(x)$ as the inner function
+
+Let us cut right to the chase with $\ln(u(x))$ (where $u(x) > 0$) instead of playing around, you can find out the first few derivatives of $\ln(u(x))$ and try to get to the result that way (that is also how I actually did it).
+
+So, we know the formula for the nth derivative of $e^{(u(x))}$.  
+And we know that $e^{\ln(f)} = f$  
+So, if our function is $f(x) = \ln(u(x))$  
+And we raise both sides to $e$, we get:  
+$e^{f(x)} = e^{\ln(u(x))}$  
+Which is:  
+$e^{f(x)} = u(x) $  
+Now, we can use the formulae for the $n^{th}$ derivative of $y = e^g$ to get the formula for $\ln(u(x))$.  
+The formula if $y = e^g$
+```math
+y_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}y_{n-k}\cdot g_k
+```
+Replacing $g \leftrightarrow u$ and $y \leftrightarrow f$, we get:
+```math
+\begin{align*}
+u &=e^f \\
+u_n &= \sum_{k = 1}^{n}\binom{n-1}{k-1}u_{n-k}\cdot f_k\\
+\end{align*}
+```
+Taking out the last term of the summation:
+```math
+u_n = uf_n + \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot f_k
+```
+Subtracting $\sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot f_k$ from both sides, we get:
+```math
+uf_n = u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot f_k
+```
+And dividing both sides with u, we get:
+```math
+f_n = \frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot f_k} {u}
+```
+> [!IMPORTANT]
+> So we get the formula:  
+$f_n = \frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot f_k} {u} : n \ge 2$  
+$f_1 = \frac {u_1} u$  
+$f = \ln(u)$
+
+> We could have also reached this result by derivating $\ln(u(x))$ once and applying the quotient rule [formula](QUO.md) we derivated on $\frac {d} {dx}\ln(u(x)) = \frac {u_1(x)} {u(x)}$.
+
+Practically:
+```python
+def ln_derivatives(u_list, order):
+    # u_list contains all the derivatives of u from 0 till n
+
+    f_list = [0.0] * (order + 1) # saving space for all the derivatives
+    f_list[0] = math.log(u_list[0])] # f0 = ln(u0(a))
+
+    # outer loop to calculate all the derivatives from 0 to n
+    for n in range(1, order + 1):
+        # numerator = u{m} - sum{k=1,m-1} nCr{m-1, k-1} * u{m-k} * f{k}
+        f_list[n] += u_list[n]
+        for k in range(1, n):
+            f_list[n] -= nCr(n-1,k-1) * u_list[n-k] * f_list[k]
+
+        # numerator / u
+        f_list[n] /= u_list[0]
+
+    return f_list
+```
+
+## Logarithm with arbitrary base
+The function $f(x) = \log_{v(x)}(u(x))$ is the topic of concern of this section.  
+We have a neat little property in logarithm called the base changing theorem, that states:
+```math
+\log_b(a) = \frac {\log_c(a)} {\log_c(b)}
+```
+This let's us change the base to a more common base to work with, so with $a = u(x)$ and $b = v(x)$ and $c = e$, we get:
+```math
+\log_{v(x)}{(u(x))} = \frac {\ln(u(x))} {\ln(v(x))}
+```
+So if we take:
+```math
+\begin{align*}
+h(x) &= \ln(u(x)) \\
+g(x) &= \ln(v(x)) \\
+\end{align*}
+```
+we get:
+```math
+f(x) = \frac {h(x)} {g(x)}
+```
+and after using the quotient formula that we had developed earlier, we get:
+```math
+f_n = \frac {h_n - \sum_{k=1}^n\binom{n}{k}h_{n-k}g_{k}} {g}
+```
+where:
+```math
+\begin{align*}
+h_m &= \frac {u_m - \sum_{k = 1}^{m-1}\binom{m-1}{k-1}u_{m-k}\cdot h_k} {u} \\
+\\
+g_m &= \frac {v_m - \sum_{k = 1}^{m-1}\binom{m-1}{k-1}v_{m-k}\cdot g_k} {v} \\
+\end{align*}
+```
+respectively, using the $\ln$ formula we derived earlier.  
+The formula only uses the tools we have derived earlier, practically speaking, we don't need an explicit formula that can and *will* be more complex than it needs to be.  
+Calculating it would be fairly simple:
+```python
+def log_arb_base_derivatives(u_list, v_list, order):
+    # log_b(a) = ln(a) / ln(b)
+    # h <-> ln(a) : here a = u
+    # g <-> ln(b) : here b = v
+    h_list = ln_derivatives(u_list, order)
+    g_list = ln_derivatives(v_list, order)
+
+    # f = h / g
+    f_list = div_derivatives(h_list, g_list, order)
+    return f_list
+```
+Since both `ln_derivatives` and `div_derivatives` are $O(n^2)$ this function here is also $O(n^2)$.
+
+So that was it! The formulation for $n^{th}$ derivative of $\ln(u(x))$.  
+Now, let's go back to [README](README.md) to explore more functions!
