@@ -69,22 +69,77 @@ $f_4 = e^u\cdot u_1^4 + 6\cdot u_1^2u_2e^u + 3\cdot u_2^2e^u + 4\cdot u_3u_1e^u 
 Now, you may be asking where exactly is a pattern??  
 I mean it surely does look like there is one but it's all over the place...so let's do it a different way!  
 Let's write each function again but using the previous definitions(eg: $f_0$, $f_1$), shall we?  
-$f_0 = e^u$  
-$f_1 = f_0u_1$  
+$f_0 = f = e^u$  
+$f_1 = fu_1$  
 Now, to get $f_2$, we can just differentiate $f_1$ and to get $f_3$, we can use $f_2$, so let's do that:  
-$f_2 = f_1u_1 + f_0u_2$  
+$f_2 = f_1u_1 + fu_2$  
 furthermore:  
-$f_3 = f_2u_1 + 2\cdot f_1u_2 + f_0u_3$
+$f_3 = f_2u_1 + 2\cdot f_1u_2 + fu_3$
 
 Now, can you see the pattern? It's the same pattern we got when deriving the leibniz's formula!  
-We can use leibniz's theorem on the definition of $f_1$(i.e., $f_0\cdot u_1 \to h\cdot v$), $n-1$ times.
+We can use leibniz's theorem on the definition of $f_1$.  
+Taking $u_1 \to v$ and applying product rule on $f\cdot v$, $n-1$ times.  
+Since it is symmetric, it gives us:
+```math
+\begin{alignat*}{2}
 
+f_{1+m} &= \sum_{k=0}^{m}\binom{m}{k}f_k\cdot v_{m-k} &\qquad f_{1+m} &= \sum_{k=0}^{m}\binom{m}{k}v_{k}\cdot f_{m-k} \\
+
+m \to n-1&: \\
+
+f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}f_k\cdot v_{n-1-k} &     f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}v_k\cdot f_{n-1-k} \\
+
+v_j \to u_{j+1}&: \\
+
+f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}f_k\cdot u_{n-k} &     f_n &= \sum_{k=0}^{n-1}\binom{n-1}{k}u_{k+1}\cdot f_{n-1-k} \\
+
+\end{alignat*}
+```
+Let's take the left result since it is cleaner. So we have:
+```math
+f_n = \sum_{k=0}^{n-1}\binom{n-1}{k}f_k u_{n-k}
+```
+Now, let introduce a new index $j = n - k$.  
+Then $k = n - j$.  
+- When $k = 0:$
+```math
+j = n
+```
+- When $k = n - 1:$
+```math
+j = 1
+```
+So, the sum becomes:
+```math
+f_n = \sum_{j = n}^{1}\binom{n-1}{n-j}f_{n-j}u_j
+```
+Since the limit is reversed, rewriting in increasing order gives us:
+```math
+f_n = \sum_{j = 1}^{n}\binom{n-1}{n-j}f_{n-j}u_j
+```
+Using the identity:
+```math
+\binom{m}{r} = \binom{m}{m-r}
+```
+Here,
+```math
+\binom{n-1}{n-j} = \binom{n-1}{(n-1)-(n-j)} = \binom{n-1}{j-1}
+```
+Substituting this, we get:
+```math
+f_n = \sum_{j = 1}^{n}\binom{n-1}{j-1}f_{n-j}u_j
+```
+$k \longleftrightarrow j:$
+```math
+f_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}f_{n-k}u_k
+```
 > [!IMPORTANT]
-> Now we have our compact formula:  
-$f_n = \sum_{k = 0}^{n - 1}\binom{n-1}{k}f_{n-1-k}\cdot u_{k+1}$  
-Which can also be written as:  
-$f_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}f_{n-k}\cdot u_k$  
-The formulae mentioned is only valid for when $n \ge 1$.
+> Now we have our compact formulae:  
+$f_n = \sum_{k = 0}^{n - 1}\binom{n-1}{k}f_{k}\cdot u_{n-k}$  
+And:  
+$f_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}f_{n-k}\cdot u_k$     
+$\forall$ $n \ge 1$  
+$f=e^u$
 
 > I didn't actually do it using leibniz formula, I actually kept deriving and found the pattern, and I did this hard work instead of smart work for all other fomrulae derivation...sadly :'(
 
@@ -143,18 +198,18 @@ Not much help is it? Very random...Let's use our recursive style:
 ```math
 \begin{align*}
 &f_0 = e^{u\cdot \ln(a)} \\
-&f_1 = ln(a)\cdot f_0u_1 \\
+&f_1 = \ln(a)\cdot f_0u_1 \\
 \end{align*}
 ```
 Now again this is the same case as earlier, as $a$ is just a constant base, we can just multiply it in the later derivatives of the function and apply leibniz on $f_0u_1$ (or $f_1$) $n-1$ times as we did earlier.
 
 > [!IMPORTANT]
 > Which will give us:  
-$f_n = \ln(a)\cdot\sum_{k = 0}^{n - 1}\binom{n-1}{k}f_{n-1-k}\cdot u_{k+1}$  
-Which can also be written as:  
-$f_n = \ln(a)\cdot\sum_{k = 1}^{n}\binom {n-1} {k-1}f_{n-k}\cdot u_k$  
-> Here:  
-$n \ge 1$ and $f_0 = e^{u\cdot \ln(a)}$  
+$f_n = \ln(a)\sum_{k = 0}^{n - 1}\binom{n-1}{k}f_{k} u_{n-k}$  
+Or:  
+$f_n = \ln(a)\sum_{k = 1}^{n}\binom{n-1}{k-1}f_{n-k} u_k$     
+$\forall$ $n \ge 1$  
+$f=e^{u\ln(a)}$  
 
 And that in practice, would look like: 
 ```python
