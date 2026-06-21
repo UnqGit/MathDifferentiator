@@ -1,9 +1,6 @@
 # Exponential function
 In this file we'll be discussing the formula for nth derivative of the function $e^{f(x)}$ we all know and love.
 
-> [!NOTE]
-> In this file I will be denoting the nth derivative of a function $f$ as $f_n$ instead of $f^{(n)}$ because it will interfere with the power of a function that is being used.
-
 ## Linear inner function
 Let's take $u(x)$ as just $x$:  
 Now, let's start by writing first few derivatives of $e^x$:
@@ -20,7 +17,7 @@ Yeah, we won't get anywhere as all the derivatives of the $e^x$ is just itself a
 ```
 by using the chain rule.  
 
-Okay, let's use $e^{ax+b}$ where a and b are constants:
+Okay, let's use $e^{ax+b}$ where $a$ and $b$ are constants:
 ```math
 \begin{align*}
 &f_0 = e^{ax + b} \\
@@ -31,7 +28,7 @@ Okay, let's use $e^{ax+b}$ where a and b are constants:
 ```
 > [!IMPORTANT]
 > Okay, we have actual solution in this one:\
-It will be: $f^{(n)} = a^n \cdot e^{(ax + b)}$
+And it is: $f^{(n)} = a^n e^{(ax + b)}$
 
 ## Arbitrary inner function
 Now, let's say that the exponential function doesn't have just $x$ or a linear equation, such as $ax+b$.  
@@ -56,7 +53,7 @@ $f_3 = e^u\cdot u_1^3 + 3\cdot u_1u_2e^u + e^u\cdot u_3$
 
 $f_4 = e^u\cdot u_1^4 + 6\cdot u_1^2u_2e^u + 3\cdot u_2^2e^u + 4\cdot u_3u_1e^u + e^u\cdot u_4$
 
-- Let's do the next obvious thing and take the $e^u$ common:
+Let's do the next obvious thing and take the $e^u$ common:
 ```math
 \begin{align*}
 &f_0 = e^u \\
@@ -67,7 +64,7 @@ $f_4 = e^u\cdot u_1^4 + 6\cdot u_1^2u_2e^u + 3\cdot u_2^2e^u + 4\cdot u_3u_1e^u 
 \end{align*}
 ```
 Now, you may be asking where exactly is a pattern??  
-I mean it surely does look like there is one but it's all over the place...so let's do it a different way!  
+I mean it surely does look like there is one but also not...so let's do it a different way!  
 Let's write each function again but using the previous definitions(eg: $f_0$, $f_1$), shall we?  
 $f_0 = f = e^u$  
 $f_1 = fu_1$  
@@ -77,7 +74,7 @@ furthermore:
 $f_3 = f_2u_1 + 2\cdot f_1u_2 + fu_3$
 
 Now, can you see the pattern? It's the same pattern we got when deriving the leibniz's formula!  
-We can use leibniz's theorem on the definition of $f_1$.  
+We can use leibniz's theorem on the definition of $f_1$(that is: $fu_1$).  
 Taking $u_1 \to v$ and applying product rule on $f\cdot v$, $n-1$ times.  
 Since it is symmetric, it gives us:
 ```math
@@ -141,7 +138,7 @@ $f_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}f_{n-k} u_k$
 $\forall$ $n \ge 1$  
 $f=e^u$
 
-> I didn't actually do it using leibniz formula, I actually kept deriving and found the pattern, and I did this hard work instead of smart work for all other fomrulae derivation...sadly :'(
+> I didn't actually do it using leibniz formula, I actually kept deriving and found the pattern, and did the hard work instead of smart work for all other fomrulae derivation as well but I will show you the cleaner mathematical way for all of them.
 
 Which can be used in a practical setting as:
 ```python
@@ -241,7 +238,7 @@ Good observation btw! But the thing is that $a^{u(x)}$ only exists when the deno
 That is, if $u(x) = \frac {p} {q}$ in simplest form, $q$ must be odd.  
 We know that derivative of a function gives us the instantaneous rate of change of a function at that particular point: $f'(x) = \lim_{h \to 0+} \frac {f(a + h) - f(a)} {h}$ which requires $f$ exist for all sufficiently small $h$.  
 *This function*, however, is not defined for *any* open interval $(x - \epsilon, x + \epsilon)$ of the real line which the standard differentiation rules require and so we cannot calculate the derivative of this function anyway.  
-Orrrr, if we have defined the space to be $\mathbb{C}$ instead of $\mathbb{R}$, then the function becomes continuous. Our formula works as it's supposed to. We all live happily ever after!
+Or, if we have defined the space to be $\mathbb{C}$ instead of $\mathbb{R}$, then the function becomes continuous. Our formula works as it's supposed to. We all live happily ever after!
 
 > When I said we were *using leibniz's formula* $n-1$ *times*, we were effectively building [bell polynomials](https://en.wikipedia.org/wiki/Bell_polynomials), have a look at those and you'd be more amazed :D.
 

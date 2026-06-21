@@ -1,7 +1,7 @@
 # Constant Power Functions
 In this file we will be discussing about the $n^{th}$ derivative of the function $f(x) = u(x)^c$  
 The most familiar case that we encounter for this function is $c = \frac 1 2$. So let's take a look at it first.
-## $\sqrt u(x)$:
+## $\sqrt {u(x)}$:
 Let's get on!  
 Let's define $f = \sqrt u$  
 Squaring both sides gives us $f^2 = u$ which is $f\cdot f = u$.  
@@ -94,7 +94,7 @@ Taking a new index $j = n-k$, we get:
 ```math
 \sum_{j=1}^{n-1}\binom{n-1}{j}f_{n-j}f_{j}
 ```
-And because multiplication is commutative, we have $S_1 = 2S_3$ and $S_2=2S_3$ respectively, we have the result $S_1 = S_2$. $\begin{equation}\end{equation}$
+And because multiplication is commutative, we have $S_1 = 2S_3$ and $S_2=2S_3$ respectively, we have the result $S_1 = S_2$. $\left(2\right)$  
 Now, in equation $(1)$, if we divide both sides by $f$, we get:
 ```math
 f_n = \frac {u_{n} - 2\sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k}} {2f}

@@ -2,7 +2,7 @@
 The function we all know and love, which is a `mirror image` of $\exp$ around the line $y = x$  
 A.K.A they are inverse functions of each other!
 
-## ln(x):
+## $\ln(x)$:
 
 Just like all the other functions, let's start from the start and expand on it!  
 Now, let's start with the first few derivatives of $f(x) = \ln(x)$:
@@ -25,7 +25,7 @@ $f_0 = \ln(x)$
 
 ## $u(x)$ as the inner function
 
-Let us cut right to the chase with $\ln(u(x))$ (where $u(x) > 0$) instead of playing around, you can find out the first few derivatives of $\ln(u(x))$ and try to get to the result that way (that is also how I actually did it).
+Let us cut right to the chase with $\ln(u(x))$ (where $u(x) > 0$) , you can find out the first few derivatives of $\ln(u(x))$ and try to get to the result that way (that is also how I actually did it).
 
 So, we know the formula for the nth derivative of $e^{(u(x))}$.  
 And we know that $e^{\ln(f)} = f$  
@@ -35,7 +35,7 @@ $e^{f(x)} = e^{\ln(u(x))}$
 Which is:  
 $e^{f(x)} = u(x) $  
 Now, we can use the formulae for the $n^{th}$ derivative of $y = e^g$ to get the formula for $\ln(u(x))$.  
-The formula if $y = e^g$
+The formula if $y = e^g$:
 ```math
 y_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}y_{n-k}\cdot g_k
 ```

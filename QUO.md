@@ -79,6 +79,7 @@ For context, the pascal's triangle:
 1,2,1\\
 1,3,3,1\\
 1,4,6,4,1\\
+\cdots
 \end{gather*}
 ```
 The coefficients match from row 1 and onwards excluding the final term!  
@@ -117,22 +118,22 @@ def reciprocal_derivatives(u_list, order):
     # u_list holds all the derivatives of the function u (0 till n)
     # at some point 'a'
     f_list = [0.0] * (order+1) # making space for f0, f1, f2 ... f{n}
-    f_list[0] = 1/u_list[0] # f0 = 1/u
+    f_list[0] = 1 / u_list[0] # f0 = 1/u
 
     # outer loop to calculate all f{1...n}
-    for k in range(1, order):
+    for n in range(1, order):
 
         #inner loop to calculate individual f{m}
-        for i in range(k):
-            f_list[k] += nCr(k, i) * f_list[i] * u_list[k - i]
+        for k in range(n):
+            f_list[n] += nCr(n, k) * f_list[k] * u_list[n - k]
 
         # applying the factor of -1/u0
-        f_list[k] /= -u_list[0]
+        f_list[n] /= -u_list[0]
 
     return f_list
 ```
 
-Now, I recommend you derive the formula for f(x) = u(x) / v(x) before we get into the next section, as there is also a very neat process to do so too.
+Now, I recommend you derive the formula for $f(x) = \frac{u(x)} {v(x)}$ before we get into the next section, as there is also a very neat process to do so too.
 
 ## $\frac {u(x)} {v(x)}$:
 
@@ -155,7 +156,7 @@ u_n = \binom{n}{0}f_nv_0 + \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}
 And since $\binom{n}{r} = \frac {n!} {r!(n-r)!}$ and $0! = 1$.  
 If we calculate $\binom{n}{0}$, it would equal $\frac{n!}{0!n!}$ which is $1$. So we get:  
 ```math
-u_n = f_nv + \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k} \\
+u_n = f_nv + \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}
 ```
 Subtracting both sides by $\sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}$, we get:
 ```math
@@ -180,16 +181,16 @@ def div_derivatives(u_list, v_list, order):
     f_list = [0.0] * (order + 1) # making space for the derivatives of f
 
     # outer loop to calculate all f {0...n}
-    for k in range(order + 1):
+    for n in range(order + 1):
 
         # calculating individual f{m}
-        for i in range(k):
+        for k in range(n):
             # subtracting terms from the summation part
-            f_list[k] -= nCr(k, i) * v_list[k-i] * f_list[i]
+            f_list[n] -= nCr(n, k) * v_list[n-k] * f_list[k]
         
         # adding the single u{n} part and dividing everything by v
-        f_list[k] += u_list[k]
-        f_list[k] /= v_list[0]
+        f_list[n] += u_list[n]
+        f_list[n] /= v_list[0]
 
     return f_list
 ```
