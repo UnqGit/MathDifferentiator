@@ -234,6 +234,13 @@ def product_derivative(u_list, u_list, order):
     
     return result
 ```
+Or if we are going to calculate all the derivatives from $0 \to n$ then:
+```python
+def product_derivatives(u_list, v_list, order):
+    # calculate individual product derivative orders and create a list
+    f_list = [product_derivative(u_list, v_list, n) for n in range(order + 1)]
+    return f_list
+```
 This was just an example, as this result is pretty well known and is referred to as `leibniz's theorem`  
 But now, we will formulate our own formulae!  
 Most of (if not all) of our formulae will be using the Pascal's triangle as a hint anchor, so keep it in mind.  
@@ -243,4 +250,7 @@ Let's first start with the [e<sup>f(x)</sup>](EXP.md) function.
 As you can see there was a significant role of `binomial coefficients` and `pattern matching` and the `leibniz's theorem`.
 
 Which can also be observed in the derivations for higher order derivatives of [ln(f(x))](LN.md).
-Now, that we are on the topic of power related functions let's take a look at [u(x)<sup>c</sup>](CONST_POW.md)
+Now, that we are on the topic of power related functions let's take a look at [u(x)<sup>c</sup>](CONST_POW.md)  
+And finally staying on the topic we have our final boss [u(x)<sup>v(x)</sup>](POW.md)
+
+Now, that power functions are over, let's take a look at trigonometry and start with [tan(u(x))](TAN.md)

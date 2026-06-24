@@ -165,7 +165,7 @@ But calculating all $f_0 \to f_n$ is actually $O(n^2)$.
 
 _**`Isn't mathematics amazing?! ✨`**_
 
-# Different constant bases
+## Different constant bases
 Now that was just $e^{f(x)}$ which has the base $e$, also known as [euler's number](https://en.wikipedia.org/wiki/E_(mathematical_constant)).
 
 But what if the base was something like $2$ or $\pi$ or something else *entirely*??
