@@ -253,4 +253,4 @@ Which can also be observed in the derivations for higher order derivatives of [l
 Now, that we are on the topic of power related functions let's take a look at [u(x)<sup>c</sup>](CONST_POW.md)  
 And finally staying on the topic we have our final boss [u(x)<sup>v(x)</sup>](POW.md)
 
-Now, that power functions are over, let's take a look at trigonometry and start with [tan(u(x))](TAN.md)
+Now, that power functions are over, let's take a look at trigonometry and start with [tan(u(x))](TANCOT.md) and $\cot(u(x))$
