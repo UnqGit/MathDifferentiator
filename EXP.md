@@ -11,9 +11,9 @@ f_1 = e^x \\
 f_2 = e^x \\
 \end{align*}
 ```
-Yeah, we won't get anywhere as all the derivatives of the $e^x$ is just itself as:
+Yeah, we won't get anywhere as all the derivatives of the $e^x$ are itself:
 ```math
-\frac {d} {dx} e^x = e^x\cdot \frac {dx} {dx} = e^x
+\frac {d} {dx} e^{x} = e^{x}\cdot1
 ```
 by using the chain rule.  
 
@@ -22,13 +22,13 @@ Okay, let's use $e^{ax+b}$ where $a$ and $b$ are constants:
 \begin{align*}
 &f_0 = e^{ax + b} \\
 &f_1 = a \cdot e^{ax + b} \\
-&f_2 = a \cdot a \cdot e^{ax + b} => a^2 \cdot e^{ax + b} \\
+&f_2 = a \cdot a \cdot e^{ax + b} = a^2 \cdot e^{ax + b} \\
 &f_3 = a^3 \cdot e^{a\cdot x + b} \\
 \end{align*}
 ```
 > [!IMPORTANT]
-> Okay, we have actual solution in this one:\
-And it is: $f^{(n)} = a^n e^{(ax + b)}$
+> Okay, we have actual solution in this one:  
+And it is: $f_{n} = a^n e^{(ax + b)}$
 
 ## Arbitrary inner function
 Now, let's say that the exponential function doesn't have just $x$ or a linear equation, such as $ax+b$.  
@@ -73,8 +73,8 @@ $f_2 = f_1u_1 + fu_2$
 furthermore:  
 $f_3 = f_2u_1 + 2\cdot f_1u_2 + fu_3$
 
-Now, can you see the pattern? It's the same pattern we got when deriving the leibniz's formula!  
-We can use leibniz's theorem on the definition of $f_1$(that is: $fu_1$).  
+Now, can you see the pattern? It's the same pattern we got when deriving the Leibniz's formula!  
+We can use Leibniz's theorem on the definition of $f_1$(that is: $fu_1$).  
 Taking $u_1 \to v$ and applying product rule on $f\cdot v$, $n-1$ times.  
 Since it is symmetric, it gives us:
 ```math
@@ -138,8 +138,23 @@ $f_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}f_{n-k} u_k$
 $\forall$ $n \ge 1$  
 $f=e^u$
 
-> I didn't actually do it using leibniz formula, I actually kept deriving and found the pattern, and did the hard work instead of smart work for all other fomrulae derivation as well but I will show you the cleaner mathematical way for all of them.
+> I didn't actually do it using Leibniz formula, I actually kept deriving and found the pattern, and did the hard work instead of smart work for all other formulae derivation as well but I will show you the cleaner mathematical way for all of them.
 
+If we translate the mathematical definition directly into a recursive function without storing previously computed values, the time complexity will be exponential.  
+Let $T(n)$ be the time taken to compute $f_n$. The recurrence relation dictates that to compute $f_n$, we must compute $f_0, f_1, \dots, f_{n-1}$.
+```math
+T(n) = \sum_{k=0}^{n-1} T(k) + O(n)
+```
+(The $O(n)$ accounts for multiplying and summing the terms).   
+If we evaluate $T(n) - T(n-1)$:
+```math
+\begin{align*}
+&T(n) - T(n-1) = T(n-1) + O(1) \\
+&T(n) = 2T(n-1)
+\end{align*}
+```
+This yields a time complexity of $O(2^n)$. Because it recalculates the same subproblems repeatedly, this approach is extremely inefficient and will hang for relatively small values of $n$ (e.g., $n > 30$).  
+What we can do is store the previously calculated subproblems, a.k.a dynamic programming.  
 Which can be used in a practical setting as:
 ```python
 def exp_derivative(u_list, order):
@@ -160,17 +175,19 @@ def exp_derivative(u_list, order):
 
     return f_list
 ```
+> nCr is be a function that returns already precomputed values for the nCr(s) in order to keep the time complexity down.
+
 Now, if we know all the previous values of $u$ and $f$, that is $u_0 \to u_{n-1}$ and $f_0 \to f_{n-1}$ then calculating the $f_n$ is $O(n)$.  
 But calculating all $f_0 \to f_n$ is actually $O(n^2)$.
 
 _**`Isn't mathematics amazing?! ✨`**_
 
 ## Different constant bases
-Now that was just $e^{f(x)}$ which has the base $e$, also known as [euler's number](https://en.wikipedia.org/wiki/E_(mathematical_constant)).
+Now that was just $e^{f(x)}$ which has the base $e$, also known as [Euler's number](https://en.wikipedia.org/wiki/E_(mathematical_constant)).
 
 But what if the base was something like $2$ or $\pi$ or something else *entirely*??
 
-Let's see what are the changes we need to make to be able diffrentiate now!  
+Let's see what are the changes we need to make to be able differentiate now!  
 If we go back to the _good ol' highschool days_, one of the most important thing we were taught is that $\ln(f)$ is the inverse of $e^f$.
 
 What that means is that $e^{\ln(x)}$ would be equal to $x$, like, $e^{\ln(4)} = 4$, WAIT! Let's go back to the $e^{\ln(4)}$, you see something?\
@@ -198,7 +215,7 @@ Not much help is it? Very random...Let's use our recursive style:
 &f_1 = \ln(a)\cdot f_0u_1 \\
 \end{align*}
 ```
-Now again this is the same case as earlier, as $a$ is just a constant base, we can just multiply it in the later derivatives of the function and apply leibniz on $f_0u_1$ (or $f_1$) $n-1$ times as we did earlier.
+Now again this is the same case as earlier, as $a$ is just a constant base, we can just multiply it in the later derivatives of the function and apply Leibniz on $f_0u_1$ (or $f_1$) $n-1$ times as we did earlier.
 
 > [!IMPORTANT]
 > Which will give us:  
@@ -234,12 +251,14 @@ def const_base_pow_derivative(base, u_list, order):
 
 > [!NOTE]
 > You might be wondering that $\ln(a)$ is not defined when $a \le 0$ and our function will fail and you'd be correct!  
-Good observation btw! But the thing is that $a^{u(x)}$ only exists when the denominator of the reduced exponent is odd.  
+But the thing is that $a^{u(x)}$ only exists when the denominator of the reduced exponent is odd.  
 That is, if $u(x) = \frac {p} {q}$ in simplest form, $q$ must be odd.  
 We know that derivative of a function gives us the instantaneous rate of change of a function at that particular point: $f'(x) = \lim_{h \to 0+} \frac {f(a + h) - f(a)} {h}$ which requires $f$ exist for all sufficiently small $h$.  
 *This function*, however, is not defined for *any* open interval $(x - \epsilon, x + \epsilon)$ of the real line which the standard differentiation rules require and so we cannot calculate the derivative of this function anyway.  
-Or, if we have defined the space to be $\mathbb{C}$ instead of $\mathbb{R}$, then the function becomes continuous. Our formula works as it's supposed to. We all live happily ever after!
+**Or simply put, in real numbers($\mathbb{R}$), an exponential function with a negative base is impossible to differentiate.**  
+But, if we have defined the space to be $\mathbb{C}$ instead of $\mathbb{R}$, then the function becomes continuous. Our formula works as it's supposed to. We all live happily ever after!
 
-> When I said we were *using leibniz's formula* $n-1$ *times*, we were effectively building [bell polynomials](https://en.wikipedia.org/wiki/Bell_polynomials), have a look at those and you'd be more amazed :D.
+> When I said we were *using Leibniz's formula* $n-1$ *times*, we were effectively building [bell polynomials](https://en.wikipedia.org/wiki/Bell_polynomials), have a look at those and you'd be more amazed :D.  
+If you want to fall further into the rabbit hole, look into [Faà di Bruno](https://en.wikipedia.org/wiki/Francesco_Fa%C3%A0_di_Bruno) and [Faà di Bruno formula](https://en.wikipedia.org/wiki/Fa%C3%A0_di_Bruno%27s_formula).
 
 And now we are done with EXP....or you would think so but it will come in handy once more in future and you'd be amazed!
