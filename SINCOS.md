@@ -5,6 +5,7 @@ The characters where the story known as trigonometry starts at the simple and de
 Starting with:
 ## $\sin(u(x))$
 There are plethora of ways we can tackle this problem and we will take a look at various ways.  
+#### Derivation 1:  
 Let's get right into it, so, we have our function $f(x) = \sin(u(x))$ or 
 ```math
 f = \sin(u)
@@ -81,10 +82,12 @@ def sin_derivatives(u_list, order):
     if order > 0:
         f_list[1] = u_list[1] * cosu
 
+    # outer loop to calculate all the derivatives of f
     for n in range(2, order + 1):
         f_list[n] += u_list[n] * cosu - u_list[1] * f_list[n-1] * tanu
 
         sum = 0.0
+        # inner loop for calculation of each f{m}
         for k in range(1, n - 1):
 
             inner_sum_1 = 0.0
@@ -102,4 +105,73 @@ def sin_derivatives(u_list, order):
         f_list[n] -= sum / (2 * f_list[1])
     
     return f_list
+```
+#### Derivation 2:
+But if you consider $u_1f$ to be a new function say $h$ then if you look at the formula we are recalculating $h_m$ repeatedly, so let's use $h$ instead of $u_1f$ in equation $(2)$, we have:
+```math
+f_1^2=u_1^2-h^2
+```
+Differentiating this we get:
+```math
+\sum_{k=0}^{n-1}\binom{n-1}{k}f_{k+1}f_{n-k}=\sum_{k=0}^{n-1}\binom{n-1}{k}u_{k+1}u_{n-k}-\sum^{n-1}_{k=0}\binom{n-1}{k}h_kh_{n-k-1}
+```
+applying same steps as earlier:
+```math
+2f_1f_n = 2u_1u_n - 2hh_{n-1} + \sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)
+```
+segregating the $f_n$ term, we have our formula:
+```math
+f_n=\frac{u_n}{\cos(u)}-h_{n-1}\tan(u)+\frac{1}{2f_1}\sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)
+```
+Where,
+```math
+h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}
+```
+Implementing it we get:
+```python
+def sin_derivatives(u_list, order):
+    # u_list contains all the derivatives of u from order 0..n at some point x
+
+    f_list = [0.0] * (order+1) # reserving space for all the derivatives of f
+    f_list[0] = math.sin(u_list[0])
+
+    if order == 0:
+        return f_list
+    
+    cosu = math.cos(u_list[0])
+    tanu = math.tan(u_list[0])
+
+    f_list[1] = u_list[1] * cosu
+    # it can also be calculated using the same general formula but I refrained from
+    # putting it in the loop as it will require an if case to not divide by f_list[1] i.e, itself
+    
+    h_list = [0.0] * (order) # since each further derivation require h{n-1} <=> u1f{n-1}
+
+    for n in range(2, order + 1):
+
+        # calculation of (u_1f){n-1}
+        for k in range(n):
+            h_list[n-1] += nCr(n-1, k) * u_list[k + 1] * f_list[n - 1 - k]
+
+        sum = 0.0
+        for k in range(1, n-1):
+            sum += nCr(n-1, k) * (u_list[k+1] * u_list[n-k] - h_list[k] * h_list[n-k-1] - f_list[k+1] * f_list[n-k])
+        sum /= 2 * f_list[1]
+        
+        f_list[n] = u_list[n] / cosu - h_list[n-1] * tanu + sum
+    
+    return f_list
+```
+#### Derivation 3:
+If we look again at the original equation $(2)$, it can also be written as:
+```math
+f_1^2 = u_1^2 - u_1^2f^2
+```
+We can see that $u_1^2$ appears in both the terms on the RHS, and we already know all of our $u_n$'s so we can take a new function $h = u_1^2$ and take $v = f^2$, we have:
+```math
+f_1^2 = h-hv
+```
+Applying the same steps as the above derivation, we have
+```math
+2f_1f_n=h_n-hv_{n-1}-vh_{n-1}+\sum_{k=1}^{n-2}\binom{}{}
 ```
