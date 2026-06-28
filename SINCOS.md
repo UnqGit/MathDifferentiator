@@ -173,5 +173,45 @@ f_1^2 = h-hv
 ```
 Applying the same steps as the above derivation, we have
 ```math
-2f_1f_n=h_n-hv_{n-1}-vh_{n-1}+\sum_{k=1}^{n-2}\binom{}{}
+2f_1f_n=h_{n-1}(1-v)-hv_{n-1}-\sum_{k=1}^{n-2}\binom{n-1}{k}\left(h_kv_{n-k-1} + f_{k+1}f_{n-k}\right)
+```
+Simplifying which we get our formula:
+```math
+f_n = \frac {h_{n-1}(1-v)-hv_{n-1}-\sum_{k=1}^{n-2}\binom{n-1}{k}\left(h_kv_{n-k-1} + f_{k+1}f_{n-k}\right)} {2f_1}
+```
+where:
+```math
+\begin{align*}
+h_m &= \sum_{k=0}^{m}\binom mk u_{k+1}u_{m-k+1} \\
+v_m &= \sum_{k=0}^m\binom mk f_kf_{m-k}
+\end{align*}
+```
+Implemention:
+```python
+def sin_derivatives(u_list, order):
+    # u_list contains all the derivatives of u from order 0..n at some point x
+
+    f_list = [0.0] * (order + 1) # reserving space for all the derivatives of f
+    f_list[0] = math.sin(u_list[0])
+
+    if order == 0:
+        return f_list
+    
+    f_list[1] = u_list[1] * math.cos(u_list[0])
+
+    u1_list = u_list[1:]
+    h_list = product_derivatives(u1_list, u1_list, order - 1)
+
+    v_list = [0.0] * (order)
+    v_list[0] = f_list[0] * f_list[0]
+
+    for n in range(2, order + 1):
+        v_list[n-1] = product_derivative(f_list, f_list, n-1)
+
+        for k in range(1, n-1):
+            f_list[n] -= nCr(n-1, k) * (h_list[k] * v_list[n-k-1] + f_list[k+1] * f_list[n-k])
+        f_list[n] += h_list[n-1] * (1 - v_list[0]) - h_list[0] * v_list[n-1]
+        f_list[n] /= 2 * f_list[1]
+    
+    return f_list
 ```
