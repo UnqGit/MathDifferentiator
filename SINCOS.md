@@ -242,8 +242,8 @@ So after profiling the functions, we can confidently conclude that the function 
 > [!IMPORTANT]
 > the function for sine(u(x)) is:  
 $f_n=\frac{u_n}{\cos(u)}-h_{n-1}\tan(u)+\frac{1}{2f_1}\sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)$  
+$f = \sin(u)$  
 where: $h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}$  
-$f = \sin(u)$
 
 And for
 
@@ -277,7 +277,7 @@ h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}
 > [!IMPORTANT]
 > for cos we have:  
 $f_n = -\frac{u_n}{\sin(u)} + h_{n-1}\cot(u) + \frac1{2f_1}\sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)$  
+$f = \cos(u)$  
 where: $h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}$  
-$f = \cos(u)$
 
 Let's go right back to [README](README.md) to continue our explorations!

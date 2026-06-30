@@ -20,7 +20,7 @@ f_n = a\sum_{k=0}^{n-1}\binom{n-1}{k}f_kf_{n-k}
 ```
 > [!IMPORTANT]
 > And so we have:
-$f_n = a\sum_{k=0}^{n-1}\binom{n-1}{k}f_kf_{n-k}:n\ge2$  
+$f_n = a\sum_{k=0}^{n-1}\binom{n-1}{k}f_kf_{n-k-1}:n\ge2$  
 $f_1 = a + af^2$  
 $f = \tan(ax+b)$
 
@@ -31,10 +31,10 @@ def tan_linear_derivatives(slope, point, intercept, order):
     f_list = [0.0] * (order + 1)
     f_list[0] = math.tan(slope * point + intercept) # f0 = tan(ax+b)
     if order > 0:
-        f_list[1] = a * (1 + f_list[0]**2) # f1 = a(1 + f^2)
+        f_list[1] = slope * (1 + f_list[0]**2) # f1 = a(1 + f^2)
 
     for n in range(2, order + 1):
-        f_list[n] = a * product_derivative(f_list, f_list, n)
+        f_list[n] = slope * product_derivative(f_list, f_list, n)
     
     return f_list
 ```
@@ -81,18 +81,44 @@ def tan_derivatives(u_list, order):
         # inner loop to calculate individual f{m}
         for k in range(n):
 
-            # inner factor summation calculation
-            inner_factor = 0.0
-            for r in range(k + 1):
-                inner_factor += nCr(k, r) * f_list[r] * f_list[k - r]
-            
+            inner_factor = product_derivative(f_list, f_list, k)            
             f_list[n] += nCr(n - 1, k) * u_list[n - k] * inner_factor
         
         f_list[n] += u_list[n]
     
     return f_list
 ```
-There we have $tan(u)$, now let's take a look at:
+But WAIT! if you look at it closely, if we we are calculating $f_{n+1}$ we do the calculations for $(f^2)\dots(f^2)_{n-1}$ that we already did for $f_n$, we are doing redundant work!  
+If we store previous values of $h_k$, we have:
+```python
+def tan_derivatives(u_list, order):
+    # u_list is the list of all the derivatives of u from order 0 to n
+
+    # reserve space for holding all the derivatives of f
+    f_list = [0.0] * (order + 1)
+    f_list[0] = math.tan(u_list[0]) # f0 = tan(u)
+
+    h_list = [0.0] * (order) # will be used to memoize the derivatives of f^2
+
+    # outer loop to calculate all the derivatives of f
+    for n in range(1, order + 1):
+        
+        # calculating and storing the value for h{n-1}
+        h_list[n-1] = product_derivative(f_list, f_list, n-1)
+
+        f_list[n] = u_list[n]
+        f_list[n] += product_derivative(h_list, u1_list, n-1)
+    
+    return f_list
+```
+> [!IMPORTANT]
+> making our function:  
+$f_n = u_n + \sum_{k=0}^{n-1}\binom{n-1}{k}h_ku_{n-k} : n \ge 1$  
+$f = \tan(u)$  
+where: $h_n = \sum_{k=0}^n\binom{n}{k}f_kf_{n-k}$  
+
+That reduced our time complexity from $O(n^3) \to O(n^2)$ using memoization!
+
 ## $\cot(u(x))$
 Now, let's take a look at $f = \cot(u)$, the standard first derivative of this function is:
 ```math
@@ -102,11 +128,12 @@ or again, by the pythagorean identity $\csc^2(x) = \cot^2(x) + 1$ we have $f_1 =
 ```math
 f_1 = -u_1 - f^2u_1
 ```
-This is algebraically same as the $f_1$ equation in the above $\tan$ section but negated, so we can use the result of $\tan$'s $\forall n\ge1$ case.
+This is algebraically same as the $f_1$ equation in the above $\tan$ section but negated, so we can use the result of $\tan$'s $n\ge1$ case.
 > [!IMPORTANT]
 > That is:  
-$f_n = -u_n - \sum_{k=0}^{n-1}\binom{n-1}{k}u_{n-k}\left(\sum_{r=0}^k\binom{k}{r}f_rf_{k-r}\right):n\ge1$  
-$f = \cot(u)$
+$f_n = -u_n - \sum_{k=0}^{n-1}\binom{n-1}{k}h_ku_{n-k} : n \ge 1$  
+$f = \cot(u)$  
+where: $h_n = \sum_{k=0}^n\binom{n}{k}f_kf_{n-k}$  
 
 Implemented, it looks like:
 ```python
@@ -115,25 +142,21 @@ def cot_derivatives(u_list, order):
 
     # reserve space for holding all the derivatives of f
     f_list = [0.0] * (order + 1)
-    f_list[0] = 1 / math.tan(u_list[0]) # f0 = cot(u) = 1/tan(u)
+    f_list[0] = 1 / math.tan(u_list[0]) # f0 = cot(u)
+
+    h_list = [0.0] * (order) # will be used to memoize the derivatives of f^2
+    u1_list = u[1:]
 
     # outer loop to calculate all the derivatives of f
     for n in range(1, order + 1):
         
-        # inner loop to calculate individual f{m}
-        for k in range(n):
+        # calculating and storing the value for h{n-1}
+        h_list[n-1] = product_derivative(f_list, f_list, n-1)
 
-            # inner factor summation calculation
-            inner_factor = 0.0
-            for r in range(k + 1):
-                inner_factor += nCr(k, r) * f_list[r] * f_list[k - r]
-            
-            f_list[n] -= nCr(n - 1, k) * u_list[n - k] * inner_factor
+        f_list[n] = -u_list[n]
+        f_list[n] -= product_derivative(h_list, u1_list, n-1)
         
-        f_list[n] -= u_list[n]
     
     return f_list
 ```
-Since the inner summation uses $f_m$ for calculation, we can't use a modularized way of calculating it, raising the function from $O(n^2) \to O(n^3)$.  
-
 And that is it for the tan and cot section, simple and precise.
