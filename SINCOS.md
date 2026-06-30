@@ -230,4 +230,54 @@ We can see a clear pattern in all of them regardless of the language and optimiz
 
 Since they have a similar shape in all of the benchmarks, we can conclude using the results of c++(-O2) version at the $\text{order}=1000$ that derivatives_3 and derivatives_2 have times of $5.823360\text{ms}$ & $4.668880\text{ms}$ per function call respectively, making **derivatives_2 roughly $25$ % faster than derivatives_3** .
 
-One interesting thing to note here is that, in the numpy version, derivatives_2 and derivatives_3 don't show quadratic nature but rather a linear one.
+One interesting thing to note here is that, in the numpy version, derivatives_2 and derivatives_3 don't show quadratic nature but rather a linear one.  
+Unless, we increase the domain and then we have:  
+<center>
+    <img src="img/Sine_Derivative_function_comparison_numpy_larger.png" alt="comparison with increased domain in numpy" width=50%/>  
+</center>
+By increasing the range we can see that it does follow a quadratic nature just that its linear factor affects it more than the quadratic term.
+
+So after profiling the functions, we can confidently conclude that the function that is the best for general purpose is:
+
+> [!IMPORTANT]
+> the function for sine(u(x)) is:  
+$f_n=\frac{u_n}{\cos(u)}-h_{n-1}\tan(u)+\frac{1}{2f_1}\sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)$  
+where: $h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}$  
+$f = \sin(u)$
+
+And for
+
+## $\cos(u(x))$
+
+The function is $f = \cos(u)$  
+And subsequently the first derivative is:
+```math
+f_1 = -u_1\sin(u)
+```
+squaring both sides, we get:
+```math
+f_1^2 = u_1^2\sin^2(u)
+```
+or because $\sin^2(u) = 1 - \cos^2(u)$ and $f=\cos(u)$:
+```math
+f_1^2 = u_1^2(1-f^2)
+```
+Notice this is the same algebraic structure to our $f_1$ in the case of sine, and so with that we will get:
+```math
+2f_1f_n = 2u_1u_n - 2hh_{n-1} + \sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)
+```
+or:
+```math
+f_n = -\frac{u_n}{\sin(u)} + h_{n-1}\cot(u) + \frac1{2f_1}\sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)
+```
+where:
+```math
+h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}
+```
+> [!IMPORTANT]
+> for cos we have:  
+$f_n = -\frac{u_n}{\sin(u)} + h_{n-1}\cot(u) + \frac1{2f_1}\sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)$  
+where: $h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}$  
+$f = \cos(u)$
+
+Let's go right back to [README](README.md) to continue our explorations!
