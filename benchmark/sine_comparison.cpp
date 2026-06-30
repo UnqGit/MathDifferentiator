@@ -117,105 +117,104 @@ void benchmark_function(std::string_view fileName, FuncPtr func, uint16_t maxOrd
     std::cout << acc << '\n';
 }
 
-container derivatives_1(const container &u_list, uint32_t order) {
-    container f_list(order + 1);
-    f_list[0] = std::sin(u_list[0]);
-    if (order == 0) return f_list;
+container derivatives_1(const container &u, uint32_t order) {
+    container f(order + 1);
+    f[0] = std::sin(u[0]);
+    if (order == 0) return f;
     
-    long double cosu = std::cos(u_list[0]), tanu = std::tan(u_list[0]);
-    f_list[1] = u_list[1] * cosu;
+    long double cosu = std::cos(u[0]), tanu = std::tan(u[0]);
+    f[1] = u[1] * cosu;
 
     for (uint32_t n = 2; n <= order; n++) {
-        f_list[n] = u_list[n] * cosu - u_list[1] * f_list[n-1] * tanu;
+        f[n] = u[n] * cosu - u[1] * f[n-1] * tanu;
 
         long double sum{};
         for (uint32_t k = 1; k < n - 1; k++) {
             long double inner_sum_1{};
             for (uint32_t r = 0; r <= k; r++)
-            inner_sum_1 += nCr(k, r) * u_list[r + 1] * f_list[k-r];
+            inner_sum_1 += nCr(k, r) * u[r + 1] * f[k-r];
             
             long double inner_sum_2{};
-            
             for (uint32_t r = 0; r < n - k; r++)
-                inner_sum_2 += nCr(n-k-1, r) * u_list[r + 1] * f_list[n-k-r-1];
+                inner_sum_2 += nCr(n-k-1, r) * u[r + 1] * f[n-k-r-1];
             
-            sum += u_list[k+1]*(u_list[n-k]-2*u_list[1]*f_list[0]*f_list[n-k-1]);
-            sum -= f_list[k+1]*f_list[n-k];
+            sum += u[k+1]*(u[n-k]-2*u[1]*f[0]*f[n-k-1]);
+            sum -= f[k+1]*f[n-k];
             sum -= inner_sum_1 * inner_sum_2;
         }    
-        f_list[n] -= sum / (2 * f_list[1]);
+        f[n] -= sum / (2 * f[1]);
     }
 
-    return f_list;
+    return f;
 }
 
-long double product_derivative(view u_list, view v_list, uint32_t order) {
+long double product_derivative(view u, view v, uint32_t order) {
     long double result = 0.0L;
     for (uint32_t k = 0; k <= order; k++)
-        result += nCr(order, k) * u_list[order - k] * v_list[k];    
+        result += nCr(order, k) * u[order - k] * v[k];    
     return result;
 }
 
-container derivatives_2(const container &u_list, uint32_t order) {
-    container f_list(order + 1);
-    f_list[0] = std::sin(u_list[0]);
+container derivatives_2(const container &u, uint32_t order) {
+    container f(order + 1);
+    f[0] = std::sin(u[0]);
 
-    if (order == 0) return f_list;
+    if (order == 0) return f;
     
-    long double cosu = std::cos(u_list[0]);
-    f_list[1] = u_list[1] * cosu;
+    long double cosu = std::cos(u[0]);
+    f[1] = u[1] * cosu;
 
-    if (order == 1) return f_list; // to avoid unnecessary calculations and allocations
+    if (order == 1) return f; // to avoid unnecessary calculations and allocations
     
-    long double tanu = std::tan(u_list[0]);
-    container h_list(order);
-    view u1_list = view(u_list).subspan(1);
+    long double tanu = std::tan(u[0]);
+    container h(order);
+    view u1 = view(u).subspan(1);
 
     for (uint32_t n = 2; n <= order; n++) {
-        h_list[n - 1] = product_derivative(u1_list, f_list, n - 1);
+        h[n - 1] = product_derivative(u1, f, n - 1);
 
         long double sum{};
         for (uint32_t k = 1; k < n - 1; k++)
-            sum += nCr(n-1, k) * (u_list[k+1] * u_list[n-k] - h_list[k] * h_list[n-k-1] - f_list[k+1] * f_list[n-k]);
-        sum /= 2 * f_list[1];
+            sum += nCr(n-1, k) * (u[k+1] * u[n-k] - h[k] * h[n-k-1] - f[k+1] * f[n-k]);
+        sum /= 2 * f[1];
         
-        f_list[n] = u_list[n] / cosu - h_list[n-1] * tanu + sum;
+        f[n] = u[n] / cosu - h[n-1] * tanu + sum;
     }
-    return f_list;
+    return f;
 }
 
-container product_derivatives(view u_list, view v_list, uint32_t order) {
-    container f_list(order+1);
+container product_derivatives(view u, view v, uint32_t order) {
+    container f(order+1);
     for (uint32_t n = 0; n <= order; n++) 
-        f_list[n] = product_derivative(u_list, v_list, n);
-    return f_list;
+        f[n] = product_derivative(u, v, n);
+    return f;
 }
 
-container derivatives_3(const container &u_list, uint32_t order) {
-    container f_list(order+1);
-    f_list[0] = std::sin(u_list[0]);
+container derivatives_3(const container &u, uint32_t order) {
+    container f(order+1);
+    f[0] = std::sin(u[0]);
 
-    if (order == 0) return f_list;
+    if (order == 0) return f;
     
-    f_list[1] = u_list[1] * std::cos(u_list[0]);
-    if (order == 1) return f_list; // avoiding unnecessary calculations and allocations
+    f[1] = u[1] * std::cos(u[0]);
+    if (order == 1) return f; // avoiding unnecessary calculations and allocations
 
-    view u1_list = view(u_list).subspan(1);
-    container h_list = product_derivatives(u1_list, u1_list, order - 1);
+    view u1 = view(u).subspan(1);
+    container h = product_derivatives(u1, u1, order - 1);
 
-    container v_list(order);
-    v_list[0] = f_list[0] * f_list[0];
+    container v(order);
+    v[0] = f[0] * f[0];
 
     for (uint32_t n = 2; n <= order; n++) {
-        v_list[n-1] = product_derivative(f_list, f_list, n-1);
+        v[n-1] = product_derivative(f, f, n-1);
 
         for (uint32_t k = 1; k < n - 1; k++) 
-            f_list[n] -= nCr(n-1, k) * (h_list[k] * v_list[n-k-1] + f_list[k+1] * f_list[n-k]);
-        f_list[n] += h_list[n-1] * (1 - v_list[0]) - h_list[0] * v_list[n-1];
-        f_list[n] /= 2 * f_list[1];
+            f[n] -= nCr(n-1, k) * (h[k] * v[n-k-1] + f[k+1] * f[n-k]);
+        f[n] += h[n-1] * (1 - v[0]) - h[0] * v[n-1];
+        f[n] /= 2 * f[1];
     }
     
-    return f_list;
+    return f;
 }
 
 int main() {

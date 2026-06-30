@@ -1,7 +1,5 @@
 import time
-import math
 import numpy as np
-from functools import lru_cache
 
 MAX_ORDER = 100
 O2_FACTOR = 10
@@ -130,8 +128,8 @@ def derivatives_3(u: np.ndarray, order: int) -> np.ndarray:
     return f
 
 def benchmark_function(func, u: np.ndarray, max_order: int):
-    with open(func.__name__ + ".txt", "a") as file:
-        for order in range(502, max_order + 1, 2):
+    with open(func.__name__ + ".txt", "w") as file:
+        for order in range(0, max_order + 1, 2):
             start: float = time.perf_counter()
             for _ in range(ITERATIONS):
                 result = func(u, order)
@@ -142,7 +140,7 @@ def benchmark_function(func, u: np.ndarray, max_order: int):
 def benchmark():
     u_arr = np.random.uniform(-1.0, 1.0, size=(MAX_ORDER * O2_FACTOR + 1))
     
-    # benchmark_function(derivatives_1, u_arr, MAX_ORDER)
+    benchmark_function(derivatives_1, u_arr, MAX_ORDER)
     benchmark_function(derivatives_2, u_arr, MAX_ORDER * O2_FACTOR)
     benchmark_function(derivatives_3, u_arr, MAX_ORDER * O2_FACTOR)
 

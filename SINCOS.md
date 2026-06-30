@@ -215,3 +215,19 @@ def sin_derivatives(u_list, order):
     
     return f_list
 ```
+Here we can see that the first implementation is $O(n^3)$ while the second and third implementations are both $O(n^2)$ so how do we decide what implementation to choose from??  
+Well we can see that first implementation is $O(n^3)$ so it has to be the slowest, the loop structure of the third function is cleaner but it also has to manage two extra variables while the second only has to manage one so it must be the second implementation that is the fastest!!  
+Well as everything in production, we can't judge them based off what looks like, we should benchmark them to know for sure!  
+Here are some results:  
+python, pure(1) and utilizing numpy(2):  
+<img src="img/Sine_Derivative_function_comparison_pythonic.png" alt="(1)comparison of the three functions in pure python" width=49%/> <img src="img/Sine_Derivative_function_comparison_python_numpy.png" alt="(2)comparison of the three functions utilizing numpy" width=49%/>  
+
+c++, no optimizations-O0(1) and optimizations enabled-O2(2):  
+<img src="img/Sine_Derivative_function_comparison_cpp_base.png" alt="(1)comparison of the three functions in cpp -O0" width=49%/> <img src="img/Sine_Derivative_function_comparison_cpp_o2.png" alt="(2)comparison of the three functions in cpp -O2" width=49%/>
+Benchmark code will be available [here](benchmark/).  
+
+We can see a clear pattern in all of them regardless of the language and optimization, `derivatives_1` is the slowest as it operates in $O(n^3)$ time complexity, `derivatives_3` comes in at the second position having a time complexity of $O(n^2)$ despite being the cleanest, it comes short of being first with the first place held by `derivatives_2` with a time complexity of $O(n^2)$ and having to manage only a single extra unlike managing 2 in derivatives_3.
+
+Since they have a similar shape in all of the benchmarks, we can conclude using the results of c++(-O2) version at the $\text{order}=1000$ that derivatives_3 and derivatives_2 have times of $5.823360\text{ms}$ & $4.668880\text{ms}$ per function call respectively, making **derivatives_2 roughly $25$ % faster than derivatives_3** .
+
+One interesting thing to note here is that, in the numpy version, derivatives_2 and derivatives_3 don't show quadratic nature but rather a linear one.
