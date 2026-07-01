@@ -254,4 +254,5 @@ Now, that we are on the topic of power related functions let's take a look at [u
 And finally staying on the topic we have our final boss [u(x)<sup>v(x)</sup>](POW.md)
 
 Now, that power functions are over, let's take a look at trigonometry and start with [tan(u(x)) & cot(u(x))](TANCOT.md).  
-Now that you have taken a look at how we tackled $\tan(u(x))$ and $\cot(u(x))$ let's take a look at the basic ones(or not so basic ones as you will see) $\sin(u(x))$ and $\cos(u(x))$ [here](SINCOS.md).
+Now that you have taken a look at how we tackled $\tan(u(x))$ and $\cot(u(x))$ let's take a look at the basic ones(or not so basic ones as you will see) $\sin(u(x))$ and $\cos(u(x))$ [here](SINCOS.md).  
+The only member of trigonometry family remaining are [sec(u(x)) & csc(u(x))](SECCSC.md).
