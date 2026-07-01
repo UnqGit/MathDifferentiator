@@ -1,5 +1,8 @@
-**So...why make new formulae for the stuff nobody is going to need?**  
-### Because I can.
+# Higher Order Derivative Formulae
+A collection of recurrence relations for efficiently computing the nth derivative of composite functions without repeatedly applying symbolic differentiation.
+
+Why spend months deriving formulas nobody asked for? Because it's fun, because there are interesting patterns hiding underneath, and because sometimes reinventing the wheel teaches you more than using the wheel.
+
 > [!NOTE]
 > I will be using the notation $f_n$ for showcasing the $n^{th}$ derivative of a function $f$ instead of the $f^{(n)}$ notation because it will be clearer to showcase the ideas.
 
