@@ -71,7 +71,7 @@ print(f"The first {order} derivatives of sin(u(x)) are: {derivatives}")
     - Hyperbolic Trigonometry:
         - $\sinh(u(x))$ & $\cosh(u(x))$
         - $\coth(u(x))$ & $\tanh(u(x))$
-        - $\operatorname{csch}(u(x))$ & $\operatorname{sech}(u(x))$
+        - **csch** $(u(x))$ & **sech** $(u(x))$
 
 - **Full sequences**: Computes all derivatives from order $0$ up to a desired order $n$ in $O(n^2)$.  
 - **Targeted orders**: Computes the nth derivative in O(n) when all derivatives of the inner function and previously calculated derivatives of the function are available.  
