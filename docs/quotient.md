@@ -1,40 +1,55 @@
 # Fractional functions
-Let's have a look at the functions of the format:  
-$f(x) = \frac {u(x)} {v(x)}$
+Let's have a look at the functions of the format $f(x) = \frac {u(x)} {v(x)}$
 
-## $\frac {1} {x}$:
-Let's start by looking at just $f(x) = \frac {1} {x}$.  
-Starting by derivating the first few derivatives of the function:
+## Reciprocal functions
+
+### Simplest Reciprocal
+Let's start by looking at $f(x) = \frac {1} {x}$.  
+First few derivatives of the function is:
 ```math
 \begin{align*}
-&f = \frac {1} {x} \\
-&f_1 = -\frac {1} {x^2} \\
-&f_2 = \frac {2} {x^3} \\
-&f_3 = -\frac {6} {x^4} \\
-&f_4 = \frac {24} {x^5} \\
+f   &=   \frac {1} {x} \\
+f_1 &= - \frac {1} {x^2} \\
+f_2 &=   \frac {2} {x^3} \\
+f_3 &= - \frac {6} {x^4} \\
+f_4 &=   \frac {24} {x^5} \\
 \end{align*}
 ```
+The astute amongst you might have spotted it already there are factorials in here!  
 
-Now, the astute amongst you might have spotted it already there are factorials in here!  
-Since $\frac {d} {dx} x^n = nx^{n-1}$ and here the function $\frac 1 x$ is just $x^{-1}$ so each consecutive differentiation step brings another negative number down and decrements the power to the next negative integer, we get:  
-$\prod_{k=1}^n-k$ as the coefficient of $x^{-(n+1)}$ in $f_n$ which is the same as $(-1)^n\cdot n!$.
+#### Why Factorials Appear
+Since 
+```math
+D (x^n) = nx^{n-1}\\
+```
+```math
+D^m(x^n) = n(n-1)(n-2)\dots(n-(m-1))x^{n-m}
+```
+And since here $n=-1$, we have:
+```math
+D^m\left( \frac 1x \right) = (-1)(-2)(-3)\dots(-m)x^{-(m+1)}
+```
+Which boils down to:
+```math
+D^n \left( \frac 1x \right) = x^{-(n+1)}\prod_{k=1}^n -k
+```
 
-
+#### Formula
 > [!IMPORTANT]
-> So this can be easily summed up as:  
+> So this can be easily evaluated as:  
 $f_n = (-1)^n \frac {n!} {x^{n+1}}$
 
-Which in practice, would be just:
+#### Practical Implementation
 ```python
 def one_over_x_derivatives(point, order):
     # n!/x^(n+1)
-    result = math.gamma(order + 1) / pow(x, order + 1)
+    result = math.gamma(order + 1) / (x ** (order + 1))
     # since (-1)^n has only two possible states because n is a +ve integer.
     # it will be 1 if n is even and -1 if n is odd
     return result if order % 2 == 0 else -result
 ```
 
-## $\frac 1 {u(x)}$:
+### General Reciprocal
 Let's now do it for the function $f(x) = \frac 1 {u(x)}$.  
 Starting by derivating the first few derivatives of the function:
 ```math
@@ -48,8 +63,8 @@ Starting by derivating the first few derivatives of the function:
 ```
 
 Hmmm, looks interesting but doesn't seem like it makes a formula, does it?  
-*[Bell polynomials](https://en.wikipedia.org/wiki/Bell_polynomials)  
-Let's do it our way, by replacing with previous definitions:
+
+By changing up from the start and writing $f_1 = - \frac {u_1f} {u}$ instead of $f_1 = - \frac {u_1} {u^2}$ and differentiating further, we have:
 ```math
 \begin{align*}
 &f = \frac {1} {u} \\
@@ -59,9 +74,7 @@ Let's do it our way, by replacing with previous definitions:
 &f_4 = - \frac {u_4f} {u} - 4\frac {u_3f_1} {u} - 6\frac {u_2f_2} {u} - 4\frac {u_1f_3} {u} \\
 \end{align*}
 ```
-
-There it is!  
-Now, the some of you might be able to see the formula emerging from it.  
+Some of you might be able to see the formula emerging from it.  
 If you look at the coefficients, they are:
 ```math
 \begin{gather*}
@@ -92,8 +105,8 @@ f_3 : 3,2,1\\
 f_4 : 4,3,2,1\\
 \end{gather*}
 ```
-Each decrease from $n$ till $1$ !  
-And if we look at the orders of the previous derivatives of $f$ used, we can see:
+Each decrease from $n\to1$  
+And if we look at the orders of $f$ used, we can see:
 ```math
 \begin{gather*}
 f_1 : 0\\
@@ -102,8 +115,10 @@ f_3 : 0,1,2\\
 f_4 : 0,1,2,3\\
 \end{gather*}
 ```
-Each increases from $0$ till $n-1$ !  
-So by seeing the pattern and trying to make a formula out of it
+Each increases from $0\to n-1$  
+So by seeing the pattern and trying to make a formula out of it.
+
+#### Formula
 > [!IMPORTANT]
 > We will get:  
 $f_n = -\frac {1} {u} \sum_{k=0}^{n-1}\binom{n}{k}f_{k}u_{n-k}$  
@@ -111,8 +126,7 @@ Or by index manipulation:
 $f_n = -\frac {1} {u} \sum_{k=1}^{n}\binom{n}{k}f_{n-k}u_{k}$  
 where $n \ge 1$ and $u(a) \ne 0$
 
-
-In practice, it would be something like this:
+#### Practical Implementation
 ```python
 def reciprocal_derivatives(u_list, order):
     # u_list holds all the derivatives of the function u (0 till n)
@@ -135,45 +149,43 @@ def reciprocal_derivatives(u_list, order):
 
 Now, I recommend you derive the formula for $f(x) = \frac{u(x)} {v(x)}$ before we get into the next section, as there is also a very neat process to do so too.
 
-## $\frac {u(x)} {v(x)}$:
+## General Fractional Functions
 
-Let's just get straight into this one without really doing boiler plate work.  
-The above section might have seemed a little *'hand wavy'* for some of you, now let's actually derive it using known results so it may seem a little more concrete.
+The above section might have seemed a little *'hand wavy'* for some of you.  
+Now let's actually derive this one using known results without any guessing game, so we can be sure the formula is concrete.
 
-As we derived the *leibniz's formula* in the [README](README.md)  
-We can use that to our advantage.  
-Leibniz's formula:  
-$f_n = \sum_{k=0}^n\binom{n}{k}u_{n-k}v_k$  
-now here to our function $f(x) = \frac {u(x)} {v(x)}$ ($v(x) \ne 0$).
-Let's multiply both sides with $v(x)$, and so we get: $f\cdot v = u$, by applying the leibniz formula on it, we get:
+As we have already derived the *Leibniz's rule* in [`product.md`](product.md), we can use that to our advantage.  
+Leibniz's rule: $f_n = \sum_{k=0}^n\binom{n}{k}u_{n-k}v_k$  
+
+Here, our function is $f(x) = \frac {u(x)} {v(x)}$ ($v(x) \ne 0$).  
+Let's multiply both sides with $v(x)$, which gives us: $f\cdot v = u$, using Leibniz's rule, we get:
 ```math
 u_n = \sum_{k=0}^n\binom{n}{k}f_{n-k}v_k
 ```
-Which we can rewrite as:  
+Extract the first term $k=0$ which contains our desired value $f_n$:  
 ```math
 u_n = \binom{n}{0}f_nv_0 + \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}
 ```
-And since $\binom{n}{r} = \frac {n!} {r!(n-r)!}$ and $0! = 1$.  
-If we calculate $\binom{n}{0}$, it would equal $\frac{n!}{0!n!}$ which is $1$. So we get:  
 ```math
 u_n = f_nv + \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}
 ```
-Subtracting both sides by $\sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}$, we get:
+Rearranging the terms so that $f_nv$ is alone:
 ```math
 f_nv = u_n - \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}
 ```
-Since we assumed $v(x) \ne 0$, divide both sides by $v$ and we get:
+Divide both sides by $v$:
 ```math
 f_n = \frac {u_n - \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}} {v}
 ```
+
+#### Formula
 > [!IMPORTANT]
 > The final formula that comes out is:  
 $f_n = \frac {u_n - \sum_{k=1}^n\binom{n}{k}f_{n-k}v_{k}} {v}$  
 or:  
 $f_n = \frac {u_n - \sum_{k=0}^{n-1}\binom{n}{k}v_{n-k}f_{k}} {v}$  
-Where $n \ge 1$ and $f_0 = \frac u v$.
 
-It's implementation looks like:  
+#### Practical Implementation
 ```python
 def div_derivatives(u_list, v_list, order):
     # u_list and v_list are all the derivattives of u and v respectively
@@ -195,9 +207,11 @@ def div_derivatives(u_list, v_list, order):
     return f_list
 ```
 
-Getting back at the $f = \frac 1 u$, if in $f=\frac u v$ we consider $u\to1$ and $v\to u$ and $n\ge1$, then $\frac {d^n} {dx^n} 1 = 0$ $\forall$ $n \ge1$, we get:  
+### Rederivating General Reciprocals
+Getting back at the $f = \frac 1 u$.  
+If in $f=\frac u v$ we consider $u\to1$, $v\to u$ and $n\ge1$, then we get:  
 > using $f_n = \frac {u_n - \sum_{k=0}^{n-1}\binom{n}{k}v_{n-k}f_{k}} {v}$  
 
-$f_n = -\frac{1}{u}\sum_{k=0}^{n-1}\binom{n}{k}u_{n-k}f_k$, this is the same we got by the *look and guess* process so we can confirm our earlier result was true!
+$f_n = -\frac{1}{u}\sum_{k=0}^{n-1}\binom{n}{k}u_{n-k}f_k$.
 
-Now, you can continue back to the [`logarithm`](LN.md)!
+This is the same we got by the *look and guess* process. Confirming our earlier result.
