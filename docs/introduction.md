@@ -1,10 +1,10 @@
 # Higher Order Derivative Formulae
-A collection of recurrence relations for efficiently computing the nth derivative of composite functions without repeatedly applying symbolic differentiation.
+> A collection of recurrence relations for efficiently computing the nth derivative of composite functions without repeatedly applying symbolic differentiation.
 
 Why spend months deriving formulas nobody asked for? Because it's fun, because there are interesting patterns hiding underneath, and because sometimes reinventing the wheel teaches you more than using the wheel.
 
 > [!NOTE]
-> I will be using the notation $f_n$ for showcasing the $n^{th}$ derivative of a function $f$ instead of the $f^{(n)}$ notation because it will be clearer to showcase the ideas.
+> The notation will $f_n$ for showcasing the $n^{th}$ derivative of a function $f$ instead of the $f^{(n)}$ notation because it will be clearer to showcase the ideas.
 
 Now, derivatives, that we all know and love, have various formulations...  
 <!-- For example the most basic one we were all probably taught is: $`\lim_{k \to 0^+}\frac{f(a) - f(a - h)} {h}`$ (the backwards difference formula). -->
@@ -46,11 +46,10 @@ Yep, that's it, zeroth derivative is itself.
 - First: $\frac {f(a) - f(a - h)} {h}$  
 now let's call them $f$ and $f_1$  
 so, $f_1$ is just $\frac {f(a) - f(a-h)} {h}$  
-I mean, that is the definition right? doing $`\frac {f(a) - f(a - h)} {h}`$ over the base function?  
 what if we take $f_1$ as our base function?  
 well, we get:  
 $f_2(a) = \frac {f_1(a) - f_1(a - h)} {h}$  
-and yes this is our 2nd derivative of the function $f$
+and this is the 2nd derivative of the function $f$.
 
 - If we write $f_2$ in terms of $f$ instead of $f_1$, we get:  
 
@@ -95,7 +94,7 @@ I agree with you, so let's rewrite it using central difference method.
 And the denominators consequently are $(2h)^2$ instead of $h^2$
 
 > [!IMPORTANT]
-> **If you are familiar with binomial series or the pascal's triangle, the coefficients might look a little appealing...we can compress the formula into this:**  
+> **If you are familiar with binomial series or the [pascal's triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle), the coefficients might look a little appealing...we can compress the formula into this:**  
 $f_n(a) \approx \frac {\sum_{k=0}^n \binom {n} {k} (-1)^k f(a + (n - 2k)h)} {(2h)^n}$  
 
 #### The reason why binomial coefficients appear
@@ -119,18 +118,6 @@ For the central difference method we have $f(a+h) - f(a-h)$ instead of $f(a) - f
 f_n(a) \approx \frac {\sum_{k=0}^n \binom{n}{k} (-1)^k f(a + (n - 2k)h)} {(2h)^n}
 ```
 <br>
-
-[Pascal's triangle](https://en.wikipedia.org/wiki/Pascal%27s_triangle)/binomial coefficients(if you are unaware):
-```math
-\begin{gather*}
-1 \\
-1,1 \\
-1,2,1 \\
-1,3,3,1 \\
-1,4,6,4,1 \\
-\cdots
-\end{gather*}
-```
 
 In practice, our new formula would look like:
 ```python
@@ -191,16 +178,15 @@ What will we get from doing it?
 Results which only require the point itself, no nearby points(and floating point issues related to $h$); really optimized solutions; and fun.
 
 ### Starting the journey
-Starting from the top of the list and from the easiest one of all, we will take a look at the formula for nth derivative of $f = u\cdot v$, where $f$, $v$, and $u$ are all functions of $x$ in [product.md](product.md).
+Starting from the top of the list and from the easiest one of all, we will take a look at the formula for $n^{th}$ derivative of $f = u\cdot v$, where $f$, $v$, and $u$ are all functions of $x$ in [product.md](product.md).
 
 Keeping the spirits of arithmetic functions high, the next function we derive a recurrence relation for is $f = \frac uv$ in [quotient.md](quotient.md).  
 
-Let's first start with the [e<sup>f(x)</sup>](EXP.md) function.  
+Just like how on repeated addition we get multiplication, on repeated multiplication we get exponents, so let's move forward and do the [e<sup>u(x)</sup>](EXP.md) function.  
 As you can see there was a significant role of `binomial coefficients` and `pattern matching` and the `leibniz's theorem`.
 
-Which can also be observed in the derivations for higher order derivatives of [ln(f(x))](LN.md).
-Now, that we are on the topic of power related functions let's take a look at [u(x)<sup>c</sup>](CONST_POW.md)  
-And finally staying on the topic we have our final boss [u(x)<sup>v(x)</sup>](POW.md)
+Which can also be observed in the derivations for higher order derivatives of [ln(u(x))](LN.md).
+Now, that we are on the topic of power related functions let's take a look at [u(x)<sup>c</sup>](CONST_POW.md) and finally we have our final boss [u(x)<sup>v(x)</sup>](POW.md)
 
 Now, that power functions are over, let's take a look at trigonometry and start with [tan(u(x)) & cot(u(x))](TANCOT.md).  
 Now that you have taken a look at how we tackled $\tan(u(x))$ and $\cot(u(x))$ let's take a look at the basic ones(or not so basic ones as you will see) $\sin(u(x))$ and $\cos(u(x))$ [here](SINCOS.md).  
