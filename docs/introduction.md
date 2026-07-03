@@ -7,7 +7,7 @@ Why spend months deriving formulas nobody asked for? Because it's fun, because t
 > I will be using the notation $f_n$ for showcasing the $n^{th}$ derivative of a function $f$ instead of the $f^{(n)}$ notation because it will be clearer to showcase the ideas.
 
 Now, derivatives, that we all know and love, have various formulations...  
-For example the most basic one we were all probably taught is: $`\lim_{k \to 0^+}\frac{f(a) - f(a - h)} {h}`$ (the backwards difference formula).
+<!-- For example the most basic one we were all probably taught is: $`\lim_{k \to 0^+}\frac{f(a) - f(a - h)} {h}`$ (the backwards difference formula). -->
 
 
 But let's play around the idea for a bit.
@@ -166,6 +166,8 @@ Which is a massive blunder! It goes out of domain of the logarithm $(x > 0)$.
 But where is the fun in that? We are going to derive our own formulae!
 
 ### Formulae we will derive:
+- $u(x)\cdot v(x)$
+- $\frac {u(x)} {v(x)}$
 - $e^{f(x)}$
 - $u(x)^{v(x)}$
 - $\sqrt{u(x)}$
@@ -174,11 +176,11 @@ But where is the fun in that? We are going to derive our own formulae!
     - $\sin(f(x))$ , $\cos(f(x))$
     - $\cot(f(x))$ , $\tan(f(x))$
     - $\csc(f(x))$ , $\sec(f(x))$
-- inverse trigonometry:
+- Inverse Trigonometry:
     - $\sin^{-1}(f(x))$ , $\cos^{-1}(f(x))$
     - $\cot^{-1}(f(x))$ , $\tan^{-1}(f(x))$
     - $\csc^{-1}(f(x))$ , $\sec^{-1}(f(x))$
-- hyperbolic trigonometry:
+- Hyperbolic Trigonometry:
     - $\sinh(f(x))$ , $\cosh(f(x))$
     - $\coth(f(x))$ , $\tanh(f(x))$
     - **csch** $(f(x))$ , **sech** $(f(x))$
@@ -188,66 +190,10 @@ But where is the fun in that? We are going to derive our own formulae!
 What will we get from doing it?  
 Results which only require the point itself, no nearby points(and floating point issues related to $h$); really optimized solutions; and fun.
 
-> [!TIP]
-> Let's first for understanding look at the formula for nth derivative of `f = u⋅v`  
-> Where f, v, and u are all functions of x.
+### Starting the journey
+Starting from the top of the list and from the easiest one of all, we will take a look at the formula for nth derivative of $f = u\cdot v$, where $f$, $v$, and $u$ are all functions of $x$ in [product.md](product.md).
 
-$f = u \cdot v$  
-So if we apply the product rule, we get:  
-$f_1 = u_1 \cdot v + u \cdot v_1$  
-
-#### Deriving the further derivatives we will get these:  
-```math
-\begin{align*}
-&f = u \cdot v  \\
-&f_1 = u_1 \cdot v + u \cdot v_1  \\
-&f_2 = u_2 \cdot v + 2u_1 \cdot v_1 + u \cdot v_2  \\
-&f_3 = u_3 \cdot v + 3u_2 \cdot v_1 + 3u_1 \cdot v_2 + u \cdot v_3  \\
-&f_4 = u_4 \cdot v + 4 u_3 \cdot v_1 + 6 u_2 \cdot v_2 + 4 u_1 \cdot v_3 + u \cdot v_4  \\
-\end{align*}
-```
-#### If we separate all the coefficients again, we get:  
-```math
-\begin{gather*}
-C_0 = 1  \\
-C_1 = 1, 1  \\
-C_2 = 1, 2, 1  \\
-C_3 = 1, 3, 3, 1  \\
-C_4 = 1, 4, 6, 4, 1  \\
-\end{gather*}
-```
-Or in another words, we get the pascal's triangle(binomial coefficients) again!  
-> [!IMPORTANT]
-> If we were to write it in a compact form, we would get:  
-$`f_n = \sum_{k = 0}^n\binom{n}{k} u_{n-k}\cdot v_{k}`$
-
-A really elegant and simple formula `O(n)` (given that we know all $n+1(0\dots n)$ derivative values of $u$ and $v$)  
-In practice, will look something like this:  
-```python
-def product_derivative(u_list, u_list, order):
-    # u_list is the list of derivatives of u from 0 upto `order` like:
-    # [u0(a), u1(a), u2(a)...u{n}(a)]
-    # same with v_list
-
-    result = 0.0
-
-    for k in range(order + 1):
-        # nCr(n, k) * u{n-k} * v{k}
-        result += nCr(order, k) * u_list[order - k] * v_list[k]
-    
-    return result
-```
-Or if we are going to calculate all the derivatives from $0 \to n$ then:
-```python
-def product_derivatives(u_list, v_list, order):
-    # calculate individual product derivative orders and create a list
-    f_list = [product_derivative(u_list, v_list, n) for n in range(order + 1)]
-    return f_list
-```
-This was just an example, as this result is pretty well known and is referred to as `leibniz's theorem`  
-But now, we will formulate our own formulae!  
-Most of (if not all) of our formulae will be using the Pascal's triangle as a hint anchor, so keep it in mind.  
-And get ready to do a lot of pattern matching!  
+Keeping the spirits of arithmetic functions high, the next function we derive a recurrence relation for is $f = \frac uv$ in [quotient.md](quotient.md).  
 
 Let's first start with the [e<sup>f(x)</sup>](EXP.md) function.  
 As you can see there was a significant role of `binomial coefficients` and `pattern matching` and the `leibniz's theorem`.
