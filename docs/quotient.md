@@ -1,4 +1,4 @@
-# Fraction functions
+# Fractional functions
 Let's have a look at the functions of the format:  
 $f(x) = \frac {u(x)} {v(x)}$
 
