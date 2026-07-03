@@ -1,14 +1,38 @@
 # Higher Order Derivative Formulae
-> A collection of recurrence relations for efficiently computing the nth derivative of composite functions without repeatedly applying symbolic differentiation.
 
-Why spend months deriving formulas nobody asked for? Because it's fun, because there are interesting patterns hiding underneath, and because sometimes reinventing the wheel teaches you more than using the wheel.
+> A collection of recurrence relations for efficiently computing the nth derivative of composite functions.
 
-> [!NOTE]
-> The notation will $f_n$ for showcasing the $n^{th}$ derivative of a function $f$ instead of the $f^{(n)}$ notation because it will be clearer to showcase the ideas.
+Why spend months deriving formulas nobody asked for?
 
-We are going to derive our own formulae!
+Because it's fun.
 
-### Formulae we will derive:
+Because there are interesting patterns hiding underneath.
+
+And because sometimes reinventing the wheel teaches you far more than simply using it.
+
+---
+
+Higher-order derivatives are usually obtained in one of three ways:
+
+- symbolic differentiation
+- automatic differentiation
+- finite difference approximations
+
+This project explores a *fourth* perspective: deriving direct recurrence relations for specific classes of composite functions.
+
+Before diving into those derivations, it's worth looking at the finite difference approach and why it eventually becomes impractical for this goal.
+
+$\rightarrow$ **Read:** [Finite Difference Methods](finite-difference.md)
+
+Finite differences are elegant and surprisingly efficient after simplification, but they remain *numerical approximations* whose accuracy depends on choosing an appropriate step size. Higher derivatives magnify floating-point error, and functions with restricted domains introduce additional complications.
+
+Instead of approximating derivatives using nearby sample points, the remainder of this project derives exact recurrence relations for families of composite functions that depend only on derivatives evaluated at the point itself.
+
+Now, most of you who know about computing derivatives would say to just use [`symbolic differentiation`](https://en.wikipedia.org/wiki/Computer_algebra) programs or that `Faà di Bruno’s formula` is the obvious next step.  
+
+But we will approach it in a fun way. We are going to derive our own formulae!
+
+## Formulae we will derive:
 - $u(x)\cdot v(x)$
 - $\frac {u(x)} {v(x)}$
 - $e^{f(x)}$
@@ -33,7 +57,7 @@ We are going to derive our own formulae!
 What will we get from doing it?  
 Results which only require the point itself, no nearby points(and floating point issues related to $h$); really optimized solutions; and fun.
 
-### Starting the journey
+## Starting the journey
 Starting from the top of the list and from the easiest one of all, we will take a look at the formula for $n^{th}$ derivative of $f = u\cdot v$, where $f$, $v$, and $u$ are all functions of $x$ in [product.md](product.md).
 
 Keeping the spirits of arithmetic functions high, the next function we derive a recurrence relation for is $f = \frac uv$ in [quotient.md](quotient.md).  
