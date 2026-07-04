@@ -1,8 +1,7 @@
 # Tan and Cot
 
-With this file, we will be starting with trigonometry, now out of the two, let's start with 
-
-## $\tan(u(x))$
+## Tan
+### Linear Inner Function
 Let's first take $u(x) = ax + b$ where $a$ and $b$ are constants.
 
 So the first few derivatives we have is:
@@ -14,17 +13,18 @@ f_1 &= \sec^2(ax+b) \\
 &= a + af^2 \\
 \end{align*}
 ```
-Differentiating $f_1 = a + af^2$, $n - 1$ times using the leibniz's rule, we have:  
+Differentiating $f_1 = a + af^2$, $n - 1$ times using the Leibniz's rule, we have:  
 ```math
 f_n = a\sum_{k=0}^{n-1}\binom{n-1}{k}f_kf_{n-k}
 ```
+#### Formula
 > [!IMPORTANT]
 > And so we have:
 $f_n = a\sum_{k=0}^{n-1}\binom{n-1}{k}f_kf_{n-k-1}:n\ge2$  
 $f_1 = a + af^2$  
 $f = \tan(ax+b)$
 
-or practically:
+#### Practical Implementation
 ```python
 def tan_linear_derivatives(slope, point, intercept, order):
     # reserving space for all the derivatives of f
@@ -38,9 +38,11 @@ def tan_linear_derivatives(slope, point, intercept, order):
     
     return f_list
 ```
-It uses the `product_derivative` function we wrote in [README](README.md).  
+For Lebniz's rule $\rightarrow$ **refer:** [`quotient.md`](..\quotient.md)
 
+### General Inner Function
 Now, let's consider the general case, we have the function $f = \tan(u(x))$  
+#### Cubic Disaster
 The first derivative is $f_1 = \sec^2(u)u_1$, and with the identity $\sec^2(x) = \tan^2(x) + 1$, we have: $f_1 = (1 + f^2)u_1$ or:
 ```math
 f_1 = u_1 + f^2u_1
@@ -61,12 +63,13 @@ f_n &= u_n + \sum_{k=0}^{n-1}\binom{n-1}{k}h_ku_{n-k} \\
 f_n &= u_n + \sum_{k=0}^{n-1}\binom{n-1}{k}u_{n-k}\left(\sum_{r=0}^k\binom{k}{r}f_rf_{k-r}\right) \\
 \end{align*}
 ```
+#### Formula
 > [!IMPORTANT]
 > So the formula we have:  
 $f_n = u_n + \sum_{k=0}^{n-1}\binom{n-1}{k}u_{n-k}\left(\sum_{r=0}^k\binom{k}{r}f_rf_{k-r}\right):n\ge1$  
 $f = \tan(u)$
 
-In practice:
+#### Practical Implementation
 ```python
 def tan_derivatives(u_list, order):
     # u_list is the list of all the derivatives of u from order 0 to n
@@ -88,8 +91,23 @@ def tan_derivatives(u_list, order):
     
     return f_list
 ```
-But WAIT! if you look at it closely, if we we are calculating $f_{n+1}$ we do the calculations for $(f^2)\dots(f^2)_{n-1}$ that we already did for $f_n$, we are doing redundant work!  
-If we store previous values of $h_k$, we have:
+#### Reality Is Quadratic
+
+If we look at the Implementation closely...
+
+For calculation of $f_{n}$ we require $[f^2, D(f^2), D^2(f^2),\dots D^{n-1}(f^2)]$.  
+For calculation of $f_{n+1}$ we require $[f^2, D(f^2), D^2(f^2),\dots D^{n}(f^2)]$.  
+
+But we already calculated every term except $D^n(f^2)$ in $f_n$ that we need for $f_{n+1}$, so if we cache those results, we can reduce the time complexity.
+
+#### Formula
+> [!IMPORTANT]
+> making our function:  
+$f_n = u_n + \sum_{k=0}^{n-1}\binom{n-1}{k}h_ku_{n-k} : n \ge 1$  
+$f = \tan(u)$  
+where: $h_n = \sum_{k=0}^n\binom{n}{k}f_kf_{n-k}$  
+
+#### Practical Implementation
 ```python
 def tan_derivatives(u_list, order):
     # u_list is the list of all the derivatives of u from order 0 to n
@@ -111,15 +129,10 @@ def tan_derivatives(u_list, order):
     
     return f_list
 ```
-> [!IMPORTANT]
-> making our function:  
-$f_n = u_n + \sum_{k=0}^{n-1}\binom{n-1}{k}h_ku_{n-k} : n \ge 1$  
-$f = \tan(u)$  
-where: $h_n = \sum_{k=0}^n\binom{n}{k}f_kf_{n-k}$  
 
 That reduced our time complexity from $O(n^3) \to O(n^2)$ using memoization!
 
-## $\cot(u(x))$
+## Cot
 Now, let's take a look at $f = \cot(u)$, the standard first derivative of this function is:
 ```math
 f_1 = -\csc^2(u)u_1
@@ -128,14 +141,16 @@ or again, by the pythagorean identity $\csc^2(x) = \cot^2(x) + 1$ we have $f_1 =
 ```math
 f_1 = -u_1 - f^2u_1
 ```
-This is algebraically same as the $f_1$ equation in the above $\tan$ section but negated, so we can use the result of $\tan$'s $n\ge1$ case.
+This is algebraically same as the $f_1$ equation in the above $\tan$ section but negated, so we can use the result of $\tan$ and negate it.
+
+#### Formula
 > [!IMPORTANT]
 > That is:  
 $f_n = -u_n - \sum_{k=0}^{n-1}\binom{n-1}{k}h_ku_{n-k} : n \ge 1$  
 $f = \cot(u)$  
 where: $h_n = \sum_{k=0}^n\binom{n}{k}f_kf_{n-k}$  
 
-Implemented, it looks like:
+#### Practical Implementation
 ```python
 def cot_derivatives(u_list, order):
     # u_list is the list of all the derivatives of u from order 0 to n
@@ -159,4 +174,3 @@ def cot_derivatives(u_list, order):
     
     return f_list
 ```
-And that is it for the tan and cot section, simple and precise.
