@@ -64,11 +64,10 @@ f_n = \frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot f_k} {u}
 ### Formula
 > [!IMPORTANT]
 > So we get the formula:  
-$f_n = \frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot f_k} {u} : n \ge 2$  
-$f_1 = \frac {u_1} u$  
+$f_n = \frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot f_k} {u} : n \ge 1$  
 $f = \ln(u)$
 
-> We could have also reached this result by derivating $\ln(u(x))$ once and applying the quotient rule [formula](QUO.md) we derivated on $\frac {d} {dx}\ln(u(x)) = \frac {u_1(x)} {u(x)}$.
+> We could have also reached this result by derivating $\ln(u(x))$ once and applying the quotient rule we derivated on $\frac {d} {dx}\ln(u(x)) = \frac {u_1(x)} {u(x)}$ $\rightarrow$ **refer:** [`quotient.md`](quotient.md).
 
 ### Practical Implementation
 ```python
@@ -112,7 +111,8 @@ we get:
 ```math
 f(x) = \frac {h(x)} {g(x)}
 ```
-and after using the quotient formula that we had developed earlier, we get:
+and after using the quotient formula that we had developed earlier, we get our:
+### Formula
 ```math
 f_n = \frac {h_n - \sum_{k=1}^n\binom{n}{k}h_{n-k}g_{k}} {g}
 ```
@@ -126,7 +126,7 @@ g_m &= \frac {v_m - \sum_{k = 1}^{m-1}\binom{m-1}{k-1}v_{m-k}\cdot g_k} {v} \\
 ```
 respectively, using the $\ln$ formula we derived earlier.  
 
-### Formula
+### Practical Implementation
 The formula only uses the tools we have derived earlier, practically speaking, we don't need an explicit formula that can and *will* be more complex than it needs to be.  
 
 Calculating it without an explicit formula will be fairly simple:
