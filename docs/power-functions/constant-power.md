@@ -1,15 +1,18 @@
 # Constant Power Functions
 In this file we will be discussing about the $n^{th}$ derivative of the function $f(x) = u(x)^c$  
 The most familiar case that we encounter for this function is $c = \frac 1 2$. So let's take a look at it first.
-## $\sqrt {u(x)}$:
-Let's get on!  
+
+## Square Root Case
 Let's define $f = \sqrt u$  
+### Derivation
 Squaring both sides gives us $f^2 = u$ which is $f\cdot f = u$.  
-If we differentiate both sides $n$ times, it is an application of leibniz's formula on the left, which gives us:
+If we differentiate both sides $n$ times, it is an application of Leibniz's rule $\rightarrow$ **refer:** [`product.md`](..\product.md).
+
+That gives us:
 ```math
 u_n = \sum_{k=0}^{n}\binom{n}{k}f_kf_{n-k}
 ```
-Since, the first $(k=0)$ and the last $(k=n)$ term contain our desired $f_n$ terms, let's take them out of the summation:
+Since, the first $k=0$ and the last $k=n$ term contain our desired $f_n$ terms, let's take them out of the summation:
 ```math
 \begin{align*}
 &u_n = ff_n+f_nf+\sum_{k=1}^{n-1}\binom{n}{k}f_kf_{n-k} \\
@@ -20,101 +23,64 @@ And with simple rearrangements, we have:
 ```math
 f_n = \frac {u_n-\sum_{k=1}^{n-1}\binom{n}{k}f_kf_{n-k}} {2f}
 ```
-Now, you can skip to the [final result](#result) or go through with the following derivation which is just a *scenic route* that gets to the same result but with some index shifting and binomial manipulations that are also used in the general case derivation, so it may be worth taking a look at how these are done.  
-Let's start!  
-The first derivatives of the function $f = \sqrt u$, will be:
+Which is same as:
 ```math
-f_1 = \frac {u_1} {2\sqrt u}
+f_n = \frac {u_{n} - 2\sum_{k=1}^{n-1}\binom{n-1}{k-1}f_{k}f_{n-k}} {2f}
 ```
-Since $f = \sqrt u$ it also equals:
+If you follow this
+
+### Lemma
+Let's say:
 ```math
-f_1 = \frac {u_1} {2f}
+\begin{align*}
+S_1 &= \sum_{k=1}^{n-1}\binom{n}{k}f_{k}f_{n-k} \\ 
+S_2 &= \sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k} \\ 
+S_3 &= \sum_{k=1}^{n-1}\binom{n-1}{k-1}f_{k}f_{n-k} \\ 
+\end{align*}
 ```
-Multiplying both sides by $f$ we get:
-```math
-f_1f = \frac 1 2 u_1
-```  
-Let's define $h = f_1$ and $v = u_1$, now we have:  
-```math
-hf = \frac 1 2 v
-```
-By leibniz formula, we know that if we have some function $y = h\cdot f$, it's nth derivative is equal to:
-```math
-y_n = \sum_{k=0}^{n}\binom{n}{k}f_{k}h_{n-k}
-```
-On the **RHS**, differentiating n times will yield us $\frac 1 2 v_n$.  
-After these operations, we have:
-```math
-\frac 1 2 v_n = \sum_{k=0}^{n}\binom{n}{k}f_{k}h_{n-k}
-```
-If we define an operator $D = \frac d {dx}$ and we have some function $f =  D^ku$, differentiating both sides w.r.t. $x$, n times, will result in $D^nf = D^{n+k}u$ or in our notation $f_n = u_{n+k}$.  
-By this knowledge, we can replace $h_m \longrightarrow f_{m+1}$ and $v_m \longrightarrow u_{m+1}$, and now we have:
-```math
-\frac 1 2 u_{n+1} = \sum_{k=0}^{n}\binom{n}{k}f_{k}f_{n-k+1}
-```
-Replacing $n \longrightarrow n-1$, we get:  
-```math
-\frac 1 2 u_{n} = \sum_{k=0}^{n-1}\binom{n-1}{k}f_{k}f_{n-k}
-```
-If we take the $k = 0$ term out of the summation, we get:
-```math
-\frac 1 2 u_{n} = f\cdot f_n + \sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k}
-```  
-Subtracting $\sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k}$ from both sides, we get:
-```math
-\begin{equation}
-f\cdot f_n = \frac 1 2 u_{n} - \sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k}
-\end{equation}
-```
-On the **RHS**, taking the LCM of 2, we get:
-```math
-\frac {u_{n} - 2\sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k}} 2
-```
-If we take the summation as $S_1$:
-```math
-2\sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k}
-```
-And let's take $S_2$:
-```math
-\sum_{k=1}^{n-1}\binom{n}{k}f_{k}f_{n-k}
-```  
 By Pascal's triangle, we know that:
 ```math
 \binom{n}{k} = \binom{n-1}{k}+\binom{n-1}{k-1}
 ```
 So:
 ```math
-S_2 = \sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k} + \sum_{k=1}^{n-1}\binom{n-1}{k-1}f_{k}f_{n-k}
+S_1 = \sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k} + \sum_{k=1}^{n-1}\binom{n-1}{k-1}f_{k}f_{n-k}
 ```
-Let's take $S_3$ as:
+Or:
 ```math
-\sum_{k=1}^{n-1}\binom{n-1}{k-1}f_{k}f_{n-k}
+S_1 = S_2 + S_3
 ```
-Taking a new index $j = n-k$, we get:
+Taking a new index $j = n-k$ in $S_2$, we get:
 ```math
-\sum_{j=1}^{n-1}\binom{n-1}{j}f_{n-j}f_{j}
+\sum_{j=n-1}^{1}\binom{n-1}{n-j}f_{n-j}f_{j}
 ```
-And because multiplication is commutative, we have $S_1 = 2S_3$ and $S_2=2S_3$ respectively, we have the result $S_1 = S_2$. $\left(2\right)$  
-Now, in equation $(1)$, if we divide both sides by $f$, we get:
+$\binom {n-1}{n-j} = \binom {n-1} {n-1-(n-j)}$:
 ```math
-f_n = \frac {u_{n} - 2\sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k}} {2f}
+\sum_{j=n-1}^{1}\binom{n-1}{j-1}f_{n-j}f_{j}
 ```
-Or with our substitution using equation $(2)$:
+$j \leftrightarrow k$:
 ```math
-f_n = \frac {u_{n} - \sum_{k=1}^{n-1}\binom{n}{k}f_{k}f_{n-k}} {2f}
+\sum_{k=1}^{n-1}\binom{n-1}{k-1}f_{n-k}f_{k}
 ```
-So even though we arrived at different conclusions, we still got the same
-#### result:
+That is: $S_2 = S_3$
+
+Which gives:
+```math
+S_1 = 2S_3
+```
+That is:
+```math
+\frac {u_{n} - \sum_{k=1}^{n-1}\binom{n}{k}f_{k}f_{n-k}} {2f} \equiv \frac {u_{n} - 2\sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k}} {2f}
+```
+So we have our final
+#### Formula:
 > [!IMPORTANT]
-> And so our final recurrence relation for $\sqrt {u(x)}$ is:  
-$f_n = \frac {u_{n} - 2\sum_{k=1}^{n-1}\binom{n-1}{k}f_{k}f_{n-k}} {2f}$  
+$f_n = \frac {u_{n} - 2\sum_{k=1}^{n-1}\binom{n-1}{k-1}f_{k}f_{n-k}} {2f}$  
 Or:  
-$f_n = \frac {u_{n} - \sum_{k=1}^{n-1}\binom{n}{k}f_{k}f_{n-k}} {2f}$  
-$: n \ge 2$  
-$f_1 = \frac {u_1} {2f}$  
+$f_n = \frac {u_{n} - \sum_{k=1}^{n-1}\binom{n}{k}f_{k}f_{n-k}} {2f}: n \ge 1$  
 $f = \sqrt u$
 
-In code:
+#### Practical Implementation
 ```python
 def sqrt_derivatives(u_list, order):
     # u_list contains all the derivatives of u from order 0 till n
@@ -135,9 +101,12 @@ def sqrt_derivatives(u_list, order):
     return f_list
 ```
 Now that we have taken a look at $f = \sqrt {u(x)}$, let's take a look at the more general case of this function: $f(x) = u(x)^c$ where $c$ is a constant.
-## $u(x)^c$
-Firstly, we can't raise both sides of the equation $f(x) = u(x)^c$ to the power of $\frac 1 c$ as we did with $f=\sqrt u$ since it lands us on $f(x)^{\frac 1 c} = u(x)$ and since $c$ is a constant, we can consider $k=\frac 1 c$. So, we have $f(x)^k = u(x)$ which is our original problem.  
 
+## General Constant Power
+### Following The Square Root Path
+Firstly, we can't raise both sides of the equation $f(x) = u(x)^c$ to the power of $\frac 1 c$ as we did with $f=\sqrt u$ since it lands us on $f(x)^{\frac 1 c} = u(x)$ and since $c$ is a constant, we can consider $k=\frac 1 c$. So, we have $f(x)^k = u(x)$ which is the same as our original problem.  
+
+### Utilizing Logarithm
 Secondly, let's take a look at what happen if we go with the $\ln$ route.  
 Let's take $\ln$ on both sides of the equation $f = u^c$, we have:
 ```math
@@ -160,30 +129,24 @@ Differentiating both sides $n$ times gives us:
 ```  
 We know that if we have a function $y = \ln(g)$, the $n^{th}$ derivative is:
 ```math
-y_n = \frac {g_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}g_{n-k}\cdot y_k} {g} : n \ge 2
+y_n = \frac {g_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}g_{n-k}\cdot y_k} {g} : n \ge 1
 ```
-Pluging it into the equation $h_n = c\cdot v_n$ with the definitions of $h$ and $v$, we have:
+Plugging it into the equation $h_n = c\cdot v_n$ with the definitions of $h$ and $v$, we have:
 ```math
 \frac {f_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}f_{n-k}\cdot h_k} {f} = c\cdot\frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot v_k} {u}
 ```
-Seperating $f_n$ gives us:
+Separating $f_n$ gives us:
 ```math
 f_n = f\left(c\cdot\frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot v_k} {u} + \frac {\sum_{k = 1}^{n-1}\binom{n-1}{k-1}f_{n-k}\cdot h_k} {f}\right)
 ```
 Or:
 ```math
-f_n = \frac {cu_nf} {u} + \frac 1 u \sum_{k=1}^{n-1}\binom{n-1}{k-1}\left(uf_{n-k}h_k-fu_{n-k}v_k\right):n\ge2
+f_n = \frac {cu_nf} {u} + \frac 1 u \sum_{k=1}^{n-1}\binom{n-1}{k-1}\left(uf_{n-k}h_k-fu_{n-k}v_k\right):n\ge 1
 ```
-If we differentiate $\ln(f)=c\ln(u)$ directly, we get:
-```math
-\begin{align*}
-&\frac {f_1} {f} = \frac {cu_1} {u}\\
-&f_1 = \frac {cu_1f} u\\
-\end{align*}
-```
-The final result is a single summation but it requires us defining extra functions, which is not ideal!  
+The final result is a single summation but it requires us defining extra functions, which is not ideal.  
 
-Thirdly and lastly, let's write out the first derivative to our original function $f=u^c$ which we know by the differential identity $\frac d {dx} x^c = cx^{c-1}$, and with chain rule we have:
+### Final Derivation
+Thirdly and lastly, let's the write the first derivative using standard differentiation rules:
 ```math
 f_1 = cu^{c-1}u_1
 ```
@@ -204,27 +167,23 @@ Differentiating both sides $n-1$ times, gives us:
 ```
 Which is just the application of leibniz's formula and since it is symmetric, we get:
 ```math
-\begin{alignat*}{2}
-LHS &= \sum_{k=0}^{n-1}\binom {n-1} k D^k(f_1)D^{n-1-k}(u) &\qquad&=
-\sum_{k=0}^{n-1}\binom {n-1} k D^k(u)D^{n-1-k}(f_1) \\
-RHS &= c\sum_{k=0}^{n-1}\binom {n-1} k D^k(f)D^{n-1-k}(u_1) &\qquad&= c\sum_{k=0}^{n-1}\binom {n-1} k D^k(u_1)D^{n-1-k}(f)\\
-\end{alignat*}
+\begin{align*}
+LHS &= \sum_{k=0}^{n-1}\binom {n-1} k D^k(f_1)D^{n-1-k}(u) \\
+RHS &= c\sum_{k=0}^{n-1}\binom {n-1} k D^k(f)D^{n-1-k}(u_1) \\
+\end{align*}
 ```
 Or in our notation:
 ```math
-\begin{alignat*}{2}
-LHS&=\sum_{k=0}^{n-1}\binom {n-1} k f_{k+1}u_{n-1-k} &\qquad&=
-\sum_{k=0}^{n-1}\binom {n-1} k u_kf_{n-k}\\
-RHS&=c\sum_{k=0}^{n-1}\binom {n-1} k f_ku_{n-k} &\qquad&=
-c\sum_{k=0}^{n-1}\binom {n-1} k u_{k+1}f_{n-1-k}\\
-\end{alignat*}
+\begin{align*}
+LHS&=\sum_{k=0}^{n-1}\binom {n-1} k f_{k+1}u_{n-1-k} \\
+RHS&=c\sum_{k=0}^{n-1}\binom {n-1} k f_ku_{n-k} \\
+\end{align*}
 ```
-Let's call them $LHS(a), LHS(b)$ and $RHS(a), RHS(b)$.  
-Taking $LHS(a)$ and $RHS(a)$, we get:
+So now we have:
 ```math
 \sum_{k=0}^{n-1}\binom {n-1} k f_{1+k}u_{n-1-k} = c\sum_{k=0}^{n-1}\binom {n-1} k f_ku_{n-k}  
 ```
-Taking out the last term $(k = n-1)$ from the LHS, we have:
+Taking out the last term $k = n-1$ from the LHS, we have:
 ```math
 \begin{align*}
 &f_nu + \sum_{k=0}^{n-2}\binom {n-1} k f_{1+k}u_{n-1-k} = c\sum_{k=0}^{n-1}\binom {n-1} k f_ku_{n-k}\\
@@ -235,7 +194,7 @@ Defining a new index $j = n-1-k$ and replacing it with $k$ in the second summati
 ```math
 f_nu = c\sum_{k=0}^{n-1}\binom {n-1} k f_ku_{n-k} - \sum_{k=1}^{n-1}\binom {n-1} k f_{n-k}u_{k}
 ```
-Taking out the first term $(k=0)$ from the first summation, we get:
+Taking out the first term $k=0$ from the first summation, we get:
 ```math
 \begin{align*}
 &f_nu = cfu_n + c\sum_{k=1}^{n-1}\binom {n-1} k f_ku_{n-k} - \sum_{k=1}^{n-1}\binom {n-1} k f_{n-k}u_k\\
@@ -253,9 +212,9 @@ f_nu=cfu_n+\sum_{k=1}^{n-1}f_{n-k}u_k\left(c\binom{n-1}{k-1}-\binom{n-1}{k}\righ
 But:
 ```math
 \begin{alignat*}{2}
-\binom {n-1}{k-1} &= \frac {(n-1)!} {(k-1)!(n-k)!} &\qquad \binom {n-1}k &= \frac {(n-1)!} {k!(n-k-1)!}\\
+\binom {n-1}{k-1} &= \frac {(n-1)!} {(k-1)!(n-k)!} &\qquad \binom {n-1}k &= \frac {(n-1)!} {k!(n-k-1)!}\\ \\
 A&=\frac {(n-1)!} {(n-k)(k-1)!(n-k-1)!} &\qquad B&=\frac {(n-1)!} {k(k-1)!(n-k-1)!}\\
-A &= B\frac{k}{n-k} &\qquad B &= A\frac {n-k} {k}\\
+A &= B\frac{k}{n-k} &\qquad B &= A\frac {n-k} {k}\\ \\
 \binom {n-1} {k-1}&=\binom{n-1}k\frac k {n-k} &\qquad \binom {n-1} {k} &= \binom {n-1} {k-1}\frac {n-k} k
 \end{alignat*}
 ```
@@ -267,17 +226,16 @@ f_n&=\frac{cfu_n}u+\frac1u\sum_{k=1}^{n-1}\left(c\binom{n-1}{k-1}-\binom{n-1}{k}
 &=\frac{cfu_n}u+\frac1{u}\sum_{k=1}^{n-1}\binom{n-1}{k-1}\left(c-\frac nk+1\right)f_{n-k}u_k
 \end{align*}
 ```
-Personally speaking, I prefer them in the reverse order they are presented above and after all the fuss, in the end we finally have our result!
+Finally in the end we finally have our 
+
+#### Formula
 > [!IMPORTANT]
-> The result being:  
 $f_n = \frac{cfu_n}u+\frac1{u}\sum_{k=1}^{n-1}\binom{n-1}{k-1}\left(c-\frac nk+1\right)f_{n-k}u_k$  
 Or:  
-$f_n = \frac{cfu_n}u+\frac1u\sum_{k=1}^{n-1}\binom{n-1}k\left(\frac{kc}{n-k}-1\right)f_{n-k}u_k$  
-for $n \ge 2$  
-$f_1 = \frac{cfu_1}u$  
+$f_n = \frac{cfu_n}u+\frac1u\sum_{k=1}^{n-1}\binom{n-1}k\left(\frac{kc}{n-k}-1\right)f_{n-k}u_k : n \ge 1$  
 $f = u^c$
 
-In implementation:
+#### Practical Implementation
 ```python
 def const_pow_derivatives(u_list, c, order):
     # u_list contains all the derivatives of the function u from order 0 to n
@@ -298,5 +256,3 @@ def const_pow_derivatives(u_list, c, order):
 
     return f_list
 ```
-
-And so we are finally done with it! Let's go back to [README](README.md) to continue with the rest of the functions!
