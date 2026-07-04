@@ -120,9 +120,11 @@ With those tools established, we tackle power functions. We first derive the rec
 $\quad\rightarrow$ [`constant power`](power-functions/constant-power.md)  
 $\quad\rightarrow$ [`general power`](power-functions/general-power.md)  
 
-Finally, we enter the world of trigonometric functions. Rather than beginning with sin and cos, we start with tan and cot, whose recurrences expose structures that make the later derivations feel much more natural. From there we derive formulas for sin and cos, and conclude the trigonometric family with sec and csc:  
+Finally, we enter the world of trigonometric functions. Rather than beginning with sin and cos, we start with tan and cot, whose recurrences expose structures that make the later derivations feel much more natural. From there we derive formulas for sin and cos, and conclude the trigonometric family with sec and csc.  
+We then revisit the derivation of sin and cos, where a subtle gap appears. By invoking a remarkable identity—what we call Euler's Grace—the argument is repaired, and the derivations of sec and csc inherit the same firm foundation:  
 $\quad\rightarrow$ [`tan and cot`](trigonometry/tan-cot.md)  
 $\quad\rightarrow$ [`sin and cos`](trigonometry/sin-cos.md)  
-$\quad\rightarrow$ [`sec and csc`](trigonometry/sec-csc.md)
+$\quad\rightarrow$ [`sec and csc`](trigonometry/sec-csc.md)  
+$\quad\rightarrow$ [`Euler's Grace`](trigonometry/eulers-grace.md)  
 
 Each chapter builds on techniques introduced earlier, so reading them roughly in order is recommended—even if you're only interested in a particular formula.
