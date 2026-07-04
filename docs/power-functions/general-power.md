@@ -1,33 +1,42 @@
-# POW 
-Earlier, we calculated $f =$ [a<sup>u(x)</sup>](EXP.md#different-constant-bases) and $f =$ [u(x)<sup>c</sup>](CONST_POW.md#-1) so let's do $u(x)^{v(x)}$.  
+# General Power Functions
+Earlier, we calculated $f = a^{u(x)}$ and $f = u(x)^c$.  
+So let's do $u(x)^{v(x)}$.  
+
+### Function Architecture
 Let's consider $f = u^v$, we can write $u^v$ as $e^{v\ln(u)}$  
-If we draw the order of operations on that, it will be a tree resembling:
+If we draw the order of operations on this function, it will resemble a tree:
 ```mermaid
 graph BT;
-    A((x)) --> B(u);
-    A --> C(v);
-    B --> D[(ln)];
-    C --> E;
-    D --> E{×};
-    E --> F[(exp)];
+    A((x)) ==> B(u);
+    A      ==> C(v);
+    B      ==> D[(ln)];
+    C      ==> E;
+    D      ==> E{×};
+    E      ==> F[(exp)];
 ```
-I am going to admit that I did try to find a closed recurrence relation for this function too but i was not really successful and by the pattern I noticed it is going to include nested summations so instead of a $O(n^{3+})$ function, let's do the smart thing and use the functions we already did solve!  
-Let's consider $h = \ln(u)$, so we have:
+So, if we consider $g=\ln(u)$ and $h=vg$, we have $f = e^h$, and by using the formula for $e^u$ $\rightarrow$ **refer:** [`exponential.md`](exponential.md).  
+We will have our:
+### Formula
 ```math
-h_n = \frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot h_k} {u}
+f_n = \sum_{k = 0}^{n - 1}\binom{n-1}{k}f_{k}h_{n-k}
 ```
-By using the formula we derived for [ln](LN.md), and if we consider $g = v\ln(u) \equiv vh$, by lebiniz's formula, we have:
+Where:
 ```math
-g_n = \sum_{k = 0}^n\binom{n}{k} v_{n-k}h_{k}
+h_n = \sum_{k = 0}^n\binom{n}{k} v_{n-k} g_{k}
 ```
-and finally because we have $f = e^g$ by using our exp [formula](EXP.md), we have:
+using Leibniz's rule $\rightarrow$ **refer:** [`product.md`](..\product.md)  
+And:
 ```math
-f_n = \sum_{k = 1}^{n}\binom{n-1}{k-1}f_{n-k} g_k
+\begin{align*}
+g_n &= \frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}g_k} {u} : n \ge 1 \\
+g &= \ln(u) \\
+\end{align*}
 ```
+Using the formula we derived for logarithm $\rightarrow$ **refer:** [`logarithm.md`](..\logarithm.md)  
 
-Or if we write a program assuming we have all our different functions already built:
+### Practical Implementation
 ```python
-def pow_derivatives(u_list, v_list, order):
+def general_pow_derivatives(u_list, v_list, order):
     # u_list is the list of all the derivatives of u from order 0..n
     # same with v_list
 
@@ -37,5 +46,4 @@ def pow_derivatives(u_list, v_list, order):
     
     return f_list
 ```
-This uses already built functions and it is just us using them as modular bricks to get what we want.  
-Let's go right back to [README](README.md) to explore other functions!
+This uses the functions we already built and we can use them as building blocks for this case.
