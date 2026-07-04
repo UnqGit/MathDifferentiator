@@ -1,11 +1,11 @@
 # Sin and Cos
 
-The characters where the story known as trigonometry starts at the simple and delightful, $\sin$ & $\cos$.  
+The characters where the story known as trigonometry starts at, the simple and delightful, $\sin$ & $\cos$.  
 
-Starting with:
-## $\sin(u(x))$
-There are plethora of ways we can tackle this problem and we will take a look at various ways.  
-#### Derivation 1:  
+## Sin
+
+There are a plethora of ways we can tackle this problem and we will take a look at various ways.  
+### Derivation 1
 Let's get right into it, so, we have our function $f(x) = \sin(u(x))$ or 
 ```math
 f = \sin(u)
@@ -39,7 +39,8 @@ If we apply Leibniz's rule on both sides of the equation $n-1$ times, we get:
 ```math
 \sum_{k=0}^{n-1}\binom{n-1}{k}f_{k+1}f_{n-k}=\sum_{k=0}^{n-1}\binom{n-1}{k}u_{k+1}u_{n-k}-\sum_{k=0}^{n-1}\binom{n-1}{k}\left(\sum_{r=0}^{k}\binom{k}{r}u_{r+1}f_{k-r}\right)\left(\sum_{r=0}^{n-k-1}\binom{n-k-1}{r}u_{r+1}f_{n-k-r-1}\right)
 ```
-That is pure mess, but let's work with it...  
+That is pure mess, but let's work with it.
+
 Looking at the LHS, we can see that $f_n$ appears only two times in that summation, the first $k=0$ and the last $k=n-1$ terms, so taking them out of the summation, we get:
 ```math
 2f_{1}f_{n}=\sum_{k=0}^{n-1}\binom{n-1}{k}u_{k+1}u_{n-k}-\sum_{k=0}^{n-1}\binom{n-1}{k}\left(\sum_{r=0}^{k}\binom{k}{r}u_{r+1}f_{k-r}\right)\left(\sum_{r=0}^{n-k-1}\binom{n-k-1}{r}u_{r+1}f_{n-k-r-1}\right)-\sum_{k=1}^{n-2}\binom{n-1}{k}f_{k+1}f_{n-k}
@@ -56,20 +57,25 @@ and now collapse it
 ```math
 2f_{1}f_{n}=2u_{1}u_{n}-2u_{1}^{2}ff_{n-1}-2u_{1}u_{n}f^2+\sum_{k=1}^{n-2}\binom{n-1}{k}\left(u_{k+1}u_{n-k}-f_{k+1}f_{n-k}-2u_{1}fu_{k+1}f_{n-k-1}-\left(\sum_{r=0}^{k}\binom{k}{r}u_{r+1}f_{k-r}\right)\left(\sum_{r=0}^{n-k-1}\binom{n-k-1}{r}u_{r+1}f_{n-k-r-1}\right)\right)
 ```
-simplifying a bit
+Extract $f_n$
 ```math
 \begin{align*}
-2f_{1}f_{n}&=2u_{1}u_{n}(1-f^2)-2u_{1}^{2}ff_{n-1}+\sum_{k=1}^{n-2}\binom{n-1}{k}\left(u_{k+1}(u_{n-k}-2u_{1}ff_{n-k-1})-f_{k+1}f_{n-k}-\left(\sum_{r=0}^{k}\binom{k}{r}u_{r+1}f_{k-r}\right)\left(\sum_{r=0}^{n-k-1}\binom{n-k-1}{r}u_{r+1}f_{n-k-r-1}\right)\right) \\
-f_n&=\frac{u_1}{f_1}\left(u_n(1-f^2)-u_1ff_{n-1}\right)+\frac{1}{2f_1}\sum_{k=1}^{n-2}\binom{n-1}{k}\left(u_{k+1}(u_{n-k}-2u_{1}ff_{n-k-1})-f_{k+1}f_{n-k}-\left(\sum_{r=0}^{k}\binom{k}{r}u_{r+1}f_{k-r}\right)\left(\sum_{r=0}^{n-k-1}\binom{n-k-1}{r}u_{r+1}f_{n-k-r-1}\right)\right) \\
+2f_{1}f_{n}&=2u_{1}u_{n}(1-f^2)-2u_{1}^{2}ff_{n-1}+\sum_{k=1}^{n-2}(\dots) \\
+
+f_n&=\frac{u_1}{f_1}\left(u_n(1-f^2)-u_1ff_{n-1}\right)+\frac{1}{2f_1}\sum_{k=1}^{n-2}(\dots) \\
+
 \frac{u_1}{f_1}&=\frac{1}{\cos(u)}\quad(\text{from eq. 1}) \\
-f_n&=u_n\cos(u)-u_1f_{n-1}\tan(u)+\frac{1}{2f_1}\sum_{k=1}^{n-2}\binom{n-1}{k}\left(u_{k+1}(u_{n-k}-2u_{1}ff_{n-k-1})-f_{k+1}f_{n-k}-\left(\sum_{r=0}^{k}\binom{k}{r}u_{r+1}f_{k-r}\right)\left(\sum_{r=0}^{n-k-1}\binom{n-k-1}{r}u_{r+1}f_{n-k-r-1}\right)\right) \\
+
+f_n&=u_n\cos(u)-u_1f_{n-1}\tan(u)+\frac{1}{2f_1}\sum_{k=1}^{n-2}(\dots)\\
 \end{align*}
 ```
-And we have our formula!
+And we have our
+#### Formula
 ```math
 f_n=u_n\cos(u)-u_1f_{n-1}\tan(u)+\frac{1}{2f_1}\sum_{k=1}^{n-2}\binom{n-1}{k}\left(u_{k+1}(u_{n-k}-2u_{1}ff_{n-k-1})-f_{k+1}f_{n-k}-\left(\sum_{r=0}^{k}\binom{k}{r}u_{r+1}f_{k-r}\right)\left(\sum_{r=0}^{n-k-1}\binom{n-k-1}{r}u_{r+1}f_{n-k-r-1}\right)\right)
 ```
-Implemented it might look like:
+
+#### Practical Implementation
 ```python
 def sin_derivatives(u_list, order):
     # u_list contains all derivatives of sin(u) from order 0..n at some point x
@@ -106,7 +112,8 @@ def sin_derivatives(u_list, order):
     
     return f_list
 ```
-#### Derivation 2:
+
+### Derivation 2
 But if you consider $u_1f$ to be a new function say $h$ then if you look at the formula we are recalculating $h_m$ repeatedly, so let's use $h$ instead of $u_1f$ in equation $(2)$, we have:
 ```math
 f_1^2=u_1^2-h^2
@@ -119,7 +126,9 @@ applying same steps as earlier:
 ```math
 2f_1f_n = 2u_1u_n - 2hh_{n-1} + \sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)
 ```
-segregating the $f_n$ term, we have our formula:
+segregating the $f_n$ term, we have our:
+
+#### Formula
 ```math
 f_n=\frac{u_n}{\cos(u)}-h_{n-1}\tan(u)+\frac{1}{2f_1}\sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)
 ```
@@ -127,7 +136,8 @@ Where,
 ```math
 h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}
 ```
-Implementing it we get:
+
+#### Practical Implementation
 ```python
 def sin_derivatives(u_list, order):
     # u_list contains all the derivatives of u from order 0..n at some point x
@@ -162,7 +172,7 @@ def sin_derivatives(u_list, order):
     
     return f_list
 ```
-#### Derivation 3:
+### Derivation 3
 If we look again at the original equation $(2)$, it can also be written as:
 ```math
 f_1^2 = u_1^2 - u_1^2f^2
@@ -175,7 +185,8 @@ Applying the same steps as the above derivation, we have
 ```math
 2f_1f_n=h_{n-1}(1-v)-hv_{n-1}-\sum_{k=1}^{n-2}\binom{n-1}{k}\left(h_kv_{n-k-1} + f_{k+1}f_{n-k}\right)
 ```
-Simplifying which we get our formula:
+Simplifying which we get our
+#### Formula
 ```math
 f_n = \frac {h_{n-1}(1-v)-hv_{n-1}-\sum_{k=1}^{n-2}\binom{n-1}{k}\left(h_kv_{n-k-1} + f_{k+1}f_{n-k}\right)} {2f_1}
 ```
@@ -186,7 +197,7 @@ h_m &= \sum_{k=0}^{m}\binom mk u_{k+1}u_{m-k+1} \\
 v_m &= \sum_{k=0}^m\binom mk f_kf_{m-k}
 \end{align*}
 ```
-Implemention:
+#### Practical Implementation
 ```python
 def sin_derivatives(u_list, order):
     # u_list contains all the derivatives of u from order 0..n at some point x
@@ -215,40 +226,28 @@ def sin_derivatives(u_list, order):
     
     return f_list
 ```
-Here we can see that the first implementation is $O(n^3)$ while the second and third implementations are both $O(n^2)$ so how do we decide what implementation to choose from??  
-Well we can see that first implementation is $O(n^3)$ so it has to be the slowest, the loop structure of the third function is cleaner but it also has to manage two extra variables while the second only has to manage one so it must be the second implementation that is the fastest!!  
-Well as everything in production, we can't judge them based off what looks like, we should benchmark them to know for sure!  
-Here are some results:  
-python, pure(1) and utilizing numpy(2):  
-<img src="img/Sine_Derivative_function_comparison_pythonic.png" alt="(1)comparison of the three functions in pure python" width=49%/> <img src="img/Sine_Derivative_function_comparison_python_numpy.png" alt="(2)comparison of the three functions utilizing numpy" width=49%/>  
 
-c++, no optimizations-O0(1) and optimizations enabled-O2(2):  
-<img src="img/Sine_Derivative_function_comparison_cpp_base.png" alt="(1)comparison of the three functions in cpp -O0" width=49%/> <img src="img/Sine_Derivative_function_comparison_cpp_o2.png" alt="(2)comparison of the three functions in cpp -O2" width=49%/>
-Benchmark code will be available [here](benchmark/).  
+### Best Implementation
+The first function is doomed to be the worst as it is $O(n^3)$.
 
-We can see a clear pattern in all of them regardless of the language and optimization, `derivatives_1` is the slowest as it operates in $O(n^3)$ time complexity, `derivatives_3` comes in at the second position having a time complexity of $O(n^2)$ despite being the cleanest, it comes short of being first with the first place held by `derivatives_2` with a time complexity of $O(n^2)$ and having to manage only a single extra unlike managing 2 in derivatives_3.
+The second derivation is $O(n^2)$ but it requires one extra variable and harder math than the third.
 
-Since they have a similar shape in all of the benchmarks, we can conclude using the results of c++(-O2) version at the $\text{order}=1000$ that derivatives_3 and derivatives_2 have times of $5.823360\text{ms}$ & $4.668880\text{ms}$ per function call respectively, making **derivatives_2 roughly $25$ % faster than derivatives_3** .
+The third derivation is $O(n^2)$ but it requires two extra variables and has cleanest math of the three.
 
-One interesting thing to note here is that, in the numpy version, derivatives_2 and derivatives_3 don't show quadratic nature but rather a linear one.  
-Unless, we increase the domain and then we have:  
-<center>
-    <img src="img/Sine_Derivative_function_comparison_numpy_larger.png" alt="comparison with increased domain in numpy" width=50%/>  
-</center>
-By increasing the range we can see that it does follow a quadratic nature just that its linear factor affects it more than the quadratic term.
+But if we have learnt something from the years of software evolution is that CPU and math is fast but memory is expensive.
 
-So after profiling the functions, we can confidently conclude that the function that is the best for general purpose is:
+By the benchmark that was done we can conclude that the [`second derivation`](#derivation-2) is the better one of the three.  
+$\rightarrow$ **Refer:** [`benchmark`](../../benchmark/docs/sine-benchmark.md) and [`benchmark code`](../../benchmark/src/sine/)
 
+### Final Formula
 > [!IMPORTANT]
-> the function for sine(u(x)) is:  
 $f_n=\frac{u_n}{\cos(u)}-h_{n-1}\tan(u)+\frac{1}{2f_1}\sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)$  
 $f = \sin(u)$  
 where: $h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}$  
 
-And for
+## Cos
 
-## $\cos(u(x))$
-
+### Derivation
 The function is $f = \cos(u)$  
 And subsequently the first derivative is:
 ```math
@@ -267,6 +266,7 @@ Notice this is the same algebraic structure to our $f_1$ in the case of sine, an
 2f_1f_n = 2u_1u_n - 2hh_{n-1} + \sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)
 ```
 or:
+
 ```math
 f_n = -\frac{u_n}{\sin(u)} + h_{n-1}\cot(u) + \frac1{2f_1}\sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)
 ```
@@ -274,10 +274,9 @@ where:
 ```math
 h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}
 ```
+### Formula
 > [!IMPORTANT]
 > for cos we have:  
 $f_n = -\frac{u_n}{\sin(u)} + h_{n-1}\cot(u) + \frac1{2f_1}\sum_{k=1}^{n-2}\binom{n-1}k\left(u_{k+1}u_{n-k}-h_kh_{n-k-1}-f_{k+1}f_{n-k}\right)$  
 $f = \cos(u)$  
 where: $h_m = \sum_{k=0}^m\binom mk u_{k+1}f_{m-k}$  
-
-Let's go right back to [README](README.md) to continue our explorations!
