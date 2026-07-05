@@ -151,4 +151,3 @@ def product_derivatives(u_list, v_list, order):
     return f_list
 ```
 This result is pretty well known and is referred to as `Leibniz's theorem`  
-Now, let's get back to the [introduction](introduction.md) to explore more functions.

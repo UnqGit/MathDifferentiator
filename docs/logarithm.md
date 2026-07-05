@@ -64,7 +64,7 @@ f_n = \frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot f_k} {u}
 ### Formula
 > [!IMPORTANT]
 > So we get the formula:  
-$f_n = \frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}\cdot f_k} {u} : n \ge 1$  
+$f_n = \frac {u_n - \sum_{k = 1}^{n-1}\binom{n-1}{k-1}u_{n-k}f_k} {u} : n \ge 1$  
 $f = \ln(u)$
 
 > We could have also reached this result by derivating $\ln(u(x))$ once and applying the quotient rule we derivated on $\frac {d} {dx}\ln(u(x)) = \frac {u_1(x)} {u(x)}$ $\rightarrow$ **refer:** [`quotient.md`](quotient.md).

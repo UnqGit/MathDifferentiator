@@ -65,7 +65,7 @@ We can implement it in two ways:
 def complex_exp_derivatives(u_list, order):
     # u_list contains all the derivatives of u from order 0..n
     f_list = [0.0 + 0.0j] * (order + 1)
-    f_list[0] = math.cos(u_list[0]) + math.sin(u_list[0])j
+    f_list[0] = math.cos(u_list[0]) + 1.0j * math.sin(u_list[0])
 
     # outer loop to compute all the derivatives of f
     for n in range(1, order + 1):

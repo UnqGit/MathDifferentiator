@@ -4,8 +4,6 @@
 Now, derivatives, that we all know and love, have various formulations...  
 For example the most basic one we were all probably taught is: $\lim_{h \to 0^+}\frac{f(a) - f(a - h)} {h}$ (the backwards difference formula).
 
-But let's play around the idea for a bit.
-
 And in practice, it would look something like:
 ```python
 def differentiate(function, order, point):
@@ -158,4 +156,4 @@ That is a **massive** blunder. It goes out of domain of the logarithm $(x > 0)$.
 
 <br> <br>
 
-If there are so many issues with finite difference methods, then how are we going to calculate the higher order derivatives without first deriving massive equations for the original function? That is what we are going to explore further in the [introduction.md](introduction.md)
+If there are so many issues with finite difference methods, then how are we going to calculate the higher order derivatives without first deriving massive equations for the original function? That is what we are going to explore further in the [`introduction.md`](introduction.md)

@@ -124,7 +124,8 @@ So by seeing the pattern and trying to make a formula out of it.
 $f_n = -\frac {1} {u} \sum_{k=0}^{n-1}\binom{n}{k}f_{k}u_{n-k}$  
 Or by index manipulation:  
 $f_n = -\frac {1} {u} \sum_{k=1}^{n}\binom{n}{k}f_{n-k}u_{k}$  
-where $n \ge 1$ and $u(a) \ne 0$
+where $n \ge 1$ and $u(a) \ne 0$  
+$f = \frac 1u$
 
 #### Practical Implementation
 ```python

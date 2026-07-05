@@ -79,6 +79,7 @@ For $n^{th}$ derivatives of $\cos$ $\rightarrow$ **refer:** [`sin-cos.md`](sin-c
 ### Practical Implementation
 ```python
 def sec_derivatives(u_list, order):
+    # u_list contains all the derivatives of u from order 0..n
     return reciprocal_derivatives(
         cos_derivatives(u_list, order),
         order
@@ -101,6 +102,7 @@ v_n = D^n(\sin(u))
 ### Practical Implementation
 ```python
 def csc_derivatives(u_list, order):
+    # u_list contains all the derivatives of u from order 0..n
     return reciprocal_derivatives(
         sin_derivatives(u_list, order),
         order
