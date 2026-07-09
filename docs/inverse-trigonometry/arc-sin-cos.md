@@ -156,4 +156,94 @@ def arcsin_derivatives(u_list, order):
     
     return f_list
 ```
-Now, this is not in any way, shape or form better than the first derivation, even worse from the implementation standpoint, as it is a lot worse to understand and to maintain.
+Now, this is not in any way, shape or form better than the first derivation, this can be considered even worse from the implementation standpoint, as it is a lot harder to understand and maintain.
+
+### Derivation 3
+Let's look at this equation:
+```math
+f_1^2\cos^2(f) = u_1^2
+```
+Or:
+```math
+f_1\cos(f) = u_1
+```
+That we had whilst computing $f_1$.  
+So instead of:
+```math
+f_1 = \frac {u_1} {\sqrt {1-u^2}}
+```
+We can also write it as:
+```math
+f_1 = \frac {u_1} {\cos(f)}
+```
+And taking $v = \cos(f)$ and differentiating both sides $n-1$ times, we get:
+
+#### Formula
+```math
+f_n = \frac 1 {v} \left(u_n - \sum_{k=1}^{n-1}\binom{n-1}{k}f_{n-k}v_k\right)
+```
+For $v_n$ $\rightarrow$ **refer:** [`eulers-grace.md`](../trigonometry/eulers-grace.md).
+
+#### Implementation
+```python
+import math
+
+def arcsin_derivatives(u_list, order):
+    f_list = u_list # initialize each index i with u_i
+    f_list[0] = math.asin(u_list[0])
+
+    if order > 0:
+        polar_exp_list = [0.0 + 0.0j] * (order)
+        polar_exp_list[0] = complex(math.cos(f_list[0]), math.sin(f_list[0]))
+        f_list[1] /= polar_exp_list[0].real
+
+        for n in range(2, order + 1):
+            for k in range(n-1): # calculation of D^{n-1}(e^{if})
+                polar_exp_list[n-1] += nCr(n-2, k) * polar_exp_list[k] * f_list[n-k-1]
+            polar_exp_list[n-1] *= 1.0j
+
+            for k in range(1, n):
+                f_list -= nCr(n-1, k) * f_list[n-k] * polar_exp_list[k].real
+            f_list[n] /= polar_exp_list[0].real
+
+    return f_list
+```
+
+This implementation is completely self-contained unlike the first method and is not bloated like the second method.
+
+## Arccos
+Since $\arccos = \frac \pi {2} - \arcsin$, we can directly use its implementation.
+### Implementation
+```python
+def arccos_derivatives(u_list, order):
+    f_list = [-f for f in arcsin_derivatives(u_list, order)]
+    f_list[0] += math.pi / 2.0
+
+    return f_list
+```
+or we can write:
+```math
+f_1 = -\frac {u_1} {\sin(f)}
+```
+And use the third method's implementation with some modifications as:
+```python
+def arccos_derivatives(u_list, order):
+    f_list = u_list # initialize each index i with u_i
+    f_list[0] = math.acos(u_list[0])
+
+    if order > 0:
+        polar_exp_list = [0.0 + 0.0j] * (order)
+        polar_exp_list[0] = complex(math.cos(f_list[0]), math.sin(f_list[0]))
+        f_list[1] /= -polar_exp_list[0].imag
+
+        for n in range(2, order + 1):
+            for k in range(n-1): # calculation of D^{n-1}(e^{if})
+                polar_exp_list[n-1] += nCr(n-2, k) * polar_exp_list[k] * f_list[n-k-1]
+            polar_exp_list[n-1] *= 1.0j
+
+            for k in range(1, n):
+                f_list -= nCr(n-1, k) * f_list[n-k] * polar_exp_list[k].imag
+            f_list[n] /= -polar_exp_list[0].imag
+
+    return f_list
+```
